@@ -6,15 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/widgets/button.dart';
+import 'package:movie/core/utils/widgets/phone-field.dart';
 import 'package:movie/core/utils/widgets/text-field.dart';
-
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
   var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-   var confirmPasswordController = TextEditingController();
+  var phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,25 +55,12 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     height: 15.h,
                   ),
-                  CustomTextField(
-                    controller: passwordController,
-                    label: 'Password',
-                    hintText: '',
-                    type: TextInputType.visiblePassword,
-                    suffix: Icons.visibility_off,
-                  ),
-                    SizedBox(
-                    height: 15.h,
-                  ),
-                  CustomTextField(
-                    controller: confirmPasswordController,
-                    label: 'Confirm Password',
-                    hintText: '',
-                    type: TextInputType.visiblePassword,
-                    suffix: Icons.visibility_off,
-                  ),
-               
-                 
+                  CustomPhoneTextField(
+                      controller: phoneController,
+                      validation: (String? l) {},
+                      label: 'Phone Number',
+                      hintText: 'Enter phone number',
+                      type: TextInputType.phone),
                   SizedBox(
                     height: 28.h,
                   ),
@@ -82,9 +69,11 @@ class RegisterScreen extends StatelessWidget {
                       buttonColor: HexColor('EB2F3D'),
                       buttonHeight: 53.h,
                       buttonWeidth: double.infinity,
-                      label: 'Sign Up',
+                      label: 'Send OTP',
                       labelColor: Colors.white,
-                      ontap: () {}),
+                      ontap: () {
+                        GoRouter.of(context).push(AppRouter.otpPath);
+                      }),
                   SizedBox(
                     height: 29.h,
                   ),

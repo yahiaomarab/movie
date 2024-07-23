@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:movie/features/auth/presentation/views/login-view.dart';
+import 'package:movie/features/auth/presentation/views/otp-verification.dart';
 import 'package:movie/features/auth/presentation/views/register-view.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
@@ -11,6 +12,7 @@ abstract class AppRouter {
   static const registerPath= '/registerPath';
   static const homeDetailsViewPath = '/homeDetailsView';
   static const searchViewPath = '/searchView';
+  static const otpPath = '/otpPath';
   static final router = GoRouter(routes: [
     GoRoute(
       path: '/',
@@ -27,6 +29,10 @@ abstract class AppRouter {
      GoRoute(
       path: registerPath,
       builder: (context,state)=> RegisterScreen(),
+    ),
+       GoRoute(
+      path: otpPath,
+      builder: (context,state)=>  OtpPage(),
     ),
   ]);
 }

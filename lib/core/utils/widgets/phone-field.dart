@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:movie/core/utils/styles/font-style.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+class CustomPhoneTextField extends StatelessWidget {
+  const CustomPhoneTextField({
     super.key,
     required this.controller,
+    required this.validation,
     required this.label,
     required this.hintText,
     required this.type,
     this.suffix,
     this.prefix,
-    this.validation,
     this.onChanged,
     this.onSubmit,
     this.isClickable = true,
@@ -26,17 +27,17 @@ class CustomTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final TextInputType type;
+  final Function(String?)? onSubmit;
+  final VoidCallback? onTap;
+  final Function(PhoneNumber)? onChanged;
+  final String? Function(String?)? validation;
   final String label;
-  final String hintText;
   final IconData? prefix;
   final IconData? suffix;
-  final String? Function(String?)? validation;
-  final Function(String)? onChanged;
-  final Function(String?)? onSubmit;
   final bool isPassword;
   final bool isClickable;
-  final VoidCallback? onTap;
   final VoidCallback? onSuffixPressed;
+  final String hintText;
   final Color? suffixIconColor;
   final Color? borderColor;
   final double? radiusBorder;
@@ -44,18 +45,25 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radiusBorder ?? 15.0.r),
         border: Border.all(
-          color: borderColor ?? HexColor('575757'),
+          color: borderColor??HexColor('575757'),
         ),
       ),
-      child: TextFormField(
-        controller: controller,
-        onChanged: onChanged,
-        style: const TextStyle(color: Colors.white), // Set the input text color to white
-        decoration: InputDecoration(
-          floatingLabelStyle:AppTextStyle.textK14FontRegular,
+      child: InternationalPhoneNumberInput(
+        selectorTextStyle: TextStyle(
+          color: HexColor('6D7278')
+        ),
+        onInputChanged: onChanged,
+        selectorConfig: const SelectorConfig(
+          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+          useBottomSheetSafeArea: true
+        ),
+        textFieldController: controller,
+        keyboardType: type,
+        inputDecoration: InputDecoration(
           prefixIcon: prefix != null ? Icon(prefix) : null,
           suffixIcon: suffix != null
               ? GestureDetector(
@@ -66,18 +74,22 @@ class CustomTextField extends StatelessWidget {
           suffixIconColor: suffixIconColor,
           labelText: label,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.white.withOpacity(0.6)), // Set the hint text color to white with some opacity
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(radiusBorder ?? 0),
             borderSide: BorderSide.none,
           ),
+      
+          hintStyle: GoogleFonts.inter(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.normal,
+            color: HexColor('6D7278'),
+          ),
+          labelStyle: GoogleFonts.inter(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.normal,
+            color: HexColor('6D7278'),
+          ),
         ),
-        obscureText: isPassword,
-        validator: validation,
-        keyboardType: type,
-        enabled: isClickable,
-        onFieldSubmitted: onSubmit,
-        onTap: onTap,
       ),
     );
   }
