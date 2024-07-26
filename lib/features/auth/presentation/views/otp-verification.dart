@@ -1,8 +1,17 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:movie/core/utils/colors/colors.dart';
+import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
+import 'package:movie/core/utils/widgets/button.dart';
+import 'package:movie/features/auth/presentation/view-model/register-cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/register-state.dart';
 
 class OtpPage extends StatefulWidget {
   @override
@@ -65,39 +74,70 @@ class _OtpPageState extends State<OtpPage> {
       }
     }
   }
-
+ var otpController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'OTP Verification',
-          style: AppTextStyle.textK14FontRegular,
+    return BlocConsumer<RegisterCubit, RegisterStates>(
+      listener: (context, state) {
+        if(state is RegisterOtpLoginSuccessState){
+          GoRouter.of(context).push(AppRouter.successfullyRegisteredPath);
+        }
+      },
+      builder: (context, state) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'OTP Verification',
+            style: AppTextStyle.textK14FontRegular,
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-        child: Column(
-          children: [
-            Text(
-              'Enter 6 digit verification code sent to your phone number',
-              style: AppTextStyle.textK22FontMedium.copyWith(fontSize: 20.sp),
-              textAlign: TextAlign.center,
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+          child: Column(
+            children: [
+              Text(
+                'Enter 6 digit verification code sent to your phone number',
+                style: AppTextStyle.textK22FontMedium.copyWith(fontSize: 20.sp),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(6, (index) {
+                  return _buildOtpField(index);
+                }),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Resend Code',
+                    style: GoogleFonts.poppins(
+                        color: AppColors.buttonKColor,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.normal),
+                  )),
+                    const Spacer(),
+            Align(
+              alignment: AlignmentDirectional.bottomCenter,
+              child: CustomButton(
+                  buttonCircular: 16.r,
+                  buttonColor: HexColor('EB2F3D'),
+                  buttonHeight: 53.h,
+                  buttonWeidth: double.infinity,
+                  label: 'Submit',
+                  labelColor: Colors.white,
+                  ontap: () {
+                    RegisterCubit.get(context).loginWithOtp(otp: otpController.text);
+                  }),
             ),
-            SizedBox(
-              height: 30.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(6, (index) {
-                return _buildOtpField(index);
-              }),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
-          ],
+
+            ],
+          ),
         ),
       ),
     );

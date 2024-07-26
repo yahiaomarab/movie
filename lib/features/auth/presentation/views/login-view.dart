@@ -10,7 +10,6 @@ import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/text-field.dart';
 
-
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -135,7 +134,8 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    GoRouter.of(context).push(AppRouter.registerPath);
+                    GoRouter.of(context)
+                        .push(AppRouter.registerPath);
                   },
                   child: Text(
                     'Sign Up',

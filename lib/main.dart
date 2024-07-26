@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:movie/core/helper/cache-constants.dart';
 import 'package:movie/core/utils/funcitons/service-locator.dart';
 import 'package:movie/core/utils/funcitons/simple-bloc-observer.dart';
 import 'package:movie/core/utils/routing/router.dart';
+import 'package:movie/features/auth/presentation/view-model/register-cubit.dart';
 import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dart';
 import 'package:movie/features/on-boarding/domain/entities/trending-entity.dart';
 import 'package:movie/features/on-boarding/domain/use-case/fetch-trending-images-use-case.dart';
@@ -15,6 +17,7 @@ import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await Hive.initFlutter();
   Hive.registerAdapter(TrendingEntityAdapter());
   setUpServiceLocator();
@@ -40,7 +43,9 @@ class MovieApp extends StatelessWidget {
             BlocProvider(
                 create: (context) => OnBoardingCubit(FetchTrendingImagesUseCase(
                     locator.get<OnBoardingRepoImplmentation>()))
-                  ..fetchOnBoarding())
+                  ..fetchOnBoarding()),
+                   BlocProvider(
+                create: (context) => RegisterCubit())
           ],
           child: MaterialApp.router(
             theme: ThemeData.dark(),
