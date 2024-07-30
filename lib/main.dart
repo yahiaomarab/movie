@@ -17,7 +17,7 @@ import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(); // Ensure this is correctly initialized
   await Hive.initFlutter();
   Hive.registerAdapter(TrendingEntityAdapter());
   setUpServiceLocator();
