@@ -9,8 +9,8 @@ import 'package:movie/core/utils/colors/colors.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
-import 'package:movie/features/auth/presentation/view-model/register-cubit.dart';
-import 'package:movie/features/auth/presentation/view-model/register-state.dart';
+import 'package:movie/features/auth/presentation/view-model/otp-cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/otp-states.dart';
 
 class OtpPage extends StatefulWidget {
   @override
@@ -73,11 +73,11 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit, RegisterStates>(
+    return BlocConsumer<OtpCubit, OtpStates>(
       listener: (context, state) {
-        if (state is RegisterOtpLoginSuccessState) {
+        if (state is OtpLoginSuccessState) {
           GoRouter.of(context).push(AppRouter.successfullyRegisteredPath);
-        } else if (state is RegisterOtpLoginFailedState) {
+        } else if (state is OtpOtpLoginFailedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
@@ -138,7 +138,7 @@ class _OtpPageState extends State<OtpPage> {
                       String otpCode = _controllers
                           .map((controller) => controller.text)
                           .join();
-                      RegisterCubit.get(context).loginWithOtp(otp: otpCode);
+                      OtpCubit.get(context).loginWithOtp(otp: otpCode);
                     }),
               ),
             ],

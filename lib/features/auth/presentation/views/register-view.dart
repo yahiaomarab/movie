@@ -9,8 +9,8 @@ import 'package:movie/core/mixin/validations/phone.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/phone-field.dart';
-import 'package:movie/features/auth/presentation/view-model/register-cubit.dart';
-import 'package:movie/features/auth/presentation/view-model/register-state.dart';
+import 'package:movie/features/auth/presentation/view-model/otp-cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/otp-states.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget with PhoneValidation {
@@ -22,9 +22,9 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit, RegisterStates>(
+    return BlocConsumer<OtpCubit, OtpStates>(
       listener: (context, state) {
-        if (state is RegisterCodeSentState) {
+        if (state is OtpCodeSentState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('OTP sent successfully. Please check your phone.'),
@@ -32,14 +32,14 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
             ),
           );
           GoRouter.of(context).push(AppRouter.otpPath);
-        } else if (state is RegisterVerificationCompletedState) {
+        } else if (state is OtpVerificationCompletedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Verification completed successfully!'),
               backgroundColor: Colors.green,
             ),
           );
-        } else if (state is RegisterOtpLoginSuccessState) {
+        } else if (state is OtpLoginSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Logged in successfully!'),
@@ -47,21 +47,21 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
             ),
           );
           GoRouter.of(context).push(AppRouter.successfullyRegisteredPath);
-        } else if (state is RegisterErrorState) {
+        } else if (state is OtpErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
               backgroundColor: Colors.red,
             ),
           );
-        } else if (state is RegisterVerificationFailedState) {
+        } else if (state is OtpVerificationFailedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
               backgroundColor: Colors.red,
             ),
           );
-        } else if (state is RegisterOtpLoginFailedState) {
+        } else if (state is OtpOtpLoginFailedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
@@ -127,7 +127,7 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
                       labelColor: Colors.white,
                       ontap: () {
                         if (formKey.currentState!.validate()) {
-                          RegisterCubit.get(context).phoneRegister(
+                          OtpCubit.get(context).phoneOtp(
                             phoneNumber: completePhoneNumber,
                           );
                         }

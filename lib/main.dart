@@ -9,7 +9,7 @@ import 'package:movie/core/helper/cache-constants.dart';
 import 'package:movie/core/utils/funcitons/service-locator.dart';
 import 'package:movie/core/utils/funcitons/simple-bloc-observer.dart';
 import 'package:movie/core/utils/routing/router.dart';
-import 'package:movie/features/auth/presentation/view-model/register-cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/otp-cubit.dart';
 import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dart';
 import 'package:movie/features/on-boarding/domain/entities/trending-entity.dart';
 import 'package:movie/features/on-boarding/domain/use-case/fetch-trending-images-use-case.dart';
@@ -45,7 +45,7 @@ class MovieApp extends StatelessWidget {
                     locator.get<OnBoardingRepoImplmentation>()))
                   ..fetchOnBoarding()),
                    BlocProvider(
-                create: (context) => RegisterCubit())
+                create: (context) => OtpCubit())
           ],
           child: MaterialApp.router(
             theme: ThemeData.dark(),

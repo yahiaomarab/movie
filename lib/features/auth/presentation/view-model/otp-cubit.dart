@@ -1,18 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/features/auth/presentation/view-model/register-state.dart';
+import 'package:movie/features/auth/presentation/view-model/otp-states.dart';
 
-class RegisterCubit extends Cubit<RegisterStates> {
-  RegisterCubit() : super(RegisterInitState());
+class OtpCubit extends Cubit<OtpStates> {
+  OtpCubit() : super(OtpInitState());
 
-  static RegisterCubit get(context) => BlocProvider.of(context);
+  static OtpCubit get(context) => BlocProvider.of(context);
 
   static String verifyId = '';
 
-  Future<void> phoneRegister({
+  Future<void> phoneOtp({
     required String phoneNumber,
   }) async {
-    emit(RegisterLoadingState());
+    emit(OtpLoadingState());
 
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
@@ -24,36 +24,36 @@ class RegisterCubit extends Cubit<RegisterStates> {
         codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout,
       );
     } catch (e) {
-      emit(RegisterErrorState('An error occurred during phone verification.'));
+      emit(OtpErrorState('An error occurred during phone verification.'));
     }
   }
 
   void _verificationCompleted(PhoneAuthCredential credential) async {
     try {
       await FirebaseAuth.instance.signInWithCredential(credential);
-      emit(RegisterVerificationCompletedState());
+      emit(OtpVerificationCompletedState());
     } catch (e) {
-      emit(RegisterVerificationFailedState(
+      emit(OtpVerificationFailedState(
           'Verification completed, but an error occurred.'));
     }
   }
 
   void _verificationFailed(FirebaseAuthException e) {
-    emit(RegisterVerificationFailedState(e.message ?? 'Verification failed.'));
+    emit(OtpVerificationFailedState(e.message ?? 'Verification failed.'));
   }
 
   void _codeSent(String verificationId, int? resendToken) {
     verifyId = verificationId;
-    emit(RegisterCodeSentState());
+    emit(OtpCodeSentState());
   }
 
   void _codeAutoRetrievalTimeout(String verificationId) {
     verifyId = verificationId;
-    emit(RegisterCodeAutoRetrievalTimeoutState());
+    emit(OtpCodeAutoRetrievalTimeoutState());
   }
 
   Future<void> loginWithOtp({required String otp}) async {
-  emit(RegisterLoadingState());
+  emit(OtpLoadingState());
 
 
   final cred = PhoneAuthProvider.credential(
@@ -64,14 +64,14 @@ class RegisterCubit extends Cubit<RegisterStates> {
   try {
     final user = await FirebaseAuth.instance.signInWithCredential(cred);
     if (user.user != null) {
-      emit(RegisterOtpLoginSuccessState());
+      emit(OtpLoginSuccessState());
     } else {
-      emit(RegisterOtpLoginFailedState('Error during OTP login.'));
+      emit(OtpOtpLoginFailedState('Error during OTP login.'));
     }
   } on FirebaseAuthException catch (e) {
-    emit(RegisterOtpLoginFailedState(e.message ?? 'OTP login failed.'));
+    emit(OtpOtpLoginFailedState(e.message ?? 'OTP login failed.'));
   } catch (e) {
-    emit(RegisterErrorState(e.toString()));
+    emit(OtpErrorState(e.toString()));
   }
 }
 
