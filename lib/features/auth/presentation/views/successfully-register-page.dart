@@ -9,6 +9,8 @@ import 'package:movie/core/utils/widgets/text-field.dart';
 class SuccessfullyRegisterPage extends StatelessWidget {
   SuccessfullyRegisterPage({super.key});
   var emailController = TextEditingController();
+   var passwordController = TextEditingController();
+    var confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class SuccessfullyRegisterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Sign Up Successfully',
+              'Complete Your Sign Up ',
               style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w500,
                   fontSize: 22.sp,
@@ -41,8 +43,16 @@ class SuccessfullyRegisterPage extends StatelessWidget {
               height: 15.h,
             ),
             CustomTextField(
-                controller: emailController,
+                controller: passwordController,
                 label: 'Password',
+                hintText: '',
+                type: TextInputType.emailAddress),
+            SizedBox(
+              height: 28.h,
+            ),
+                   CustomTextField(
+                controller: confirmPasswordController,
+                label: 'Confirm Password',
                 hintText: '',
                 type: TextInputType.emailAddress),
             SizedBox(

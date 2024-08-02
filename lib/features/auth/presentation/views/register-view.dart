@@ -17,12 +17,36 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
   RegisterScreen({super.key});
   var phoneController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
+  String completePhoneNumber = ''; // Variable to store the complete phone number
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
-        if (state is RegisterVerificationCompletedState) {
+        if (state is RegisterCodeSentState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('OTP sent successfully. Please check your phone.'),
+              backgroundColor: Colors.green,
+            ),
+          );
           GoRouter.of(context).push(AppRouter.otpPath);
+        } else if (state is RegisterVerificationCompletedState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Verification completed successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else if (state is RegisterOtpLoginSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Logged in successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          GoRouter.of(context).push(AppRouter.successfullyRegisteredPath);
         } else if (state is RegisterErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -31,6 +55,13 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
             ),
           );
         } else if (state is RegisterVerificationFailedState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+              backgroundColor: Colors.red,
+            ),
+          );
+        } else if (state is RegisterOtpLoginFailedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
@@ -72,30 +103,36 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
                     Form(
                       key: formKey,
                       child: CustomPhoneTextField(
-                          controller: phoneController,
-                          validation: (String? value) =>
-                              validatePhone(context, value),
-                          label: 'Phone Number',
-                          hintText: 'Enter phone number',
-                          type: TextInputType.phone),
+                        controller: phoneController,
+                        validation: (String? value) =>
+                            validatePhone(context, value),
+                        label: 'Phone Number',
+                        hintText: 'Enter phone number',
+                        type: TextInputType.phone,
+                        onInputChanged: (String phoneNumber) {
+                          // Update the complete phone number when the input changes
+                          completePhoneNumber = phoneNumber;
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 28.h,
                     ),
                     CustomButton(
-                        buttonCircular: 16.r,
-                        buttonColor: HexColor('EB2F3D'),
-                        buttonHeight: 53.h,
-                        buttonWeidth: double.infinity,
-                        label: 'Send OTP',
-                        labelColor: Colors.white,
-                        ontap: () {
-                          if (formKey.currentState!.validate()) {
-                            RegisterCubit.get(context).phoneRegister(
-                              phoneNumber: phoneController.text,
-                            );
-                          }
-                        }),
+                      buttonCircular: 16.r,
+                      buttonColor: HexColor('EB2F3D'),
+                      buttonHeight: 53.h,
+                      buttonWeidth: double.infinity,
+                      label: 'Send OTP',
+                      labelColor: Colors.white,
+                      ontap: () {
+                        if (formKey.currentState!.validate()) {
+                          RegisterCubit.get(context).phoneRegister(
+                            phoneNumber: completePhoneNumber,
+                          );
+                        }
+                      },
+                    ),
                     SizedBox(
                       height: 29.h,
                     ),

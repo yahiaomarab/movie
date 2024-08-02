@@ -23,6 +23,7 @@ class CustomPhoneTextField extends StatelessWidget {
     this.suffixIconColor,
     this.radiusBorder,
     this.borderColor,
+    this.onInputChanged, // Add this callback to capture input changes
   });
 
   final TextEditingController controller;
@@ -41,6 +42,7 @@ class CustomPhoneTextField extends StatelessWidget {
   final Color? suffixIconColor;
   final Color? borderColor;
   final double? radiusBorder;
+  final Function(String)? onInputChanged; // New callback for input changes
 
   @override
   Widget build(BuildContext context) {
@@ -49,17 +51,26 @@ class CustomPhoneTextField extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radiusBorder ?? 15.0.r),
         border: Border.all(
-          color: borderColor??HexColor('575757'),
+          color: borderColor ?? HexColor('575757'),
         ),
       ),
       child: InternationalPhoneNumberInput(
-        selectorTextStyle: TextStyle(
-          color: HexColor('6D7278')
-        ),
-        onInputChanged: onChanged,
+        selectorTextStyle: TextStyle(color: HexColor('6D7278')),
+        onInputChanged: (PhoneNumber number) {
+          // Call the provided onChanged callback
+          if (onChanged != null) {
+            onChanged!(number);
+          }
+
+          // Call the new onInputChanged callback
+          if (onInputChanged != null) {
+            // Pass the full international phone number to the callback
+            onInputChanged!(number.phoneNumber ?? '');
+          }
+        },
         selectorConfig: const SelectorConfig(
           selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-          useBottomSheetSafeArea: true
+          useBottomSheetSafeArea: true,
         ),
         textFieldController: controller,
         keyboardType: type,
@@ -78,7 +89,6 @@ class CustomPhoneTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(radiusBorder ?? 0),
             borderSide: BorderSide.none,
           ),
-      
           hintStyle: GoogleFonts.inter(
             fontSize: 12.sp,
             fontWeight: FontWeight.normal,

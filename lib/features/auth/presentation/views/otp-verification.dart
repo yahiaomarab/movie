@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +14,6 @@ import 'package:movie/features/auth/presentation/view-model/register-state.dart'
 
 class OtpPage extends StatefulWidget {
   @override
-  // ignore: library_private_types_in_public_api
   _OtpPageState createState() => _OtpPageState();
 }
 
@@ -52,7 +50,7 @@ class _OtpPageState extends State<OtpPage> {
     String currentText = _controllers[index].text;
 
     if (currentText.length > 1) {
-      _controllers[index].text = currentText[1];
+      _controllers[index].text = currentText[0];
       _controllers[index].selection = TextSelection.fromPosition(
           TextPosition(offset: _controllers[index].text.length));
     }
@@ -62,9 +60,7 @@ class _OtpPageState extends State<OtpPage> {
     }
   }
 
-  // ignore: deprecated_member_use
   void _onKeyEvent(int index, RawKeyEvent event) {
-    // ignore: deprecated_member_use
     if (event is RawKeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.backspace) {
         _wasBackspace = true;
@@ -74,13 +70,20 @@ class _OtpPageState extends State<OtpPage> {
       }
     }
   }
- var otpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
-        if(state is RegisterOtpLoginSuccessState){
+        if (state is RegisterOtpLoginSuccessState) {
           GoRouter.of(context).push(AppRouter.successfullyRegisteredPath);
+        } else if (state is RegisterOtpLoginFailedState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+              backgroundColor: Colors.red,
+            ),
+          );
         }
       },
       builder: (context, state) => Scaffold(
@@ -121,21 +124,23 @@ class _OtpPageState extends State<OtpPage> {
                         fontSize: 13.sp,
                         fontWeight: FontWeight.normal),
                   )),
-                    const Spacer(),
-            Align(
-              alignment: AlignmentDirectional.bottomCenter,
-              child: CustomButton(
-                  buttonCircular: 16.r,
-                  buttonColor: HexColor('EB2F3D'),
-                  buttonHeight: 53.h,
-                  buttonWeidth: double.infinity,
-                  label: 'Submit',
-                  labelColor: Colors.white,
-                  ontap: () {
-                    RegisterCubit.get(context).loginWithOtp(otp: otpController.text);
-                  }),
-            ),
-
+              const Spacer(),
+              Align(
+                alignment: AlignmentDirectional.bottomCenter,
+                child: CustomButton(
+                    buttonCircular: 16.r,
+                    buttonColor: HexColor('EB2F3D'),
+                    buttonHeight: 53.h,
+                    buttonWeidth: double.infinity,
+                    label: 'Submit',
+                    labelColor: Colors.white,
+                    ontap: () {
+                      String otpCode = _controllers
+                          .map((controller) => controller.text)
+                          .join();
+                      RegisterCubit.get(context).loginWithOtp(otp: otpCode);
+                    }),
+              ),
             ],
           ),
         ),
@@ -172,12 +177,10 @@ class _OtpPageState extends State<OtpPage> {
           onChanged: (value) {
             if (_wasBackspace) {
               if (value.isEmpty) {
-                // Move focus back if field is empty after backspace
                 if (index > 0) {
                   FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
                 }
               } else {
-                // Stay in the same field if it still has text
                 _controllers[index].text = value;
                 _controllers[index].selection = TextSelection.fromPosition(
                     TextPosition(offset: _controllers[index].text.length));

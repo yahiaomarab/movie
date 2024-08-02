@@ -17,14 +17,13 @@ class RegisterCubit extends Cubit<RegisterStates> {
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNumber,
-        timeout: const Duration(seconds: 30),
+        timeout: const Duration(seconds: 60),
         verificationCompleted: _verificationCompleted,
         verificationFailed: _verificationFailed,
         codeSent: _codeSent,
         codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout,
       );
     } catch (e) {
-      print('Error during phone verification: $e'); // Improved logging
       emit(RegisterErrorState('An error occurred during phone verification.'));
     }
   }
@@ -34,14 +33,12 @@ class RegisterCubit extends Cubit<RegisterStates> {
       await FirebaseAuth.instance.signInWithCredential(credential);
       emit(RegisterVerificationCompletedState());
     } catch (e) {
-      print('Error during verification completion: $e'); // Improved logging
       emit(RegisterVerificationFailedState(
           'Verification completed, but an error occurred.'));
     }
   }
 
   void _verificationFailed(FirebaseAuthException e) {
-    print('Verification failed with code: ${e.code}, message: ${e.message}');
     emit(RegisterVerificationFailedState(e.message ?? 'Verification failed.'));
   }
 
@@ -56,24 +53,26 @@ class RegisterCubit extends Cubit<RegisterStates> {
   }
 
   Future<void> loginWithOtp({required String otp}) async {
-    emit(RegisterLoadingState());
+  emit(RegisterLoadingState());
 
-    final cred = PhoneAuthProvider.credential(
-      verificationId: verifyId,
-      smsCode: otp,
-    );
 
-    try {
-      final user = await FirebaseAuth.instance.signInWithCredential(cred);
-      if (user.user != null) {
-        emit(RegisterOtpLoginSuccessState());
-      } else {
-        emit(RegisterOtpLoginFailedState('Error during OTP login.'));
-      }
-    } on FirebaseAuthException catch (e) {
-      emit(RegisterOtpLoginFailedState(e.message ?? 'OTP login failed.'));
-    } catch (e) {
-      emit(RegisterErrorState(e.toString()));
+  final cred = PhoneAuthProvider.credential(
+    verificationId: verifyId,
+    smsCode: otp,
+  );
+
+  try {
+    final user = await FirebaseAuth.instance.signInWithCredential(cred);
+    if (user.user != null) {
+      emit(RegisterOtpLoginSuccessState());
+    } else {
+      emit(RegisterOtpLoginFailedState('Error during OTP login.'));
     }
+  } on FirebaseAuthException catch (e) {
+    emit(RegisterOtpLoginFailedState(e.message ?? 'OTP login failed.'));
+  } catch (e) {
+    emit(RegisterErrorState(e.toString()));
   }
+}
+
 }
