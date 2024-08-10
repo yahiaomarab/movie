@@ -10,8 +10,13 @@ abstract class OnBoardingLocalDataSource {
 class OnBoardingLocalDataSourceImpl extends OnBoardingLocalDataSource {
   @override
   List<TrendingEntity> fetchLocalTrendingImages({int pageNumber = 1}) {
+    int startIndex = pageNumber * 1;
+    int endIndex = (pageNumber+1)*1;
     var box = Hive.box<TrendingEntity>(kOnBoardingBox);
-    print(box.values);
+    int lenght = box.values.length;
+    if(startIndex >=lenght && endIndex >lenght){
+      return [];
+    }
     return box.values.toList();
   }
 }

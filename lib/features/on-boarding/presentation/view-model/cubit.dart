@@ -9,9 +9,9 @@ class OnBoardingCubit extends Cubit<OnBoardingStates> {
   OnBoardingCubit(this.fetchTrendingImagesUseCase)
       : super(OnBoardingInitialState());
 
-  void fetchOnBoarding() async {
+  void fetchOnBoarding({int pageNumber=1}) async {
     emit(FetchOnBoardingLoadingState());
-    final result = await fetchTrendingImagesUseCase();
+    final result = await fetchTrendingImagesUseCase.call(pageNumber);
     result.fold(
       (failure) {
         emit(FetchOnBoardingFailureState(failure.message));
