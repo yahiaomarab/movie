@@ -100,6 +100,7 @@ class SuccessfullyRegisterPage extends StatelessWidget
                       controller: passwordController,
                       label: 'Password',
                       hintText: '',
+                      isPassword: RegisterCubit.get(context).isPassword,
                       type: TextInputType.emailAddress,
                       prefix: Icons.lock,
                       validation: (String? value) =>
