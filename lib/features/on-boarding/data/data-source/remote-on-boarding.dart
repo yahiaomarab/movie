@@ -17,11 +17,9 @@ class OnBoardingRemoteDataSourceImpl extends OnBoardingRemoteDataSource {
   @override
   Future<List<TrendingEntity>> fetchRemoteTrendingImages({int pageNumber = 1}) async {
     final endPoint = '${ApiConstance.baseUrl}${ApiConstance.trendingDayUrl}?api_key=${ApiConstance.apiKey}&page=$pageNumber';
-    print('Fetching data from: $endPoint');
     var data = await apiServices.getData(endPoint: endPoint);
     List<TrendingEntity> posters = getTrendingList(data);
     saveData(posters);
-    print('Posters are: $posters');
     return posters;
   }
 

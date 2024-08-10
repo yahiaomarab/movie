@@ -14,7 +14,6 @@ class OnBoardingCubit extends Cubit<OnBoardingStates> {
     final result = await fetchTrendingImagesUseCase();
     result.fold(
       (failure) {
-        print('State Error: ${failure.message}');
         emit(FetchOnBoardingFailureState(failure.message));
       },
       (data) {

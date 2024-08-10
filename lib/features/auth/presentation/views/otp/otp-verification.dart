@@ -9,8 +9,8 @@ import 'package:movie/core/utils/colors/colors.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
-import 'package:movie/features/auth/presentation/view-model/otp-cubit.dart';
-import 'package:movie/features/auth/presentation/view-model/otp-states.dart';
+import 'package:movie/features/auth/presentation/view-model/otp/otp-cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/otp/otp-states.dart';
 
 class OtpPage extends StatefulWidget {
   @override

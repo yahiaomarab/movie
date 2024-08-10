@@ -9,8 +9,8 @@ import 'package:movie/core/mixin/validations/phone.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/phone-field.dart';
-import 'package:movie/features/auth/presentation/view-model/otp-cubit.dart';
-import 'package:movie/features/auth/presentation/view-model/otp-states.dart';
+import 'package:movie/features/auth/presentation/view-model/otp/otp-cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/otp/otp-states.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget with PhoneValidation {

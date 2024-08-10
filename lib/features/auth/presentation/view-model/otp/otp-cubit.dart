@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/features/auth/presentation/view-model/otp-states.dart';
+import 'package:movie/core/network/firebase-constants.dart';
+import 'package:movie/features/auth/presentation/view-model/otp/otp-states.dart';
 
 class OtpCubit extends Cubit<OtpStates> {
   OtpCubit() : super(OtpInitState());
@@ -53,26 +54,26 @@ class OtpCubit extends Cubit<OtpStates> {
   }
 
   Future<void> loginWithOtp({required String otp}) async {
-  emit(OtpLoadingState());
+    emit(OtpLoadingState());
 
+    final cred = PhoneAuthProvider.credential(
+      verificationId: verifyId,
+      smsCode: otp,
+    );
 
-  final cred = PhoneAuthProvider.credential(
-    verificationId: verifyId,
-    smsCode: otp,
-  );
-
-  try {
-    final user = await FirebaseAuth.instance.signInWithCredential(cred);
-    if (user.user != null) {
-      emit(OtpLoginSuccessState());
-    } else {
-      emit(OtpOtpLoginFailedState('Error during OTP login.'));
+    try {
+      final user = await FirebaseAuth.instance.signInWithCredential(cred);
+      if (user.user != null) {
+        FirebaseConstants.phoneNumber = user.user!.phoneNumber!;
+        emit(OtpLoginSuccessState());
+       
+      } else {
+        emit(OtpOtpLoginFailedState('Error during OTP login.'));
+      }
+    } on FirebaseAuthException catch (e) {
+      emit(OtpOtpLoginFailedState(e.message ?? 'OTP login failed.'));
+    } catch (e) {
+      emit(OtpErrorState(e.toString()));
     }
-  } on FirebaseAuthException catch (e) {
-    emit(OtpOtpLoginFailedState(e.message ?? 'OTP login failed.'));
-  } catch (e) {
-    emit(OtpErrorState(e.toString()));
   }
-}
-
 }

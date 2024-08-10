@@ -1,7 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movie/core/utils/widgets/snack.dart';
 import 'package:movie/features/on-boarding/domain/entities/trending-entity.dart';
 import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
@@ -52,13 +52,13 @@ class _FirstPageState extends State<FirstPage> {
               'https://image.tmdb.org/t/p/w500${page.posterImage}',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
-                return Center(child: Text('Failed to load image'));
+                return const Center(child: Text('Failed to load image'));
               },
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) {
                   return child;
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               },
             ),
@@ -107,13 +107,13 @@ class _FirstPageState extends State<FirstPage> {
               'https://image.tmdb.org/t/p/w500${page.posterImage}',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
-                return Center(child: Text('Failed to load image'));
+                return const Center(child: Text('Failed to load image'));
               },
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) {
                   return child;
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               },
             ),

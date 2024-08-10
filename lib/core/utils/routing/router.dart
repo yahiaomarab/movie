@@ -1,8 +1,9 @@
 import 'package:go_router/go_router.dart';
-import 'package:movie/features/auth/presentation/views/login-view.dart';
-import 'package:movie/features/auth/presentation/views/otp-verification.dart';
-import 'package:movie/features/auth/presentation/views/register-view.dart';
-import 'package:movie/features/auth/presentation/views/successfully-register-page.dart';
+import 'package:movie/features/auth/presentation/views/login/login-view.dart';
+import 'package:movie/features/auth/presentation/views/otp/otp-verification.dart';
+import 'package:movie/features/auth/presentation/views/register/register-view.dart';
+import 'package:movie/features/auth/presentation/views/register/successfully-register-page.dart';
+import 'package:movie/features/home/presentation/views/home-view.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
 
@@ -12,6 +13,7 @@ abstract class AppRouter {
   static const registerPath = '/registerPath';
   static const homeDetailsViewPath = '/homeDetailsView';
   static const searchViewPath = '/searchView';
+  static const homePath = '/homePath';
   static const otpPath = '/otpPath';
   static const successfullyRegisteredPath = '/successfullyRegisteredPath';
   static final router = GoRouter(routes: [
@@ -38,5 +40,8 @@ abstract class AppRouter {
     GoRoute(
         path: successfullyRegisteredPath,
         builder: (context, state) =>  SuccessfullyRegisterPage()),
+           GoRoute(
+        path: homePath,
+        builder: (context, state) => const HomePage()),
   ]);
 }

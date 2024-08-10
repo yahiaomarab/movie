@@ -13,7 +13,6 @@ class FetchTrendingImagesUseCase extends UseCase {
     try {
       return await onBoardingRepo.fetchTrendingImages(pageNumber: param);
     } catch (error) {
-      print('UseCase Error: $error');
       return Left(ServerFailure( error.toString()));
     }
   }

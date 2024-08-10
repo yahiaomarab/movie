@@ -11,6 +11,7 @@ class OnBoardingLocalDataSourceImpl extends OnBoardingLocalDataSource {
   @override
   List<TrendingEntity> fetchLocalTrendingImages({int pageNumber = 1}) {
     var box = Hive.box<TrendingEntity>(kOnBoardingBox);
+    print(box.values);
     return box.values.toList();
   }
 }
