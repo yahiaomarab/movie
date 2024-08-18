@@ -1,5 +1,6 @@
 
 
+import 'package:movie/core/helper/cache-constants.dart';
 import 'package:movie/core/network/api-constants.dart';
 import 'package:movie/core/network/api-service.dart';
 import 'package:movie/core/utils/funcitons/save-box.dart';
@@ -19,7 +20,7 @@ class OnBoardingRemoteDataSourceImpl extends OnBoardingRemoteDataSource {
     final endPoint = '${ApiConstance.baseUrl}${ApiConstance.trendingDayUrl}?api_key=${ApiConstance.apiKey}&page=$pageNumber';
     var data = await apiServices.getData(endPoint: endPoint);
     List<OnBoardingEntity> posters = getTrendingList(data);
-    saveData(posters);
+    saveData(posters,kOnBoardingBox);
     return posters;
   }
 

@@ -28,6 +28,8 @@ void main() async {
   Hive.registerAdapter(TrendingEntityAdapter());
   Hive.registerAdapter(RecommendedEntityAdapter());
   await Hive.openBox<OnBoardingEntity>(kOnBoardingBox);
+  await Hive.openBox<TrendingEntity>(KTrendingBox);
+  await Hive.openBox<RecommendedEntity>(KRecommendedBox);
   setUpServiceLocator();
   Bloc.observer = SimpleBlocObserver();
   runApp(const MovieApp());
