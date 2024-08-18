@@ -6,4 +6,5 @@ class AppColors {
   static Color scaffoldKColor = HexColor('#121011');
   static Color whiteKColor = HexColor('ffffff');
   static Color hintKWhiteColor = HexColor('D4D4D4');
+  static Color secondaryKColor = HexColor('1E1E1E');
 }

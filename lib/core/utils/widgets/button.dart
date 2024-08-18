@@ -11,6 +11,8 @@ class CustomButton extends StatelessWidget {
   final Color labelColor;
   final Function()? ontap;
   final double? labelSize;
+  final FontWeight? fontWeight;
+  final Gradient? gradient;
 
   const CustomButton(
       {super.key,
@@ -22,6 +24,8 @@ class CustomButton extends StatelessWidget {
       required this.labelColor,
       required this.ontap,
       this.labelSize,
+      this.fontWeight,
+      this.gradient
       });
 
   @override
@@ -32,13 +36,14 @@ class CustomButton extends StatelessWidget {
         height: buttonHeight,
         width: buttonWeidth,
         decoration: BoxDecoration(
+          gradient: gradient,
           color: buttonColor,
           borderRadius: BorderRadius.circular(buttonCircular),
         ),
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.inter(fontSize: labelSize?? 15.sp, fontWeight: FontWeight.bold,color:labelColor),
+            style: GoogleFonts.inter(fontSize: labelSize?? 15.sp, fontWeight: fontWeight??FontWeight.bold,color:labelColor),
           ),
         ),
       ),

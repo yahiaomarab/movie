@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void goToOnBoardingPage() {
     Future.delayed(const Duration(seconds: 5), () {
       GoRouter.of(context).push(
-        AppRouter.onBoardingPath,
+        AppRouter.homePath,
       );
     });
   }

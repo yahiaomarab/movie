@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:movie/core/helper/cache-constants.dart';
@@ -35,6 +36,12 @@ class MovieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+      statusBarColor: HexColor('#121011'), // Set the status bar color
+      systemNavigationBarColor: HexColor('#121011'),
+    )
+    );
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -46,12 +53,9 @@ class MovieApp extends StatelessWidget {
                 create: (context) => OnBoardingCubit(FetchTrendingImagesUseCase(
                     locator.get<OnBoardingRepoImplmentation>()))
                   ..fetchOnBoarding()),
-                   BlocProvider(
-                create: (context) => OtpCubit()),
-                 BlocProvider(
-                create: (context) => RegisterCubit()),
-                BlocProvider(
-                create: (context) => LoginCubit())
+            BlocProvider(create: (context) => OtpCubit()),
+            BlocProvider(create: (context) => RegisterCubit()),
+            BlocProvider(create: (context) => LoginCubit())
           ],
           child: MaterialApp.router(
             theme: ThemeData.dark(),
