@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
-import 'package:movie/features/home/presentation/widgets/home-bar.dart';
-import 'package:movie/features/home/presentation/widgets/list-recommended.dart';
-import 'package:movie/features/home/presentation/widgets/trending-view.dart';
+import 'package:movie/features/home/presentation/views/widgets/home-bar.dart';
+import 'package:movie/features/home/presentation/views/widgets/list-recommended.dart';
+import 'package:movie/features/home/presentation/views/widgets/trending-view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
