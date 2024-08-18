@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie/core/utils/widgets/snack.dart';
-import 'package:movie/features/on-boarding/domain/entities/trending-entity.dart';
+import 'package:movie/features/on-boarding/domain/entities/onboarding-entity.dart';
 import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 import 'package:movie/features/on-boarding/presentation/view-model/states.dart';
 
@@ -15,7 +15,7 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  List<TrendingEntity> posters = [];
+  List<OnBoardingEntity> posters = [];
   final CarouselSliderController _carouselController1 = CarouselSliderController();
   final CarouselSliderController _carouselController2 = CarouselSliderController();
   var nextPage = 2;

@@ -1,7 +1,7 @@
 
-import 'package:movie/features/on-boarding/domain/entities/trending-entity.dart';
+import 'package:movie/features/on-boarding/domain/entities/onboarding-entity.dart';
 
-class TrendingModel extends TrendingEntity{
+class OnBoardingModel extends OnBoardingEntity{
   final String? backdropPath;
   final int id;
   final String? title;
@@ -22,7 +22,7 @@ class TrendingModel extends TrendingEntity{
   final String? firstAirDate;
   final List<String>? originCountry;
 
-  TrendingModel({
+  OnBoardingModel({
     this.backdropPath,
     required this.id,
     this.title,
@@ -44,8 +44,8 @@ class TrendingModel extends TrendingEntity{
     this.originCountry,
   }) : super(posterImage: posterPath!);
 
- factory TrendingModel.fromJson(Map<String, dynamic> json) {
-  return TrendingModel(
+ factory OnBoardingModel.fromJson(Map<String, dynamic> json) {
+  return OnBoardingModel(
     backdropPath: json['backdrop_path'],
     id: json['id'],
     title: json['title'],

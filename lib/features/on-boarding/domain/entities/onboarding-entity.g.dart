@@ -1,28 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'trending-entity.dart';
+part of 'onboarding-entity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
+class OnBoardingEntityAdapter extends TypeAdapter<OnBoardingEntity> {
   @override
   final int typeId = 0;
 
   @override
-  TrendingEntity read(BinaryReader reader) {
+  OnBoardingEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TrendingEntity(
+    return OnBoardingEntity(
       posterImage: fields[0] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, TrendingEntity obj) {
+  void write(BinaryWriter writer, OnBoardingEntity obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
@@ -35,7 +35,7 @@ class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TrendingEntityAdapter &&
+      other is OnBoardingEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -1,11 +1,11 @@
 
-import 'package:movie/features/on-boarding/domain/entities/trending-entity.dart';
+import 'package:movie/features/on-boarding/domain/entities/onboarding-entity.dart';
 
 abstract class OnBoardingStates {}
 
 class OnBoardingInitialState extends OnBoardingStates {}
 class FetchOnBoardingSuccessState extends OnBoardingStates {
-  final List<TrendingEntity> posters;
+  final List<OnBoardingEntity> posters;
 
   FetchOnBoardingSuccessState(this.posters);
 }

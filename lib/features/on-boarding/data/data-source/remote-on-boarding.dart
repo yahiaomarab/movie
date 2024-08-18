@@ -3,10 +3,10 @@
 import 'package:movie/core/network/api-constants.dart';
 import 'package:movie/core/network/api-service.dart';
 import 'package:movie/core/utils/funcitons/save-box.dart';
-import 'package:movie/features/on-boarding/domain/entities/trending-entity.dart';
+import 'package:movie/features/on-boarding/domain/entities/onboarding-entity.dart';
 
 abstract class OnBoardingRemoteDataSource {
-  Future<List<TrendingEntity>> fetchRemoteTrendingImages({int pageNumber = 1});
+  Future<List<OnBoardingEntity>> fetchRemoteTrendingImages({int pageNumber = 1});
 }
 
 class OnBoardingRemoteDataSourceImpl extends OnBoardingRemoteDataSource {
@@ -15,20 +15,20 @@ class OnBoardingRemoteDataSourceImpl extends OnBoardingRemoteDataSource {
   OnBoardingRemoteDataSourceImpl(this.apiServices);
 
   @override
-  Future<List<TrendingEntity>> fetchRemoteTrendingImages({int pageNumber = 1}) async {
+  Future<List<OnBoardingEntity>> fetchRemoteTrendingImages({int pageNumber = 1}) async {
     final endPoint = '${ApiConstance.baseUrl}${ApiConstance.trendingDayUrl}?api_key=${ApiConstance.apiKey}&page=$pageNumber';
     var data = await apiServices.getData(endPoint: endPoint);
-    List<TrendingEntity> posters = getTrendingList(data);
+    List<OnBoardingEntity> posters = getTrendingList(data);
     saveData(posters);
     return posters;
   }
 
-  List<TrendingEntity> getTrendingList(Map<String, dynamic> data) {
-    List<TrendingEntity> trendPosters = [];
+  List<OnBoardingEntity> getTrendingList(Map<String, dynamic> data) {
+    List<OnBoardingEntity> trendPosters = [];
     for (var trendingPoster in data['results']) {
       if (trendingPoster['poster_path'] != null) {
         final fullImageUrl = 'https://image.tmdb.org/t/p/w500${trendingPoster['poster_path']}';
-        trendPosters.add(TrendingEntity(posterImage: fullImageUrl));
+        trendPosters.add(OnBoardingEntity(posterImage: fullImageUrl));
       }
     }
     return trendPosters;

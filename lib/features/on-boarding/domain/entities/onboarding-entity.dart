@@ -1,14 +1,13 @@
 import 'package:hive/hive.dart';
 
-part 'trending-entity.g.dart';
+part 'onboarding-entity.g.dart';
 
 @HiveType(typeId: 0)
-class TrendingEntity {
-
+class OnBoardingEntity {
   @HiveField(0)
   final String posterImage;
 
-  TrendingEntity({
+  OnBoardingEntity({
     required this.posterImage,
   });
 }
