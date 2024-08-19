@@ -15,16 +15,21 @@ abstract class HomeRemoteDataSource {
 
 class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   final ApiServices apiServices;
+
   HomeRemoteDataSourceImpl(this.apiServices);
+
   @override
   Future<List<RecommendedEntity>> fetchRecommendedData({int page = 1}) async {
     final endPoint =
         '${ApiConstance.baseUrl}${ApiConstance.upComingMoviesUrl}?api_key=${ApiConstance.apiKey}&page=$page';
     final data = await apiServices.getData(endPoint: endPoint);
-    List<RecommendedEntity> recmmended =
-        getListOfData(data, 'results', RecommendedModel);
-    saveData(recmmended, KTrendingBox);
-    return recmmended;
+    List<RecommendedEntity> recommended = getListOfData<RecommendedEntity>(
+      data,
+      'results',
+      (json) => RecommendedModel.fromJson(json) as RecommendedEntity,
+    );
+    saveData(recommended, KTrendingBox);
+    return recommended;
   }
 
   @override
@@ -32,8 +37,13 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
     const endPoint =
         '${ApiConstance.baseUrl}${ApiConstance.popularMoviesUrl}?api_key=${ApiConstance.apiKey}';
     final data = await apiServices.getData(endPoint: endPoint);
-    List<TrendingEntity> trends = getListOfData(data, 'results', TrendingModel);
+    List<TrendingEntity> trends = getListOfData<TrendingEntity>(
+      data,
+      'results',
+      (json) => TrendingModel.fromJson(json) as TrendingEntity,
+    );
     saveData(trends, KTrendingBox);
     return trends;
   }
 }
+

@@ -96,7 +96,7 @@ class _FirstPageState extends State<FirstPage> {
                   aspectRatio: 16 / 9,
                   pauseAutoPlayOnTouch: false,
                   onPageChanged: (index, reason) {
-                    var thresholdIndex = (0.7 * posters.length).floor();
+                    var thresholdIndex = (0.3 * posters.length).floor();
                     if (index >= thresholdIndex) {
                       BlocProvider.of<OnBoardingCubit>(context).fetchOnBoarding(
                         pageNumber: nextPage
@@ -166,7 +166,7 @@ class _FirstPageState extends State<FirstPage> {
                   aspectRatio: 16 / 9,
                   pauseAutoPlayOnTouch: false,
                   onPageChanged: (index, reason) {
-                    var thresholdIndex = (0.7 * posters.length).floor();
+                    var thresholdIndex = (0.3 * posters.length).floor();
                     if (index >= thresholdIndex) {
                       BlocProvider.of<OnBoardingCubit>(context).fetchOnBoarding(
                         pageNumber: nextPage

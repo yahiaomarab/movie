@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            SizedBox(height: 300.h, child: const TrendingView()),
+            SizedBox(height: 300.h, child:  TrendingView()),
             SizedBox(
               height: 10.h,
             ),

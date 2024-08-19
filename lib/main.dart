@@ -13,8 +13,12 @@ import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/features/auth/presentation/view-model/login/cubit.dart';
 import 'package:movie/features/auth/presentation/view-model/otp/otp-cubit.dart';
 import 'package:movie/features/auth/presentation/view-model/register/cubit.dart';
+import 'package:movie/features/home/data/repos/home-repo.dart';
 import 'package:movie/features/home/domain/entity/recommended-movies/recommended-entity.dart';
 import 'package:movie/features/home/domain/entity/trending/trending-entity.dart';
+import 'package:movie/features/home/domain/use-case/recommended-use-case.dart';
+import 'package:movie/features/home/domain/use-case/trending-use-case.dart';
+import 'package:movie/features/home/presentation/view-model/home-cubit.dart';
 import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dart';
 import 'package:movie/features/on-boarding/domain/entities/onboarding-entity.dart';
 import 'package:movie/features/on-boarding/domain/use-case/fetch-trending-images-use-case.dart';
@@ -59,7 +63,11 @@ class MovieApp extends StatelessWidget {
                   ..fetchOnBoarding()),
             BlocProvider(create: (context) => OtpCubit()),
             BlocProvider(create: (context) => RegisterCubit()),
-            BlocProvider(create: (context) => LoginCubit())
+            BlocProvider(create: (context) => LoginCubit()),
+            BlocProvider(
+                create: (context) => HomeCubit(
+                    TrendingUseCase(locator.get<HomeRepoImpl>()),
+                    RecommendedUseCase(locator.get<HomeRepoImpl>()))..fetchTrendingMovies())
           ],
           child: MaterialApp.router(
             theme: ThemeData.dark(),
