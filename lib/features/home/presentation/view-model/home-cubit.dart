@@ -6,7 +6,9 @@ import 'package:movie/features/home/presentation/view-model/home-states.dart';
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit(this.trendingUseCase, this.recommendedUseCase)
       : super(HomeInitialState());
+
   static HomeCubit get(context) => BlocProvider.of(context);
+  
   final TrendingUseCase trendingUseCase;
   final RecommendedUseCase recommendedUseCase;
 
@@ -23,7 +25,7 @@ class HomeCubit extends Cubit<HomeStates> {
     );
   }
 
-   void fetchTrendingMovies() async {
+  void fetchTrendingMovies() async {
     emit(FetchTrendingMoviesLoadingState());
     final result = await trendingUseCase.call();
     result.fold(

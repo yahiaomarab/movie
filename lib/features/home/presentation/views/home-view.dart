@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                     )),
               ],
             ),
-            const Expanded(child: RecommendedMoviesList()),
+             Expanded(child: RecommendedMoviesList()),
           ],
         ),
       ),

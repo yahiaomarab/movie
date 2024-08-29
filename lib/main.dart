@@ -26,14 +26,19 @@ import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Ensure this is correctly initialized
+  await Firebase.initializeApp(); 
   await Hive.initFlutter();
+  
+  // Register adapters
   Hive.registerAdapter(OnBoardingEntityAdapter());
   Hive.registerAdapter(TrendingEntityAdapter());
   Hive.registerAdapter(RecommendedEntityAdapter());
+  
+  // Open the boxes
   await Hive.openBox<OnBoardingEntity>(kOnBoardingBox);
   await Hive.openBox<TrendingEntity>(KTrendingBox);
-  await Hive.openBox<RecommendedEntity>(KRecommendedBox);
+  await Hive.openBox<RecommendedEntity>(KRecommendedBox); // Ensure this box is unique
+
   setUpServiceLocator();
   Bloc.observer = SimpleBlocObserver();
   runApp(const MovieApp());
@@ -67,7 +72,9 @@ class MovieApp extends StatelessWidget {
             BlocProvider(
                 create: (context) => HomeCubit(
                     TrendingUseCase(locator.get<HomeRepoImpl>()),
-                    RecommendedUseCase(locator.get<HomeRepoImpl>()))..fetchTrendingMovies())
+                    RecommendedUseCase(locator.get<HomeRepoImpl>()))
+                    ..fetchTrendingMovies()..fetchRecommendedMovies(),
+                    )
           ],
           child: MaterialApp.router(
             theme: ThemeData.dark(),

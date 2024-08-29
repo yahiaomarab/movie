@@ -28,7 +28,7 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
       'results',
       (json) => RecommendedModel.fromJson(json) as RecommendedEntity,
     );
-    saveData(recommended, KTrendingBox);
+    saveData(recommended, KRecommendedBox);
     return recommended;
   }
 
