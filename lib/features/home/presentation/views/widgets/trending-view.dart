@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/features/home/domain/entity/trending/trending-entity.dart';
-import 'package:movie/features/home/presentation/view-model/home-cubit.dart';
-import 'package:movie/features/home/presentation/view-model/home-states.dart';
+import 'package:movie/features/home/presentation/view-model/trending/trending-cubit.dart';
+import 'package:movie/features/home/presentation/view-model/trending/trending-states.dart';
 
 // ignore: must_be_immutable
 class TrendingView extends StatelessWidget {
@@ -14,10 +14,10 @@ class TrendingView extends StatelessWidget {
   List<TrendingEntity> trends = [];
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<TrendingCubit, TrendingStates>(
       listener: (context, state) {
         if (state is FetchTrendingMoviesSuccessState) {
-          trends.addAll(state.trends);
+          trends = List.from(state.trends); // Reinitialize the list
         } else if (state is FetchTrendingMoviesFailureState) {
           print('Error fetching trending movies: ${state.failure}');
         }
@@ -36,9 +36,9 @@ class TrendingView extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(48.r),
                   child: Image.network(
-                    height: 265.h,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                      height: 265.h,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                       'https://image.tmdb.org/t/p/w500${state.trends[0].image}'),
                 ),
               ),
