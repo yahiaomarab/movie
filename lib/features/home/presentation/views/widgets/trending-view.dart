@@ -38,8 +38,8 @@ class TrendingView extends StatelessWidget {
                   child: Image.network(
                       height: 265.h,
                       width: double.infinity,
-                      fit: BoxFit.cover,
-                      'https://image.tmdb.org/t/p/w500${state.trends[0].image}'),
+                      fit: BoxFit.fill,
+                      'https://image.tmdb.org/t/p/w500${state.trends[2].image}'),
                 ),
               ),
               Positioned(
@@ -84,7 +84,7 @@ class TrendingView extends StatelessWidget {
                                     color: Colors.white),
                               ),
                               Text(
-                                state.trends[0].name,
+                                state.trends[2].name,
                                 style: GoogleFonts.inter(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
