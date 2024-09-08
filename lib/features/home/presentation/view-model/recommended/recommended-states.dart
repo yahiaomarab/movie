@@ -10,6 +10,7 @@ class FetchRecommendedMoviesSuccessState extends RecommendedStates {
 }
 
 class FetchRecommendedMoviesLoadingState extends RecommendedStates {}
+class FetchRecommendedMoviesPagenationLoadingState extends RecommendedStates {}
 
 class FetchRecommendedMoviesFailureState extends RecommendedStates {
   final String failure;

@@ -4,11 +4,13 @@ class UserModel {
   final String userName;
   final String? password;
   final String phone;
+  final String? image;
 
   UserModel({
     required this.phone,
     required this.email,
      this.password,
+     this.image,
     required this.userName,
     required this.uid,
   });
@@ -20,6 +22,7 @@ class UserModel {
       password: json['password'],
       userName: json['username'],
       uid: json['uid'],
+      image: json['image'],
     );
   }
 
@@ -29,7 +32,8 @@ class UserModel {
       'username':userName,
       'password':password,
       'phone':phone,
-      'uid':uid
+      'uid':uid,
+      'image':image,
     };
   }
 }

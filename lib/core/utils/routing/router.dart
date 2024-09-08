@@ -6,6 +6,7 @@ import 'package:movie/features/auth/presentation/views/register/successfully-reg
 import 'package:movie/features/home/presentation/views/home-view.dart';
 import 'package:movie/features/layout/presentation/view/layout-view.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
+import 'package:movie/features/settings/profile-view.dart';
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
 
 abstract class AppRouter {
@@ -18,6 +19,7 @@ abstract class AppRouter {
   static const otpPath = '/otpPath';
   static const successfullyRegisteredPath = '/successfullyRegisteredPath';
   static const layoutPath ='/layoutPath';
+  static const profilePath ='/settings/profilePath';
   static final router = GoRouter(routes: [
     GoRoute(
       path: '/',
@@ -44,5 +46,7 @@ abstract class AppRouter {
         builder: (context, state) => SuccessfullyRegisterPage()),
     GoRoute(path: homePath, builder: (context, state) => const HomePage()),
     GoRoute(path: layoutPath, builder: (context, state) => const LayoutScreen()),
+        GoRoute(path: profilePath, builder: (context, state) =>  ProfileScreen()),
+
   ]);
 }

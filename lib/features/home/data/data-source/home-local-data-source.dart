@@ -15,10 +15,10 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
     int endIndex = (page + 1) * 1;
     var box = Hive.box<RecommendedEntity>(KRecommendedBox);
     int lenght = box.values.length;
-    if (startIndex >= lenght && endIndex > lenght) {
+    if (startIndex >= lenght || endIndex > lenght) {
       return [];
     }
-    return box.values.toList();
+    return box.values.toList().sublist(startIndex,endIndex);
   }
 
   @override

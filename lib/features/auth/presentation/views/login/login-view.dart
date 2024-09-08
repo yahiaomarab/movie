@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget
               backgroundColor: Colors.green,
             ),
           );
-          GoRouter.of(context).pushReplacement(AppRouter.homePath);
+          GoRouter.of(context).pushReplacement(AppRouter.layoutPath);
         } else if (state is LoginErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

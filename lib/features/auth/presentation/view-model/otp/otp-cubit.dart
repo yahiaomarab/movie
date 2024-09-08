@@ -34,8 +34,7 @@ class OtpCubit extends Cubit<OtpStates> {
       await FirebaseAuth.instance.signInWithCredential(credential);
       emit(OtpVerificationCompletedState());
     } catch (e) {
-      emit(OtpVerificationFailedState(
-          'Verification completed, but an error occurred.'));
+      emit(OtpVerificationFailedState('Verification completed, but an error occurred.'));
     }
   }
 
@@ -43,15 +42,18 @@ class OtpCubit extends Cubit<OtpStates> {
     emit(OtpVerificationFailedState(e.message ?? 'Verification failed.'));
   }
 
-  void _codeSent(String verificationId, int? resendToken) {
-    verifyId = verificationId;
-    emit(OtpCodeSentState());
-  }
+void _codeSent(String verificationId, int? resendToken) {
+  verifyId = verificationId;
+  print('Code sent: $verificationId');
+  emit(OtpCodeSentState());
+}
 
-  void _codeAutoRetrievalTimeout(String verificationId) {
-    verifyId = verificationId;
-    emit(OtpCodeAutoRetrievalTimeoutState());
-  }
+void _codeAutoRetrievalTimeout(String verificationId) {
+  verifyId = verificationId;
+  print('Code auto-retrieval timeout: $verificationId');
+  emit(OtpCodeAutoRetrievalTimeoutState());
+}
+
 
   Future<void> loginWithOtp({required String otp}) async {
     emit(OtpLoadingState());
@@ -66,7 +68,6 @@ class OtpCubit extends Cubit<OtpStates> {
       if (user.user != null) {
         FirebaseConstants.phoneNumber = user.user!.phoneNumber!;
         emit(OtpLoginSuccessState());
-       
       } else {
         emit(OtpOtpLoginFailedState('Error during OTP login.'));
       }

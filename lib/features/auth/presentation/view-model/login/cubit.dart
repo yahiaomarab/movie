@@ -18,6 +18,9 @@ class LoginCubit extends Cubit<LoginStates> {
         .then((value) {
       emit(LoginSuccessState());
       FirebaseConstants.uid == value.user!.uid;
+      print (
+        FirebaseConstants.uid
+      );
     }).catchError((error) {
       emit(LoginErrorState(error));
     });

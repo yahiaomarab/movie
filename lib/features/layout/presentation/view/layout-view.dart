@@ -42,7 +42,7 @@ class LayoutScreen extends StatelessWidget {
                   curve: Curves.easeOutExpo,
                   duration: const Duration(milliseconds: 200),
                   gap: 4,
-                  color: Colors.black, // Set the inactive icon color to black
+                  color: Colors.black, 
                   activeColor: Colors.white,
                   iconSize: 30,
                   tabBackgroundColor: AppColors.buttonKColor,
