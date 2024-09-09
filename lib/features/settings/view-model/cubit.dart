@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,22 +10,35 @@ import 'package:movie/features/settings/view-model/states.dart';
 
 class ProfileCubit extends Cubit<ProfileStates> {
   ProfileCubit() : super(InitialProfileState());
+
   static ProfileCubit get(context) => BlocProvider.of(context);
+
   UserModel? userModel;
   dynamic profileImage;
   var picker = ImagePicker();
 
   void getUserData() {
+    if (FirebaseConstants.uid.isEmpty) {
+      emit(GetUserDataErrorState('User ID is not available'));
+      return;
+    }
+
     emit(GetUserDataLoadingState());
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseConstants.uid)
         .get()
         .then((value) {
-      userModel = UserModel.fromJson(value.data()!);
-      emit(GetUserDataSuccessState());
+      if (value.exists) {
+        userModel = UserModel.fromJson(value.data()!);
+        emit(GetUserDataSuccessState());
+      } else {
+        emit(GetUserDataErrorState('User data not found'));
+      }
     }).catchError((error) {
-      emit(GetUserDataErrorState(error));
+      // Convert FirebaseException to its message
+      emit(GetUserDataErrorState(
+          (error as FirebaseException).message ?? 'Unknown error occurred'));
     });
   }
 
@@ -44,7 +58,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
       emit(UploadProfileImageErrorState('No image selected'));
       return;
     }
-    
+
     emit(UploadProfileImageLoadingState());
     FirebaseStorage.instance
         .ref()
@@ -52,16 +66,20 @@ class ProfileCubit extends Cubit<ProfileStates> {
         .putFile(profileImage)
         .then((value) {
       value.ref.getDownloadURL().then((downloadUrl) {
+        print('Image uploaded successfully. Download URL: $downloadUrl');
         updateUserProfile(
-            name: userModel!.userName,
-            email: userModel!.email,
-            phone: userModel!.phone,
-            image: downloadUrl);
+          name: userModel!.userName,
+          email: userModel!.email,
+          phone: userModel!.phone,
+          image: downloadUrl,
+        );
         emit(UploadProfileImageSuccessState());
       }).catchError((error) {
+        print('Failed to get download URL: $error');
         emit(UploadProfileImageErrorState(error));
       });
     }).catchError((error) {
+      print('Image upload failed: $error');
       emit(UploadProfileImageErrorState(error));
     });
   }
@@ -76,14 +94,68 @@ class ProfileCubit extends Cubit<ProfileStates> {
       emit(UpdateUserProfileErrorState('User data is not available'));
       return;
     }
-    
+
+    // If the phone number is being updated, call the method to update it in Firebase Auth
+    if (phone != userModel!.phone) {
+      _updatePhoneNumberInAuth(phone).then((_) {
+        // Proceed with updating Firestore after updating the phone number in Firebase Auth
+        _updateUserInFirestore(
+            name: name, email: email, phone: phone, image: image);
+      }).catchError((error) {
+        emit(UpdateUserProfileErrorState(error.toString()));
+      });
+    } else {
+      // If phone number hasn't changed, directly update Firestore
+      _updateUserInFirestore(
+          name: name, email: email, phone: phone, image: image);
+    }
+  }
+
+  // Helper function to update phone number in Firebase Auth
+  Future<void> _updatePhoneNumberInAuth(String newPhoneNumber) async {
     emit(UpdateUserProfileLoadingState());
+
+    // Re-authenticate the user using their current phone number
+    // In a real app, you'd need to handle reauthentication with the current credentials (phone number or password)
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: newPhoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        try {
+          // Update the phone number in Firebase Auth after verification
+          await FirebaseAuth.instance.currentUser
+              ?.updatePhoneNumber(credential);
+        } catch (error) {
+          throw 'Failed to update phone number in Auth: $error';
+        }
+      },
+      verificationFailed: (FirebaseAuthException error) {
+        throw 'Phone verification failed: ${error.message}';
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        // Handle OTP sent event
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Handle timeout
+      },
+    );
+  }
+
+  // Helper function to update user data in Firestore
+  void _updateUserInFirestore({
+    required String name,
+    required String email,
+    required String phone,
+    String? image,
+  }) {
+    emit(UpdateUserProfileLoadingState());
+
     UserModel user = UserModel(
         phone: phone,
         email: email,
         userName: name,
         uid: userModel!.uid,
         image: image ?? userModel!.image);
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(userModel!.uid)

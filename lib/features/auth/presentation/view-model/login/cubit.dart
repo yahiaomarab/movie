@@ -17,10 +17,11 @@ class LoginCubit extends Cubit<LoginStates> {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
       emit(LoginSuccessState());
-      FirebaseConstants.uid == value.user!.uid;
+      FirebaseConstants.uid = value.user!.uid;
       print (
         FirebaseConstants.uid
       );
+      print('############');
     }).catchError((error) {
       emit(LoginErrorState(error));
     });

@@ -49,6 +49,7 @@ class ProfileScreen extends StatelessWidget {
             return Center(child: Text('No user data available'));
           }
 
+          // Update controllers with user data
           nameController.text = userModel.userName;
           emailController.text = userModel.email;
           phoneController.text = userModel.phone;
@@ -83,14 +84,19 @@ class ProfileScreen extends StatelessWidget {
                         alignment: AlignmentDirectional.bottomEnd,
                         children: [
                           CircleAvatar(
-                              radius: 70.r,
-                              backgroundColor: AppColors.buttonKColor,
-                              backgroundImage: profileImage == null
-                                  ? NetworkImage('${userModel.image}')
-                                  : FileImage(File(profileImage.path))),
+                            radius: 70.r,
+                            backgroundColor: AppColors.buttonKColor,
+                            backgroundImage: profileImage == null
+                                ? NetworkImage(userModel.image!)
+                                : FileImage(File(profileImage.path)) as ImageProvider,
+                          ),
                           IconButton(
-                            onPressed: () {
-                              ProfileCubit.get(context).getProfileImage();
+                            onPressed: () async {
+                              await profileCubit.getProfileImage();
+                              // If image picked successfully, upload it
+                              if (profileCubit.profileImage != null) {
+                                profileCubit.uploadProfileImage();
+                              }
                             },
                             icon: const Icon(Icons.camera_alt_rounded),
                           ),
@@ -156,9 +162,10 @@ class ProfileScreen extends StatelessWidget {
                         labelColor: Colors.white,
                         ontap: () {
                           ProfileCubit.get(context).updateUserProfile(
-                              name: nameController.text,
-                              email: emailController.text,
-                              phone: phoneController.text);
+                            name: nameController.text,
+                            email: emailController.text,
+                            phone: phoneController.text,
+                          );
                         },
                       ),
                     ),
