@@ -17,10 +17,15 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 var onBoardingController = PageController();
-bool islast = false;
+bool isLast = false;
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndex = 0;
+
+void completeOnboarding() async {
+  await CacheHelper.setBoardingMode(true);
+  GoRouter.of(context).go(AppRouter.loginPath);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               onPageChanged: (index) {
                 setState(() {
                   currentIndex = index;
-                  islast = index == 1;
+                  isLast = index == 1;
                 });
               },
               controller: onBoardingController,
@@ -57,7 +62,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 60.w),
             child: Text(
-              !islast
+              !isLast
                   ? 'Tell us about your favourite movie genres'
                   : 'Select the genres you like to watch',
               style: AppTextStyle.textK22FontMedium.copyWith(fontSize: 20.sp),
@@ -69,23 +74,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           ),
           OnBoardingButton(
             buttonHeight: 53.h,
-            buttonWeidth: double.infinity,
-            label: islast ? 'Finish' : 'Next',
+            label: isLast ? 'Finish' : 'Next',
             onTap: () {
-              if (islast) {
-                setState(() {
-                  CacheHelper.setBoardingMode(true);
-                  GoRouter.of(context).push(AppRouter.loginPath);
-                });
+              if (isLast) {
+                completeOnboarding();
               } else {
                 onBoardingController.nextPage(
-                  duration: const Duration(
-                    milliseconds: 750,
-                  ),
+                  duration: const Duration(milliseconds: 750),
                   curve: Curves.fastLinearToSlowEaseIn,
                 );
               }
-            },
+            }, buttonWeidth: double.infinity, 
           ),
           SizedBox(height: 20.h),
           DotIndicator(

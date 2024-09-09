@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/core/helper/cache-helper.dart';
 import 'package:movie/core/network/firebase-constants.dart';
 import 'package:movie/features/auth/presentation/view-model/login/states.dart';
 
@@ -18,10 +19,8 @@ class LoginCubit extends Cubit<LoginStates> {
         .then((value) {
       emit(LoginSuccessState());
       FirebaseConstants.uid = value.user!.uid;
-      print (
-        FirebaseConstants.uid
-      );
-      print('############');
+      CacheHelper.setUserToken(value.user!.uid);
+      print(CacheHelper.getUserToken());
     }).catchError((error) {
       emit(LoginErrorState(error));
     });

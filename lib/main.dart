@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:movie/core/helper/cache-helper.dart';
 import 'package:movie/core/helper/hive-services.dart';
 import 'package:movie/core/utils/funcitons/service-locator.dart';
 import 'package:movie/core/utils/funcitons/simple-bloc-observer.dart';
@@ -23,13 +24,24 @@ import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
   await Firebase.initializeApp();
+
+  // Initialize CacheHelper
+  await CacheHelper.init();
+
   // Initialize Hive
   final hiveService = HiveService();
   await hiveService.initHive();
 
+  // Setup service locator
   setUpServiceLocator();
+
+  // Set up Bloc observer
   Bloc.observer = SimpleBlocObserver();
+
+  // Run the app
   runApp(const MovieApp());
 }
 
@@ -40,10 +52,12 @@ class MovieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: HexColor('#121011'), // Set the status bar color
+      statusBarColor: HexColor('#121011'),
       systemNavigationBarColor: HexColor('#121011'),
     ));
+
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -52,9 +66,10 @@ class MovieApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (context) => OnBoardingCubit(FetchTrendingImagesUseCase(
-                    locator.get<OnBoardingRepoImplmentation>()))
-                  ..fetchOnBoarding()),
+                create: (context) => OnBoardingCubit(
+                      FetchTrendingImagesUseCase(
+                          locator.get<OnBoardingRepoImplmentation>()),
+                    )..fetchOnBoarding()),
             BlocProvider(create: (context) => OtpCubit()),
             BlocProvider(create: (context) => RegisterCubit()),
             BlocProvider(create: (context) => LoginCubit()),
@@ -71,8 +86,9 @@ class MovieApp extends StatelessWidget {
           child: MaterialApp.router(
             theme: ThemeData.dark(),
             darkTheme: ThemeData(
-                scaffoldBackgroundColor: HexColor('#121011'),
-                appBarTheme: AppBarTheme(backgroundColor: HexColor('#121011'))),
+              scaffoldBackgroundColor: HexColor('#121011'),
+              appBarTheme: AppBarTheme(backgroundColor: HexColor('#121011')),
+            ),
             themeMode: ThemeMode.dark,
             routerConfig: AppRouter.router,
             debugShowCheckedModeBanner: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/utils/colors/colors.dart';
@@ -42,35 +43,47 @@ class LayoutScreen extends StatelessWidget {
                   curve: Curves.easeOutExpo,
                   duration: const Duration(milliseconds: 200),
                   gap: 4,
-                  color: Colors.black, 
+                  color: Colors.black,
                   activeColor: Colors.white,
                   iconSize: 30,
                   tabBackgroundColor: AppColors.buttonKColor,
                   padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 5.h),
                   tabs: [
                     GButton(
-                      icon: Icons.movie_creation_outlined,
-                      iconColor: cubit.currentIndex == 0 ? Colors.white : Colors.transparent,
-                      leading: cubit.currentIndex == 0 ? null : _buildInactiveIcon(Icons.movie_creation_outlined),
+                      leading: _buildNavImage(
+                        'assets/images/movies-icon.png',
+                        isActive: cubit.currentIndex == 0,
+                      ),
                       text: 'Movies',
+                      icon: Icons.circle,
+                      iconColor: Colors.transparent,
                     ),
                     GButton(
-                      icon: Icons.apps,
-                      iconColor: cubit.currentIndex == 1 ? Colors.white : Colors.transparent,
-                      leading: cubit.currentIndex == 1 ? null : _buildInactiveIcon(Icons.apps),
+                      leading: _buildNavImage(
+                        'assets/images/series-icon.png',
+                        isActive: cubit.currentIndex == 1,
+                      ),
+                      icon: Icons.circle,
+                      text: 'Series',
+                      iconColor: Colors.transparent,
+                    ),
+                    GButton(
+                      leading: _buildNavImage(
+                        'assets/images/categories.png',
+                        isActive: cubit.currentIndex == 2,
+                      ),
                       text: 'Categories',
+                      icon: Icons.circle,
+                      iconColor: Colors.transparent,
                     ),
                     GButton(
-                      icon: Icons.favorite,
-                      iconColor: cubit.currentIndex == 2 ? Colors.white : Colors.transparent,
-                      leading: cubit.currentIndex == 2 ? null : _buildInactiveIcon(Icons.favorite),
-                      text: 'Favorites',
-                    ),
-                    GButton(
-                      icon: Icons.settings,
-                      iconColor: cubit.currentIndex == 3 ? Colors.white : Colors.transparent,
-                      leading: cubit.currentIndex == 3 ? null : _buildInactiveIcon(Icons.settings),
-                      text: 'Settings',
+                      leading: _buildNavImage(
+                        'assets/images/more_icon.png',
+                        isActive: cubit.currentIndex == 3,
+                      ),
+                      text: 'More',
+                      icon: Icons.circle,
+                      iconColor: Colors.transparent,
                     ),
                   ],
                   onTabChange: (int index) {
@@ -85,11 +98,11 @@ class LayoutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInactiveIcon(IconData icon) {
+  Widget _buildNavImage(String imageIcon, {required bool isActive}) {
     return CircleAvatar(
       radius: 20.r,
-      backgroundColor: HexColor('#2d2d2d'),
-      child: Icon(icon, color: Colors.white),
+      backgroundColor: isActive ? AppColors.buttonKColor : HexColor('#2d2d2d'),
+      child: Image.asset(imageIcon),
     );
   }
 }
