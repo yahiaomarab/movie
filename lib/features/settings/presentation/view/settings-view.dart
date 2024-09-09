@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
+import 'package:movie/features/settings/data/model/setting-model.dart';
+import 'package:movie/features/settings/presentation/view/widgets/list-settings.dart';
 
+// ignore: must_be_immutable
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+   SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,34 +50,18 @@ class SettingsPage extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.5)),
               height: 172.h,
               width: double.infinity,
-              child: Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      GoRouter.of(context).push(AppRouter.profilePath);
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.person_2_outlined,
-                        ),
-                        SizedBox(
-                          width: 20.w,
-                        ),
-                        Text(
-                          'Edit profile',
-                          style: GoogleFonts.inter(
-                              fontSize: 16.sp, fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              child:ListView.separated(itemBuilder: (context,index)=>buildListItem(icon: items[index].icon!, title: items[index].title!, routerPath: items[index].routerPath!, context: context), separatorBuilder: (context,index)=>SizedBox(height: 8.h,), itemCount: items.length)
             ),
           ],
         ),
       ),
     );
   }
+
+
+List<SettingListModel>items=[
+ SettingListModel( Icons.person_2_outlined, AppRouter.profilePath, 'Edit profile'),
+ SettingListModel( Icons.security_rounded, AppRouter.profilePath, 'Security'),
+SettingListModel( Icons.notifications, AppRouter.profilePath, 'Notifications'),
+];
 }

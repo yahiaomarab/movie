@@ -7,7 +7,7 @@ import 'package:movie/features/auth/presentation/views/register/successfully-reg
 import 'package:movie/features/home/presentation/views/home-view.dart';
 import 'package:movie/features/layout/presentation/view/layout-view.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
-import 'package:movie/features/settings/profile-view.dart';
+import 'package:movie/features/settings/presentation/view/profile-view.dart';
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
 
 abstract class AppRouter {
