@@ -3,11 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
-import 'package:movie/features/home/domain/entity/recommended-movies/recommended-entity.dart';
 import 'package:movie/features/home/presentation/view-model/recommended/recommended-cubit.dart';
 import 'package:movie/features/home/presentation/view-model/recommended/recommended-states.dart';
 
-// ignore: must_be_immutable
 class RecommendedMoviesList extends StatefulWidget {
   const RecommendedMoviesList({super.key});
 
@@ -16,10 +14,10 @@ class RecommendedMoviesList extends StatefulWidget {
 }
 
 class _RecommendedMoviesListState extends State<RecommendedMoviesList> {
-  List<RecommendedEntity> recommendeds = [];
   final ScrollController _scrollController = ScrollController();
   int nextPage = 2;
   bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -52,18 +50,19 @@ class _RecommendedMoviesListState extends State<RecommendedMoviesList> {
   Widget build(BuildContext context) {
     return BlocConsumer<RecommendedCubit, RecommendedStates>(
       listener: (context, state) {
-        if (state is FetchRecommendedMoviesSuccessState) {
-          recommendeds.addAll(state.recmmendeds);
-        } else if (state is FetchRecommendedMoviesFailureState) {
+        if (state is FetchRecommendedMoviesFailureState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.failure)));
         }
       },
       builder: (context, state) {
+        var recommendeds =
+            BlocProvider.of<RecommendedCubit>(context).recommendeds;
+
         if (recommendeds.isEmpty &&
             state is FetchRecommendedMoviesLoadingState) {
-          return const CircularProgressIndicator(); // Show initial loader.
-        } else if (state is FetchRecommendedMoviesSuccessState ||
+          return const Center(child: CircularProgressIndicator());
+        } else if (recommendeds.isNotEmpty ||
             state is FetchRecommendedMoviesPagenationLoadingState) {
           return SizedBox(
             height: 200.h,
@@ -114,17 +113,17 @@ class _RecommendedMoviesListState extends State<RecommendedMoviesList> {
                     left: 0,
                     right: 0,
                     child: Center(
-                      child:
-                          CircularProgressIndicator(), // Loader for paginated fetch.
+                      child: CircularProgressIndicator(),
                     ),
                   ),
               ],
             ),
           );
         } else if (state is FetchRecommendedMoviesFailureState) {
-          return const Text('Error fetching recommended movies!');
+          return const Center(
+              child: Text('Error fetching recommended movies!'));
         } else {
-          return const Text('No recommended movies found!');
+          return const Center(child: Text('No recommended movies found!'));
         }
       },
     );

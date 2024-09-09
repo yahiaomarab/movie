@@ -66,7 +66,6 @@ class ProfileCubit extends Cubit<ProfileStates> {
         .putFile(profileImage)
         .then((value) {
       value.ref.getDownloadURL().then((downloadUrl) {
-        print('Image uploaded successfully. Download URL: $downloadUrl');
         updateUserProfile(
           name: userModel!.userName,
           email: userModel!.email,
@@ -75,11 +74,9 @@ class ProfileCubit extends Cubit<ProfileStates> {
         );
         emit(UploadProfileImageSuccessState());
       }).catchError((error) {
-        print('Failed to get download URL: $error');
         emit(UploadProfileImageErrorState(error));
       });
     }).catchError((error) {
-      print('Image upload failed: $error');
       emit(UploadProfileImageErrorState(error));
     });
   }

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/features/home/domain/entity/recommended-movies/recommended-entity.dart';
 import 'package:movie/features/home/domain/use-case/recommended-use-case.dart';
 import 'package:movie/features/home/presentation/view-model/recommended/recommended-states.dart';
 
@@ -8,12 +9,14 @@ class RecommendedCubit extends Cubit<RecommendedStates> {
   static RecommendedCubit get(context) => BlocProvider.of(context);
   final RecommendedUseCase recommendedUseCase;
   bool isFetchingMore = false;
+  List<RecommendedEntity> recommendeds = [];
+
   Future<void> fetchRecommendedMovies({int page = 1}) async {
     if (page == 1) {
       emit(FetchRecommendedMoviesLoadingState());
     } else if (!isFetchingMore) {
       emit(FetchRecommendedMoviesPagenationLoadingState());
-      isFetchingMore = true; 
+      isFetchingMore = true;
     }
 
     final result = await recommendedUseCase.call(page);
@@ -23,7 +26,8 @@ class RecommendedCubit extends Cubit<RecommendedStates> {
       }
       isFetchingMore = false; // Reset flag after failure.
     }, (data) {
-      emit(FetchRecommendedMoviesSuccessState(data));
+      recommendeds.addAll(data);
+      emit(FetchRecommendedMoviesSuccessState(recommendeds));
       isFetchingMore = false; // Reset flag after success.
     });
   }

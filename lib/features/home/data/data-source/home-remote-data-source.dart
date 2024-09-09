@@ -10,7 +10,7 @@ import 'package:movie/features/home/domain/entity/trending/trending-entity.dart'
 
 abstract class HomeRemoteDataSource {
   Future<List<TrendingEntity>> fetchTrendingData();
-  Future<List<RecommendedEntity>> fetchRecommendedData({int page=1});
+  Future<List<RecommendedEntity>> fetchRecommendedData({int page = 1});
 }
 
 class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
@@ -46,4 +46,3 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
     return trends;
   }
 }
-

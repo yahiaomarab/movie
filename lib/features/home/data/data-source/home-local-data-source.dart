@@ -11,14 +11,14 @@ abstract class HomeLocalDataSource {
 class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   @override
   List<RecommendedEntity> fetchRecommendedDataLocal({int page = 1}) {
-    int startIndex = page * 1;
-    int endIndex = (page + 1) * 1;
+    int startIndex = (page - 1) * 10; // Assuming page size is 10
+    int endIndex = page * 10;
     var box = Hive.box<RecommendedEntity>(KRecommendedBox);
-    int lenght = box.values.length;
-    if (startIndex >= lenght || endIndex > lenght) {
+    int length = box.values.length;
+    if (startIndex >= length || endIndex > length) {
       return [];
     }
-    return box.values.toList().sublist(startIndex,endIndex);
+    return box.values.toList().sublist(startIndex, endIndex);
   }
 
   @override
