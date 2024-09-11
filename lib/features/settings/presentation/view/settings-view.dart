@@ -9,7 +9,7 @@ import 'package:movie/features/settings/presentation/view/widgets/list-settings.
 
 // ignore: must_be_immutable
 class SettingsPage extends StatelessWidget {
-   SettingsPage({super.key});
+  SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +44,22 @@ class SettingsPage extends StatelessWidget {
               height: 5.h,
             ),
             Container(
-              padding: EdgeInsets.all(20.h),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: Colors.grey.withOpacity(0.5)),
-              height: 172.h,
-              width: double.infinity,
-              child:ListView.separated(itemBuilder: (context,index)=>buildListItem(icon: items[index].icon!, title: items[index].title!, routerPath: items[index].routerPath!, context: context), separatorBuilder: (context,index)=>SizedBox(height: 8.h,), itemCount: items.length)
-            ),
+                padding: EdgeInsets.all(20.h),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: Colors.grey.withOpacity(0.5)),
+                height: 172.h,
+                width: double.infinity,
+                child: ListView.separated(
+                    itemBuilder: (context, index) => buildListItem(
+                        icon: items[index].icon!,
+                        title: items[index].title!,
+                        routerPath: items[index].routerPath!,
+                        context: context),
+                    separatorBuilder: (context, index) => SizedBox(
+                          height: 8.h,
+                        ),
+                    itemCount: items.length)),
           ],
         ),
       ),
@@ -59,9 +67,15 @@ class SettingsPage extends StatelessWidget {
   }
 
 
-List<SettingListModel>items=[
- SettingListModel( Icons.person_2_outlined, AppRouter.profilePath, 'Edit profile'),
- SettingListModel( Icons.security_rounded, AppRouter.profilePath, 'Security'),
-SettingListModel( Icons.notifications, AppRouter.profilePath, 'Notifications'),
+ List<SettingListModel> items = [
+  SettingListModel(
+      Icons.person_2_outlined, AppRouter.profilePath, 'Edit profile'),
+  SettingListModel(
+      Icons.security_rounded, '/settings/security', 'Security'), // Add route path for Security
+  SettingListModel(
+      Icons.notifications, '/settings/notifications', 'Notifications'), // Add route path for Notifications
+  SettingListModel(
+      Icons.privacy_tip_rounded, '/settings/privacy', 'Privacy'), // Add route path for Privacy
 ];
+
 }

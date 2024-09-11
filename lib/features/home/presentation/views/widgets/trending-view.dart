@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,10 +9,38 @@ import 'package:movie/features/home/domain/entity/trending/trending-entity.dart'
 import 'package:movie/features/home/presentation/view-model/trending/trending-cubit.dart';
 import 'package:movie/features/home/presentation/view-model/trending/trending-states.dart';
 
-// ignore: must_be_immutable
-class TrendingView extends StatelessWidget {
-  TrendingView({super.key});
+class TrendingView extends StatefulWidget {
+  const TrendingView({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _TrendingViewState createState() => _TrendingViewState();
+}
+
+class _TrendingViewState extends State<TrendingView> {
   List<TrendingEntity> trends = [];
+  int index = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start the timer to update the index every 7 seconds
+    _timer = Timer.periodic(const Duration(seconds: 7), (Timer timer) {
+      if (trends.isNotEmpty) {
+        setState(() {
+          index = (index + 1) % trends.length; // Update index and loop it
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TrendingCubit, TrendingStates>(
@@ -23,7 +52,7 @@ class TrendingView extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is FetchTrendingMoviesSuccessState) {
+        if (state is FetchTrendingMoviesSuccessState && trends.isNotEmpty) {
           return Stack(
             alignment: AlignmentDirectional.topCenter,
             children: [
@@ -36,10 +65,11 @@ class TrendingView extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(48.r),
                   child: Image.network(
-                      height: 265.h,
-                      width: double.infinity,
-                      fit: BoxFit.fill,
-                      'https://image.tmdb.org/t/p/w500${state.trends[2].image}'),
+                    height: 265.h,
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                    'https://image.tmdb.org/t/p/w500${trends[index].image}', // Use current index
+                  ),
                 ),
               ),
               Positioned(
@@ -73,76 +103,85 @@ class TrendingView extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Trending',
-                                style: GoogleFonts.inter(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                state.trends[2].name,
-                                style: GoogleFonts.inter(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                'A .English',
-                                style: GoogleFonts.inter(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                'HORHOR',
-                                style: GoogleFonts.inter(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white),
-                              ),
-                            ],
+                          Container(
+                            width: 160.w,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Trending',
+                                  style: GoogleFonts.inter(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    trends[index].name, // Use current index
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                                    maxLines:
+                                        2, // Ensure the text is only one line
+                                    overflow: TextOverflow
+                                        .ellipsis, // Display '...' if the text overflows
+                                  ),
+                                ),
+                                Text(
+                                  'A .English',
+                                  style: GoogleFonts.inter(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.white),
+                                ),
+                                Text(
+                                  'HORHOR',
+                                  style: GoogleFonts.inter(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
                           const Spacer(),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomButton(
-                                  buttonCircular: 30.r,
-                                  buttonColor: Colors.white,
-                                  buttonHeight: 40.h,
-                                  buttonWeidth: 75.w,
-                                  label: 'Book',
-                                  labelSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  labelColor: Colors.white,
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xFF323232), // Color at 0%
-                                      Color(0xFF767676), // Color at 49%
-                                      Color(0xFF363535), // Color at 100%
-                                    ],
-                                    stops: [
-                                      0.0,
-                                      0.49,
-                                      1.0
-                                    ], // Percentages for each color stop
-                                    begin: Alignment
-                                        .topCenter, // Start of the gradient
-                                    end: Alignment
-                                        .bottomCenter, // End of the gradient
-                                  ),
-                                  ontap: () {}),
+                                buttonCircular: 30.r,
+                                buttonColor: Colors.white,
+                                buttonHeight: 40.h,
+                                buttonWeidth: 75.w,
+                                label: 'Book',
+                                labelSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                labelColor: Colors.white,
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF323232), // Color at 0%
+                                    Color(0xFF767676), // Color at 49%
+                                    Color(0xFF363535), // Color at 100%
+                                  ],
+                                  stops: [
+                                    0.0,
+                                    0.49,
+                                    1.0
+                                  ], // Percentages for each color stop
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                ontap: () {},
+                              ),
                               Text(
                                 '2D.3D.4DX',
                                 style: GoogleFonts.inter(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white),
-                              )
+                              ),
                             ],
                           )
                         ],
