@@ -25,8 +25,8 @@ class _TrendingViewState extends State<TrendingView> {
   @override
   void initState() {
     super.initState();
-    // Start the timer to update the index every 7 seconds
-    _timer = Timer.periodic(const Duration(seconds: 7), (Timer timer) {
+    // Start the timer to update the index every 10 seconds
+    _timer = Timer.periodic(const Duration(seconds: 10), (Timer timer) {
       if (trends.isNotEmpty) {
         setState(() {
           index = (index + 1) % trends.length; // Update index and loop it
@@ -37,7 +37,7 @@ class _TrendingViewState extends State<TrendingView> {
 
   @override
   void dispose() {
-    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    _timer?.cancel(); 
     super.dispose();
   }
 

@@ -14,9 +14,9 @@ import 'package:movie/features/settings/view-model/states.dart';
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
-  var phoneController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,9 @@ class ProfileScreen extends StatelessWidget {
       create: (context) => ProfileCubit()..getUserData(),
       child: BlocConsumer<ProfileCubit, ProfileStates>(
         listener: (context, state) {
-          // Handle state changes (e.g., show snackbars or dialogs)
           if (state is UpdateUserProfileSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Profile updated successfully')),
+              const SnackBar(content: Text('Profile updated successfully')),
             );
           }
           if (state is UpdateUserProfileErrorState) {
@@ -42,14 +41,13 @@ class ProfileScreen extends StatelessWidget {
           var profileImage = profileCubit.profileImage;
 
           if (state is GetUserDataLoadingState) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is GetUserDataErrorState) {
             return Center(child: Text('Error: ${state.error}'));
           } else if (userModel == null) {
-            return Center(child: Text('No user data available'));
+            return const Center(child: Text('No user data available'));
           }
 
-          // Update controllers with user data
           nameController.text = userModel.userName;
           emailController.text = userModel.email;
           phoneController.text = userModel.phone;
@@ -57,19 +55,12 @@ class ProfileScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: Text(
-                'Profile',
-                style: AppTextStyle.textK22FontMedium,
-              ),
+              title: Text('Profile', style: AppTextStyle.textK22FontMedium),
               leading: IconButton(
                 onPressed: () {
                   GoRouter.of(context).pop();
                 },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                  size: 30.sp,
-                ),
+                icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
               ),
             ),
             body: SingleChildScrollView(
@@ -93,7 +84,6 @@ class ProfileScreen extends StatelessWidget {
                           IconButton(
                             onPressed: () async {
                               await profileCubit.getProfileImage();
-                              // If image picked successfully, upload it
                               if (profileCubit.profileImage != null) {
                                 profileCubit.uploadProfileImage();
                               }
@@ -104,53 +94,11 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 15.h),
-                    Text(
-                      'Name',
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
+                    _buildTextField('Name', nameController, TextInputType.text),
                     SizedBox(height: 10.h),
-                    CustomTextField(
-                      controller: nameController,
-                      label: nameController.text,
-                      hintText: '',
-                      type: TextInputType.text,
-                    ),
+                    _buildTextField('Email', emailController, TextInputType.emailAddress),
                     SizedBox(height: 10.h),
-                    Text(
-                      'Email',
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    CustomTextField(
-                      controller: emailController,
-                      label: emailController.text,
-                      hintText: '',
-                      type: TextInputType.emailAddress,
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      'Phone',
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    CustomTextField(
-                      controller: phoneController,
-                      label: phoneController.text,
-                      hintText: '',
-                      type: TextInputType.phone,
-                    ),
+                    _buildTextField('Phone', phoneController, TextInputType.phone),
                     SizedBox(height: 20.h),
                     Center(
                       child: CustomButton(
@@ -161,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
                         label: 'Save Changes',
                         labelColor: Colors.white,
                         ontap: () {
-                          ProfileCubit.get(context).updateUserProfile(
+                          profileCubit.updateUserProfile(
                             name: nameController.text,
                             email: emailController.text,
                             phone: phoneController.text,
@@ -176,6 +124,25 @@ class ProfileScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller, TextInputType type) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.inter(fontSize: 14.sp, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        SizedBox(height: 10.h),
+        CustomTextField(
+          controller: controller,
+          label: controller.text,
+          hintText: '',
+          type: type,
+        ),
+      ],
     );
   }
 }

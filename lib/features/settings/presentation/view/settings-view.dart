@@ -11,22 +11,25 @@ import 'package:movie/features/settings/presentation/view/widgets/list-settings.
 class SettingsPage extends StatelessWidget {
   SettingsPage({super.key});
 
+  final List<SettingListModel> items = [
+    SettingListModel(Icons.person_2_outlined, AppRouter.profilePath, 'Edit profile'),
+    SettingListModel(Icons.security_rounded, '/settings/security', 'Security'),
+    SettingListModel(Icons.notifications, '/settings/notifications', 'Notifications'),
+    SettingListModel(Icons.privacy_tip_rounded, '/settings/privacy', 'Privacy'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Settings',
-          style: AppTextStyle.textK22FontMedium,
-        ),
+        title: Text('Settings', style: AppTextStyle.textK22FontMedium),
         leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-              size: 30.sp,
-            )),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
+        ),
       ),
       body: Container(
         margin: EdgeInsets.all(20.h),
@@ -36,46 +39,34 @@ class SettingsPage extends StatelessWidget {
             Text(
               'Account',
               style: GoogleFonts.inter(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.buttonKColor.withOpacity(0.5)),
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.buttonKColor.withOpacity(0.5),
+              ),
             ),
-            SizedBox(
-              height: 5.h,
-            ),
+            SizedBox(height: 5.h),
             Container(
-                padding: EdgeInsets.all(20.h),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    color: Colors.grey.withOpacity(0.5)),
-                height: 172.h,
-                width: double.infinity,
-                child: ListView.separated(
-                    itemBuilder: (context, index) => buildListItem(
-                        icon: items[index].icon!,
-                        title: items[index].title!,
-                        routerPath: items[index].routerPath!,
-                        context: context),
-                    separatorBuilder: (context, index) => SizedBox(
-                          height: 8.h,
-                        ),
-                    itemCount: items.length)),
+              padding: EdgeInsets.all(20.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                color: Colors.grey.withOpacity(0.5),
+              ),
+              height: 172.h,
+              width: double.infinity,
+              child: ListView.separated(
+                itemBuilder: (context, index) => buildListItem(
+                  icon: items[index].icon!,
+                  title: items[index].title!,
+                  routerPath: items[index].routerPath!,
+                  context: context,
+                ),
+                separatorBuilder: (context, index) => SizedBox(height: 8.h),
+                itemCount: items.length,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
-
- List<SettingListModel> items = [
-  SettingListModel(
-      Icons.person_2_outlined, AppRouter.profilePath, 'Edit profile'),
-  SettingListModel(
-      Icons.security_rounded, '/settings/security', 'Security'), // Add route path for Security
-  SettingListModel(
-      Icons.notifications, '/settings/notifications', 'Notifications'), // Add route path for Notifications
-  SettingListModel(
-      Icons.privacy_tip_rounded, '/settings/privacy', 'Privacy'), // Add route path for Privacy
-];
-
 }

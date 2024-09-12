@@ -18,7 +18,11 @@ class ProfileCubit extends Cubit<ProfileStates> {
   var picker = ImagePicker();
 
   void getUserData() {
-    if (FirebaseConstants.uid.isEmpty) {
+    String uid = FirebaseConstants.uid.isNotEmpty
+        ? FirebaseConstants.uid
+        : FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    if (uid.isEmpty) {
       emit(GetUserDataErrorState('User ID is not available'));
       return;
     }
@@ -26,7 +30,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
     emit(GetUserDataLoadingState());
     FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseConstants.uid)
+        .doc(uid)
         .get()
         .then((value) {
       if (value.exists) {
@@ -36,7 +40,6 @@ class ProfileCubit extends Cubit<ProfileStates> {
         emit(GetUserDataErrorState('User data not found'));
       }
     }).catchError((error) {
-      // Convert FirebaseException to its message
       emit(GetUserDataErrorState(
           (error as FirebaseException).message ?? 'Unknown error occurred'));
     });
@@ -108,12 +111,10 @@ class ProfileCubit extends Cubit<ProfileStates> {
     }
   }
 
-  // Helper function to update phone number in Firebase Auth
   Future<void> _updatePhoneNumberInAuth(String newPhoneNumber) async {
     emit(UpdateUserProfileLoadingState());
 
     // Re-authenticate the user using their current phone number
-    // In a real app, you'd need to handle reauthentication with the current credentials (phone number or password)
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: newPhoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
@@ -137,7 +138,6 @@ class ProfileCubit extends Cubit<ProfileStates> {
     );
   }
 
-  // Helper function to update user data in Firestore
   void _updateUserInFirestore({
     required String name,
     required String email,
