@@ -11,6 +11,7 @@ Widget buildListItem({
 }) {
   return InkWell(
     onTap: () {
+      print('###############Navigating to: $routerPath'); // Debug statement
       GoRouter.of(context).push(routerPath);
     },
     child: Row(
@@ -22,7 +23,7 @@ Widget buildListItem({
           width: 20.w,
         ),
         Text(
-          title, 
+          title,
           style: GoogleFonts.inter(
             fontSize: 16.sp,
             fontWeight: FontWeight.w500,

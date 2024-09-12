@@ -19,15 +19,18 @@ abstract class AppRouter {
   static const homePath = '/homePath';
   static const otpPath = '/otpPath';
   static const successfullyRegisteredPath = '/successfullyRegisteredPath';
-  static const layoutPath ='/layoutPath';
-  static const profilePath ='/settings/profilePath';
+  static const layoutPath = '/layoutPath';
+  static const profilePath = '/settings/profilePath';
   static final router = GoRouter(
-       redirect: (context, state) async {
-      // Get the saved status for onboarding and login
+    redirect: (context, state) async {
       bool isOnboardingCompleted = await CacheHelper.getBoardingMode() ?? false;
       bool isLoggedIn = await CacheHelper.getUid() ?? false;
 
-      // Redirect based on login and onboarding status
+      if (state.uri.toString() == profilePath) {
+        // Allow navigation to profilePath without redirection
+        return null;
+      }
+
       if (isLoggedIn) {
         return layoutPath;
       } else if (isOnboardingCompleted) {

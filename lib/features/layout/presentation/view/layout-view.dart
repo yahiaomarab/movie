@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/utils/colors/colors.dart';
@@ -20,7 +19,10 @@ class LayoutScreen extends StatelessWidget {
         builder: (context, state) {
           var cubit = LayoutCubit.get(context);
           return Scaffold(
-            body: cubit.screens[cubit.currentIndex],
+            body: IndexedStack(
+              index: cubit.currentIndex,
+              children: cubit.screens,
+            ),
             bottomNavigationBar: Container(
               margin: EdgeInsets.symmetric(horizontal: 30.w),
               height: 50.h,
