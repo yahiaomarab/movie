@@ -54,7 +54,7 @@ class MovieApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: HexColor('#121011'),
+      statusBarColor: Colors.transparent,
       systemNavigationBarColor: HexColor('#121011'),
     ));
 

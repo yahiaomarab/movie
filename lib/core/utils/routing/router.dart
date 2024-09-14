@@ -4,6 +4,7 @@ import 'package:movie/features/auth/presentation/views/login/login-view.dart';
 import 'package:movie/features/auth/presentation/views/otp/otp-verification.dart';
 import 'package:movie/features/auth/presentation/views/register/register-view.dart';
 import 'package:movie/features/auth/presentation/views/register/successfully-register-page.dart';
+import 'package:movie/features/home-details/presentation/view/home-details-view.dart';
 import 'package:movie/features/home/presentation/views/home-view.dart';
 import 'package:movie/features/layout/presentation/view/layout-view.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
@@ -26,7 +27,7 @@ abstract class AppRouter {
       bool isOnboardingCompleted = await CacheHelper.getBoardingMode() ?? false;
       bool isLoggedIn = await CacheHelper.getUid() ?? false;
 
-      if (state.uri.toString() == profilePath) {
+      if (state.uri.toString() == profilePath || state.uri.toString()== homeDetailsViewPath) {
         // Allow navigation to profilePath without redirection
         return null;
       }
@@ -75,6 +76,10 @@ abstract class AppRouter {
       GoRoute(
         path: profilePath,
         builder: (context, state) => ProfileScreen(),
+      ),
+      GoRoute(
+        path: homeDetailsViewPath,
+        builder: (context, state) => HomeDetails(),
       ),
     ],
   );

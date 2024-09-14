@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
+import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/features/home/presentation/view-model/recommended/recommended-cubit.dart';
 import 'package:movie/features/home/presentation/view-model/recommended/recommended-states.dart';
 
@@ -71,38 +73,43 @@ class _RecommendedMoviesListState extends State<RecommendedMoviesList> {
                 ListView.separated(
                   scrollDirection: Axis.horizontal,
                   controller: _scrollController,
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Stack(
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                          Image.network(
-                            'https://image.tmdb.org/t/p/w500${recommendeds[index].image}',
-                            height: 170.h,
-                            width: 150.w,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(Icons.error),
-                          ),
-                          Positioned(
-                            right: 20.w,
-                            bottom: 10.h,
-                            child: CircleAvatar(
-                              backgroundColor: AppColors.secondaryKColor,
-                              radius: 15.r,
-                              backgroundImage:
-                                  const AssetImage('assets/images/play.png'),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      GoRouter.of(context).push(AppRouter.homeDetailsViewPath);
+                    },
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          children: [
+                            Image.network(
+                              'https://image.tmdb.org/t/p/w500${recommendeds[index].image}',
+                              height: 170.h,
+                              width: 150.w,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.error),
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        recommendeds[index].name,
-                        style: GoogleFonts.inter(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                            color: Colors.white),
-                      ),
-                    ],
+                            Positioned(
+                              right: 20.w,
+                              bottom: 10.h,
+                              child: CircleAvatar(
+                                backgroundColor: AppColors.secondaryKColor,
+                                radius: 15.r,
+                                backgroundImage:
+                                    const AssetImage('assets/images/play.png'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          recommendeds[index].name,
+                          style: GoogleFonts.inter(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.sp,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                   separatorBuilder: (context, index) => SizedBox(width: 5.w),
                   itemCount: recommendeds.length,

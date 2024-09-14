@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
+import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/features/home/domain/entity/trending/trending-entity.dart';
 import 'package:movie/features/home/presentation/view-model/trending/trending-cubit.dart';
@@ -118,11 +119,7 @@ class _TrendingViewState extends State<TrendingView> {
                                 Expanded(
                                   child: Text(
                                     trends[index].name, // Use current index
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                    ),
+                                    style: AppTextStyle.textK16ForMovieName,
                                     maxLines:
                                         2, // Ensure the text is only one line
                                     overflow: TextOverflow
@@ -177,11 +174,7 @@ class _TrendingViewState extends State<TrendingView> {
                               ),
                               Text(
                                 '2D.3D.4DX',
-                                style: GoogleFonts.inter(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
+                                style:AppTextStyle.textK12ForQuality,),
                             ],
                           )
                         ],

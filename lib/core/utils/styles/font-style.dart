@@ -23,4 +23,13 @@ class AppTextStyle {
       fontWeight: FontWeight.normal,
       fontSize: 14.sp,
       color: AppColors.whiteKColor);
+  static TextStyle textK16ForMovieName = GoogleFonts.inter(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+  static TextStyle textK12ForQuality = GoogleFonts.inter(
+      fontSize: 12.sp, fontWeight: FontWeight.normal, color: Colors.white.withOpacity(0.5));
+      static TextStyle textK14ForDetailsMovie = GoogleFonts.inter(
+      fontSize: 14.sp, fontWeight: FontWeight.normal, color: Colors.white.withOpacity(0.5));
 }
