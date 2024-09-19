@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movie/core/network/api-service.dart';
+import 'package:movie/features/home-details/data/data-source/home-details-remote-data-source.dart';
+import 'package:movie/features/home-details/data/repo/home-details-repo.dart';
 import 'package:movie/features/home/data/data-source/home-local-data-source.dart';
 import 'package:movie/features/home/data/data-source/home-remote-data-source.dart';
 import 'package:movie/features/home/data/repos/home-repo.dart';
@@ -17,4 +19,7 @@ void setUpServiceLocator() {
   locator.registerSingleton<HomeRepoImpl>(HomeRepoImpl(
       HomeLocalDataSourceImpl(),
       HomeRemoteDataSourceImpl(ApiServices(dio: Dio()))));
+
+  locator.registerSingleton<HomeDetailsRepoImp>(
+      HomeDetailsRepoImp(HomeDetailsRemoteDataImpl(ApiServices(dio: Dio()))));
 }

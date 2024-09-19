@@ -22,16 +22,19 @@ abstract class AppRouter {
   static const successfullyRegisteredPath = '/successfullyRegisteredPath';
   static const layoutPath = '/layoutPath';
   static const profilePath = '/settings/profilePath';
+
   static final router = GoRouter(
     redirect: (context, state) async {
       bool isOnboardingCompleted = await CacheHelper.getBoardingMode() ?? false;
       bool isLoggedIn = await CacheHelper.getUid() ?? false;
 
-      if (state.uri.toString() == profilePath || state.uri.toString()== homeDetailsViewPath) {
-        // Allow navigation to profilePath without redirection
+      // Handle profilePath and homeDetailsViewPath without redirection
+      if (state.uri.toString() == profilePath ||
+          state.uri.toString() == homeDetailsViewPath) {
         return null;
       }
 
+      // Redirect based on login status and onboarding completion
       if (isLoggedIn) {
         return layoutPath;
       } else if (isOnboardingCompleted) {
@@ -79,7 +82,10 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: homeDetailsViewPath,
-        builder: (context, state) => HomeDetails(),
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          return HomeDetails(id: id);
+        },
       ),
     ],
   );

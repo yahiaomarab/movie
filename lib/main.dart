@@ -81,7 +81,7 @@ class MovieApp extends StatelessWidget {
             BlocProvider(
                 create: (context) => RecommendedCubit(
                     RecommendedUseCase(locator.get<HomeRepoImpl>()))
-                  ..fetchRecommendedMovies())
+                  ..fetchRecommendedMovies()),
           ],
           child: MaterialApp.router(
             theme: ThemeData.dark(),

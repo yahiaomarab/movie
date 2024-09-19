@@ -7,9 +7,9 @@ abstract class HomeDetailsRemoteDataSource {
   Future<MovieModel> fetchMovieDetails({int id = 1});
 }
 
-class HomeDetailsRemoteImpl extends HomeDetailsRemoteDataSource {
+class HomeDetailsRemoteDataImpl extends HomeDetailsRemoteDataSource {
   final ApiServices apiServices;
-  HomeDetailsRemoteImpl(this.apiServices);
+  HomeDetailsRemoteDataImpl(this.apiServices);
   @override
   Future<MovieModel> fetchMovieDetails({int id = 1}) async {
     final data = await apiServices.getData(
