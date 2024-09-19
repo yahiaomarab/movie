@@ -1,7 +1,7 @@
 import 'package:movie/core/helper/cache-constants.dart';
 import 'package:movie/core/network/api-constants.dart';
 import 'package:movie/core/network/api-service.dart';
-import 'package:movie/core/utils/funcitons/convert-data-to-dart.dart';
+import 'package:movie/core/utils/funcitons/convert-data-list-to-dart.dart';
 import 'package:movie/core/utils/funcitons/save-box.dart';
 import 'package:movie/features/home/data/models/recommended-model.dart';
 import 'package:movie/features/home/data/models/trending-model.dart';
