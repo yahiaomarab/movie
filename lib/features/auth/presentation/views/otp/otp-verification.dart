@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/utils/colors/colors.dart';
-import 'package:movie/core/utils/routing/router.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/features/auth/presentation/view-model/otp/otp-cubit.dart';
@@ -76,7 +76,7 @@ class _OtpPageState extends State<OtpPage> {
     return BlocConsumer<OtpCubit, OtpStates>(
       listener: (context, state) {
         if (state is OtpLoginSuccessState) {
-          GoRouter.of(context).push(AppRouter.successfullyRegisteredPath);
+          Navigator.pushNamed(context,Routes.successfullyRegisteredPath);
         } else if (state is OtpOtpLoginFailedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

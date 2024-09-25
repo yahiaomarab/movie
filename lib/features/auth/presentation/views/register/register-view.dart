@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/mixin/validations/phone.dart';
-import 'package:movie/core/utils/routing/router.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/phone-field.dart';
 import 'package:movie/features/auth/presentation/view-model/otp/otp-cubit.dart';
@@ -31,7 +31,7 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
               backgroundColor: Colors.green,
             ),
           );
-          GoRouter.of(context).push(AppRouter.otpPath);
+          Navigator.pushNamed(context,Routes.otpPath);
         } else if (state is OtpVerificationCompletedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -46,7 +46,7 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
               backgroundColor: Colors.green,
             ),
           );
-          GoRouter.of(context).push(AppRouter.successfullyRegisteredPath);
+          Navigator.pushNamed(context,Routes.successfullyRegisteredPath);
         } else if (state is OtpErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -198,7 +198,7 @@ class RegisterScreen extends StatelessWidget with PhoneValidation {
                   ),
                   TextButton(
                     onPressed: () {
-                      GoRouter.of(context).push(AppRouter.loginPath);
+                      Navigator.pushNamed(context,Routes.loginPath);
                     },
                     child: Text(
                       'Sign In',

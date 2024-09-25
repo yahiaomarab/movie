@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie/core/helper/cache-helper.dart';
-import 'package:movie/core/utils/routing/router.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/features/on-boarding/presentation/views/widget/dot-indicitor.dart';
 import 'package:movie/features/on-boarding/presentation/views/widget/first-page.dart';
@@ -24,7 +24,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
 void completeOnboarding() async {
   await CacheHelper.setBoardingMode(true);
-  GoRouter.of(context).go(AppRouter.loginPath);
+  // ignore: use_build_context_synchronously
+  Navigator.pushReplacementNamed(context,Routes.loginPath);
 }
 
   @override

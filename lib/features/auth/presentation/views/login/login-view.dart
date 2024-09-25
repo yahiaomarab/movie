@@ -8,13 +8,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/mixin/validations/email.dart';
 import 'package:movie/core/mixin/validations/password.dart';
 import 'package:movie/core/utils/colors/colors.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/text-field.dart';
 import 'package:movie/features/auth/presentation/view-model/login/cubit.dart';
 import 'package:movie/features/auth/presentation/view-model/login/states.dart';
 import 'package:movie/core/helper/cache-helper.dart';
-import 'package:movie/core/utils/routing/router.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidation {
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
 
  void completeLogin(context) async {
   await CacheHelper.setUid(true);
-  GoRouter.of(context).go(AppRouter.layoutPath);
+  Navigator.pushNamed(context,Routes.layoutPath);
 }
 
   @override
@@ -171,7 +171,7 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
                       ),
                       TextButton(
                         onPressed: () {
-                          GoRouter.of(context).push(AppRouter.registerPath);
+                          Navigator.pushNamed(context,Routes.registerPath);
                         },
                         child: Text(
                           'Sign Up',

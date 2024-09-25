@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
-import 'package:movie/core/utils/routing/router.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/features/settings/data/model/setting-model.dart';
 import 'package:movie/features/settings/presentation/view/widgets/list-settings.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends StatelessWidget {
-  SettingsPage({super.key});
-
-  final List<SettingListModel> items = [
-    SettingListModel(Icons.person_2_outlined, AppRouter.profilePath, 'Edit profile'),
-    SettingListModel(Icons.security_rounded, '/settings/security', 'Security'),
-    SettingListModel(Icons.notifications, '/settings/notifications', 'Notifications'),
-    SettingListModel(Icons.privacy_tip_rounded, '/settings/privacy', 'Privacy'),
-  ];
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<SettingListModel> items = [
+      SettingListModel(context, Icons.person_2_outlined,
+          Navigator.pushNamed(context,Routes.profilePath), 'Edit profile'),
+      SettingListModel(
+          context, Icons.security_rounded, '/settings/security', 'Security'),
+      SettingListModel(context, Icons.notifications, '/settings/notifications',
+          'Notifications'),
+      SettingListModel(
+          context, Icons.privacy_tip_rounded, '/settings/privacy', 'Privacy'),
+    ];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

@@ -19,17 +19,20 @@ class RecommendedEntityAdapter extends TypeAdapter<RecommendedEntity> {
     return RecommendedEntity(
       image: fields[0] as String,
       name: fields[1] as String,
+      ID: fields[2] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, RecommendedEntity obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.image)
       ..writeByte(1)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.ID);
   }
 
   @override

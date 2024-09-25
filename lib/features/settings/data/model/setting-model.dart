@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 class SettingListModel{
-    IconData? icon; 
-   String? routerPath;
+   BuildContext context;
+   IconData? icon; 
+   dynamic routerPath;
    String? title;
-   SettingListModel(this.icon,this.routerPath,this.title);
+   SettingListModel(this.context,this.icon,this.routerPath,this.title);
 }

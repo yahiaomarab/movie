@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/mixin/validations/email.dart';
 import 'package:movie/core/mixin/validations/password.dart';
-import 'package:movie/core/utils/routing/router.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/text-field.dart';
 import 'package:movie/features/auth/presentation/view-model/register/cubit.dart';
@@ -34,7 +33,7 @@ class SuccessfullyRegisterPage extends StatelessWidget
               backgroundColor: Colors.green,
             ),
           );
-          GoRouter.of(context).push(AppRouter.loginPath);
+          context.pushNamed(Routes.loginPath);
         }else if (state is RegisterUserErrorState){
            ScaffoldMessenger.of(context).showSnackBar(
              SnackBar(

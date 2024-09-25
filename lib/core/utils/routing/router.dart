@@ -1,92 +1,149 @@
-import 'package:go_router/go_router.dart';
-import 'package:movie/core/helper/cache-helper.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/core/utils/funcitons/service-locator.dart';
+import 'package:movie/core/utils/routing/routes.dart';
+import 'package:movie/features/auth/presentation/view-model/login/cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/otp/otp-cubit.dart';
+import 'package:movie/features/auth/presentation/view-model/register/cubit.dart';
 import 'package:movie/features/auth/presentation/views/login/login-view.dart';
 import 'package:movie/features/auth/presentation/views/otp/otp-verification.dart';
 import 'package:movie/features/auth/presentation/views/register/register-view.dart';
 import 'package:movie/features/auth/presentation/views/register/successfully-register-page.dart';
+import 'package:movie/features/home-details/data/repo/home-details-repo.dart';
+import 'package:movie/features/home-details/domain/use-case/home-details-use-case.dart';
+import 'package:movie/features/home-details/presentation/view-model/cubit.dart';
 import 'package:movie/features/home-details/presentation/view/home-details-view.dart';
+import 'package:movie/features/home/data/repos/home-repo.dart';
+import 'package:movie/features/home/domain/use-case/recommended-use-case.dart';
+import 'package:movie/features/home/domain/use-case/trending-use-case.dart';
+import 'package:movie/features/home/presentation/view-model/recommended/recommended-cubit.dart';
+import 'package:movie/features/home/presentation/view-model/trending/trending-cubit.dart';
 import 'package:movie/features/home/presentation/views/home-view.dart';
+import 'package:movie/features/home/presentation/views/widgets/list-recommended.dart';
+import 'package:movie/features/home/presentation/views/widgets/trending-view.dart';
+import 'package:movie/features/layout/presentation/view-model/layout-cubit.dart';
 import 'package:movie/features/layout/presentation/view/layout-view.dart';
+import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dart';
+import 'package:movie/features/on-boarding/domain/use-case/fetch-trending-images-use-case.dart';
+import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
 import 'package:movie/features/settings/presentation/view/profile-view.dart';
-import 'package:movie/features/splash/presentation/views/splash-view.dart';
+import 'package:movie/features/settings/view-model/cubit.dart';
 
-abstract class AppRouter {
-  static const onBoardingPath = '/onBoardingPath';
-  static const loginPath = '/loginPath';
-  static const registerPath = '/registerPath';
-  static const homeDetailsViewPath = '/homeDetailsView';
-  static const searchViewPath = '/searchView';
-  static const homePath = '/homePath';
-  static const otpPath = '/otpPath';
-  static const successfullyRegisteredPath = '/successfullyRegisteredPath';
-  static const layoutPath = '/layoutPath';
-  static const profilePath = '/settings/profilePath';
+class AppRouter {
+  Route generateRoute(RouteSettings settings) {
+    final argument = settings.arguments;
+    switch (settings.name) {
+      case Routes.onBoardingPath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => OnBoardingCubit(
+              FetchTrendingImagesUseCase(
+                locator.get<OnBoardingRepoImplmentation>(),
+              ),
+            )..fetchOnBoarding(),
+            child: const OnBoardingScreen(),
+          ),
+        );
+        
+      case Routes.loginPath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => LoginCubit(),
+            child: LoginScreen(),
+          ),
+        );
 
-  static final router = GoRouter(
-    redirect: (context, state) async {
-      bool isOnboardingCompleted = await CacheHelper.getBoardingMode() ?? false;
-      bool isLoggedIn = await CacheHelper.getUid() ?? false;
+      case Routes.registerPath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => RegisterCubit(),
+            child: RegisterScreen(),
+          ),
+        );
 
-      // Handle profilePath and homeDetailsViewPath without redirection
-      if (state.uri.toString() == profilePath ||
-          state.uri.toString() == homeDetailsViewPath) {
-        return null;
-      }
+      case Routes.otpPath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => OtpCubit(),
+            child: OtpPage(),
+          ),
+        );
 
-      // Redirect based on login status and onboarding completion
-      if (isLoggedIn) {
-        return layoutPath;
-      } else if (isOnboardingCompleted) {
-        return loginPath;
-      } else {
-        return onBoardingPath;
-      }
-    },
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const SplashScreen(),
+      case Routes.homePath:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider<TrendingCubit>(
+                create: (context) => TrendingCubit(
+                  TrendingUseCase(locator.get<HomeRepoImpl>()),
+                )..fetchTrendingMovies(),
+              ),
+              BlocProvider<RecommendedCubit>(
+                create: (context) => RecommendedCubit(
+                  RecommendedUseCase(locator.get<HomeRepoImpl>()),
+                )..fetchRecommendedMovies(),
+              ),
+            ],
+            child: const HomePage(),
+          ),
+        );
+        
+      case Routes.trendingPath:
+        return MaterialPageRoute(builder: (_) => TrendingView());
+
+      case Routes.recommendedPath:
+        return MaterialPageRoute(builder: (_) => RecommendedMoviesList());
+
+      case Routes.successfullyRegisteredPath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => RegisterCubit(),
+            child: SuccessfullyRegisterPage(),
+          ),
+        );
+
+      case Routes.layoutPath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => LayoutCubit(),
+            child: const LayoutScreen(),
+          ),
+        );
+
+      case Routes.homeDetailsViewPath:
+        if (argument == null || !(argument is int)) {
+          return _errorRoute('Invalid argument for HomeDetailsView');
+        }
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => HomeDetailsCubit(
+              HomeDetailsUseCase(locator.get<HomeDetailsRepoImp>()),
+            ),
+            child: HomeDetails(id: argument),
+          ),
+        );
+
+      case Routes.profilePath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => ProfileCubit()..getUserData(),
+            child: ProfileScreen(),
+          ),
+        );
+
+      default:
+        return _errorRoute('No route defined for ${settings.name}');
+    }
+  }
+
+  MaterialPageRoute _errorRoute(String errorMessage) {
+    return MaterialPageRoute(
+      builder: (_) => Scaffold(
+        body: Center(
+          child: Text(errorMessage),
+        ),
       ),
-      GoRoute(
-        path: onBoardingPath,
-        builder: (context, state) => const OnBoardingScreen(),
-      ),
-      GoRoute(
-        path: loginPath,
-        builder: (context, state) => LoginScreen(),
-      ),
-      GoRoute(
-        path: registerPath,
-        builder: (context, state) => RegisterScreen(),
-      ),
-      GoRoute(
-        path: otpPath,
-        builder: (context, state) => OtpPage(),
-      ),
-      GoRoute(
-        path: successfullyRegisteredPath,
-        builder: (context, state) => SuccessfullyRegisterPage(),
-      ),
-      GoRoute(
-        path: homePath,
-        builder: (context, state) => const HomePage(),
-      ),
-      GoRoute(
-        path: layoutPath,
-        builder: (context, state) => const LayoutScreen(),
-      ),
-      GoRoute(
-        path: profilePath,
-        builder: (context, state) => ProfileScreen(),
-      ),
-      GoRoute(
-        path: homeDetailsViewPath,
-        builder: (context, state) {
-          final id = int.parse(state.pathParameters['id']!);
-          return HomeDetails(id: id);
-        },
-      ),
-    ],
-  );
+    );
+  }
 }

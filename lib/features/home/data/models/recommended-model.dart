@@ -31,7 +31,7 @@ class RecommendedModel extends RecommendedEntity {
       this.video,
       this.voteAverage,
       this.voteCount})
-      : super(image: posterPath!, name: title!);
+      : super(image: posterPath!, name: title!,ID: id!);
 
   factory RecommendedModel.fromJson(Map<String, dynamic> json) {
     return RecommendedModel(

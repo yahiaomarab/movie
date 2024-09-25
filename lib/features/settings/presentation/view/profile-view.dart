@@ -20,110 +20,107 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileCubit()..getUserData(),
-      child: BlocConsumer<ProfileCubit, ProfileStates>(
-        listener: (context, state) {
-          if (state is UpdateUserProfileSuccessState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Profile updated successfully')),
-            );
-          }
-          if (state is UpdateUserProfileErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: ${state.error}')),
-            );
-          }
-        },
-        builder: (context, state) {
-          var profileCubit = ProfileCubit.get(context);
-          var userModel = profileCubit.userModel;
-          var profileImage = profileCubit.profileImage;
-
-          if (state is GetUserDataLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is GetUserDataErrorState) {
-            return Center(child: Text('Error: ${state.error}'));
-          } else if (userModel == null) {
-            return const Center(child: Text('No user data available'));
-          }
-
-          nameController.text = userModel.userName;
-          emailController.text = userModel.email;
-          phoneController.text = userModel.phone;
-
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text('Profile', style: AppTextStyle.textK22FontMedium),
-              leading: IconButton(
-                onPressed: () {
-                  GoRouter.of(context).pop();
-                },
-                icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
-              ),
-            ),
-            body: SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.all(20.h),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Stack(
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                          CircleAvatar(
-                            radius: 70.r,
-                            backgroundColor: AppColors.buttonKColor,
-                            backgroundImage: profileImage == null
-                                ? NetworkImage(userModel.image!)
-                                : FileImage(File(profileImage.path)) as ImageProvider,
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              await profileCubit.getProfileImage();
-                              if (profileCubit.profileImage != null) {
-                                profileCubit.uploadProfileImage();
-                              }
-                            },
-                            icon: const Icon(Icons.camera_alt_rounded),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 15.h),
-                    _buildTextField('Name', nameController, TextInputType.text),
-                    SizedBox(height: 10.h),
-                    _buildTextField('Email', emailController, TextInputType.emailAddress),
-                    SizedBox(height: 10.h),
-                    _buildTextField('Phone', phoneController, TextInputType.phone),
-                    SizedBox(height: 20.h),
-                    Center(
-                      child: CustomButton(
-                        buttonCircular: 10.r,
-                        buttonColor: AppColors.buttonKColor,
-                        buttonHeight: 40.h,
-                        buttonWeidth: double.infinity,
-                        label: 'Save Changes',
-                        labelColor: Colors.white,
-                        ontap: () {
-                          profileCubit.updateUserProfile(
-                            name: nameController.text,
-                            email: emailController.text,
-                            phone: phoneController.text,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+    return BlocConsumer<ProfileCubit, ProfileStates>(
+      listener: (context, state) {
+        if (state is UpdateUserProfileSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile updated successfully')),
           );
-        },
-      ),
+        }
+        if (state is UpdateUserProfileErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${state.error}')),
+          );
+        }
+      },
+      builder: (context, state) {
+        var profileCubit = ProfileCubit.get(context);
+        var userModel = profileCubit.userModel;
+        var profileImage = profileCubit.profileImage;
+    
+        if (state is GetUserDataLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is GetUserDataErrorState) {
+          return Center(child: Text('Error: ${state.error}'));
+        } else if (userModel == null) {
+          return const Center(child: Text('No user data available'));
+        }
+    
+        nameController.text = userModel.userName;
+        emailController.text = userModel.email;
+        phoneController.text = userModel.phone;
+    
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text('Profile', style: AppTextStyle.textK22FontMedium),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
+            ),
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.all(20.h),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        CircleAvatar(
+                          radius: 70.r,
+                          backgroundColor: AppColors.buttonKColor,
+                          backgroundImage: profileImage == null
+                              ? NetworkImage(userModel.image!)
+                              : FileImage(File(profileImage.path)) as ImageProvider,
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await profileCubit.getProfileImage();
+                            if (profileCubit.profileImage != null) {
+                              profileCubit.uploadProfileImage();
+                            }
+                          },
+                          icon: const Icon(Icons.camera_alt_rounded),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 15.h),
+                  _buildTextField('Name', nameController, TextInputType.text),
+                  SizedBox(height: 10.h),
+                  _buildTextField('Email', emailController, TextInputType.emailAddress),
+                  SizedBox(height: 10.h),
+                  _buildTextField('Phone', phoneController, TextInputType.phone),
+                  SizedBox(height: 20.h),
+                  Center(
+                    child: CustomButton(
+                      buttonCircular: 10.r,
+                      buttonColor: AppColors.buttonKColor,
+                      buttonHeight: 40.h,
+                      buttonWeidth: double.infinity,
+                      label: 'Save Changes',
+                      labelColor: Colors.white,
+                      ontap: () {
+                        profileCubit.updateUserProfile(
+                          name: nameController.text,
+                          email: emailController.text,
+                          phone: phoneController.text,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
