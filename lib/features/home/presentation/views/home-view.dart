@@ -20,8 +20,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-          BlocProvider(create: (context) => TrendingCubit( TrendingUseCase(locator.get<HomeRepoImpl>()),)),
-    BlocProvider(create: (context) => RecommendedCubit(RecommendedUseCase(locator.get<HomeRepoImpl>()),)),
+          BlocProvider(create: (context) => TrendingCubit( TrendingUseCase(locator.get<HomeRepoImpl>()),)..fetchTrendingMovies()),
+          BlocProvider(create: (context) => RecommendedCubit(RecommendedUseCase(locator.get<HomeRepoImpl>()),)..fetchRecommendedMovies()),
       ],
       child: Scaffold(
         body: Container(

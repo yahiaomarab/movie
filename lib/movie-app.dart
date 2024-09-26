@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/routing/routes.dart';
+import 'package:movie/features/splash/presentation/views/splash-view.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key, required this.appRouter});

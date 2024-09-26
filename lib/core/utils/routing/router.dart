@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/utils/funcitons/service-locator.dart';
@@ -28,7 +29,9 @@ import 'package:movie/features/on-boarding/domain/use-case/fetch-trending-images
 import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
 import 'package:movie/features/settings/presentation/view/profile-view.dart';
+import 'package:movie/features/settings/presentation/view/settings-view.dart';
 import 'package:movie/features/settings/view-model/cubit.dart';
+
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
@@ -45,12 +48,12 @@ class AppRouter {
             child: const OnBoardingScreen(),
           ),
         );
-        
+
       case Routes.loginPath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => LoginCubit(),
-            child: LoginScreen(),
+            child:  LoginScreen(),
           ),
         );
 
@@ -58,7 +61,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => RegisterCubit(),
-            child: RegisterScreen(),
+            child:  RegisterScreen(),
           ),
         );
 
@@ -66,7 +69,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => OtpCubit(),
-            child: OtpPage(),
+            child:  OtpPage(),
           ),
         );
 
@@ -88,18 +91,18 @@ class AppRouter {
             child: const HomePage(),
           ),
         );
-        
+
       case Routes.trendingPath:
-        return MaterialPageRoute(builder: (_) => TrendingView());
+        return MaterialPageRoute(builder: (_) => const TrendingView());
 
       case Routes.recommendedPath:
-        return MaterialPageRoute(builder: (_) => RecommendedMoviesList());
+        return MaterialPageRoute(builder: (_) => const RecommendedMoviesList());
 
       case Routes.successfullyRegisteredPath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => RegisterCubit(),
-            child: SuccessfullyRegisterPage(),
+            child:  SuccessfullyRegisterPage(),
           ),
         );
 
@@ -112,7 +115,7 @@ class AppRouter {
         );
 
       case Routes.homeDetailsViewPath:
-        if (argument == null || !(argument is int)) {
+        if (argument == null || argument is! int) {
           return _errorRoute('Invalid argument for HomeDetailsView');
         }
         return MaterialPageRoute(
@@ -128,8 +131,12 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => ProfileCubit()..getUserData(),
-            child: ProfileScreen(),
+            child:  ProfileScreen(),
           ),
+        );
+      case Routes.settingsPath:
+        return MaterialPageRoute(
+          builder: (_) => const SettingsPage(),
         );
 
       default:

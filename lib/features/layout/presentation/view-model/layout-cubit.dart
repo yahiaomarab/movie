@@ -14,7 +14,7 @@ class LayoutCubit extends Cubit<LayoutStates>{
     const HomePage(),
     const SeriesPage(),
     const FavouritePage(),
-     SettingsPage(),
+     const SettingsPage(),
   ];
   void changeBottomNavIndex(int index){
     currentIndex = index;

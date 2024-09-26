@@ -26,13 +26,12 @@ class ProfileCubit extends Cubit<ProfileStates> {
       emit(GetUserDataErrorState('User ID is not available'));
       return;
     }
-
     emit(GetUserDataLoadingState());
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((value) {
+FirebaseFirestore.instance
+    .collection('users')
+    .doc(uid)
+    .get()
+    .then((value) {
       if (value.exists) {
         userModel = UserModel.fromJson(value.data()!);
         emit(GetUserDataSuccessState());
@@ -43,6 +42,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
       emit(GetUserDataErrorState(
           (error as FirebaseException).message ?? 'Unknown error occurred'));
     });
+
   }
 
   Future<void> getProfileImage() async {

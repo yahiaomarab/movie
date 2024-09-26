@@ -17,16 +17,21 @@ import 'package:movie/features/auth/presentation/view-model/login/states.dart';
 import 'package:movie/core/helper/cache-helper.dart';
 
 // ignore: must_be_immutable
-class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidation {
+class LoginScreen extends StatelessWidget
+    with EmailValidation, PasswordValidation {
   LoginScreen({super.key});
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  bool _isNavigating = false;
+  void completeLogin(BuildContext context) async {
+    if (_isNavigating) return; // Prevent multiple navigation
+    _isNavigating = true;
 
- void completeLogin(context) async {
-  await CacheHelper.setUid(true);
-  Navigator.pushNamed(context,Routes.layoutPath);
-}
+    await CacheHelper.setUid(true);
+    Navigator.pushReplacementNamed(
+        context, Routes.layoutPath); // Change to layoutPath
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +72,11 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
                   Container(
                       alignment: AlignmentDirectional.topEnd,
                       padding: EdgeInsets.only(top: 50.h, right: 15.w),
-                      child: Text('Skip', style: AppTextStyle.textK16WhiteHint)),
+                      child:
+                          Text('Skip', style: AppTextStyle.textK16WhiteHint)),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 26.w, vertical: 75.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 26.w, vertical: 75.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -78,7 +85,8 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
                         CustomTextField(
                             controller: emailController,
                             label: 'E-mail',
-                            validation: (String? value) => validateEmail(context, value),
+                            validation: (String? value) =>
+                                validateEmail(context, value),
                             hintText: '',
                             type: TextInputType.emailAddress),
                         SizedBox(height: 15.h),
@@ -86,8 +94,10 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
                           controller: passwordController,
                           label: 'Password',
                           isPassword: LoginCubit.get(context).isPassword,
-                          onSuffixPressed: LoginCubit.get(context).changePasswordVisibility,
-                          validation: (String? value) => validatePassword(context, value),
+                          onSuffixPressed:
+                              LoginCubit.get(context).changePasswordVisibility,
+                          validation: (String? value) =>
+                              validatePassword(context, value),
                           hintText: '',
                           type: TextInputType.visiblePassword,
                           suffix: Icons.visibility_off,
@@ -95,23 +105,26 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
                         SizedBox(height: 15.h),
                         Align(
                           alignment: AlignmentDirectional.topEnd,
-                          child: Text('Forgot password?', style: AppTextStyle.textK14WhiteHint),
+                          child: Text('Forgot password?',
+                              style: AppTextStyle.textK14WhiteHint),
                         ),
                         SizedBox(height: 28.h),
                         CustomButton(
-                            buttonCircular: 16.r,
-                            buttonColor: AppColors.buttonKColor,
-                            buttonHeight: 53.h,
-                            label: 'Sign in',
-                            labelColor: AppColors.whiteKColor,
-                            ontap: () {
-                              if (formKey.currentState!.validate()) {
-                                LoginCubit.get(context).loginUser(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                              }
-                            }, buttonWeidth: double.infinity,),
+                          buttonCircular: 16.r,
+                          buttonColor: AppColors.buttonKColor,
+                          buttonHeight: 53.h,
+                          label: 'Sign in',
+                          labelColor: AppColors.whiteKColor,
+                          ontap: () {
+                            if (formKey.currentState!.validate()) {
+                              LoginCubit.get(context).loginUser(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
+                          },
+                          buttonWeidth: double.infinity,
+                        ),
                         SizedBox(height: 29.h),
                         Row(
                           children: [
@@ -151,7 +164,8 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
                                   color: HexColor('#1e1e1e')),
                               child: iconsButtons[index],
                             ),
-                            separatorBuilder: (context, index) => SizedBox(width: 13.w),
+                            separatorBuilder: (context, index) =>
+                                SizedBox(width: 13.w),
                             itemCount: iconsButtons.length,
                           ),
                         ),
@@ -171,7 +185,7 @@ class LoginScreen extends StatelessWidget with EmailValidation, PasswordValidati
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context,Routes.registerPath);
+                          Navigator.pushNamed(context, Routes.registerPath);
                         },
                         child: Text(
                           'Sign Up',
