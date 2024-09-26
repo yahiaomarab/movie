@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie/core/utils/colors/colors.dart';
-import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/text-field.dart';

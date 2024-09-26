@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:movie/core/helper/cache-helper.dart';
 import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
