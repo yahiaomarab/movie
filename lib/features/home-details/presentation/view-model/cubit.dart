@@ -7,13 +7,23 @@ class HomeDetailsCubit extends Cubit<HomeDetailsStates> {
   static HomeDetailsCubit get(context) => BlocProvider.of(context);
   final HomeDetailsUseCase homeDetailsUseCase;
 
-  Future<void> fetchMovieDetails(id) async {
-    emit(FetchHomeDetailsLoadingState());
-    final result = await homeDetailsUseCase.call(id);
-    result.fold((failure) {
+Future<void> fetchMovieDetails(id) async {
+  emit(FetchHomeDetailsLoadingState());
+  final result = await homeDetailsUseCase.call(id);
+  
+  result.fold(
+    (failure) {
       emit(FetchHomeDetailsFailureState(failure.toString()));
-    }, (data) {
-      emit(FetchHomeDetailsSuccessState(data));
-    });
-  }
+    }, 
+    (data) {
+       print("Data: $data");
+      if (data == null) {
+        emit(FetchHomeDetailsFailureState("Received null data"));
+      } else {
+        emit(FetchHomeDetailsSuccessState(data));
+      }
+    },
+  );
+}
+
 }

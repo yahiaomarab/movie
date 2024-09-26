@@ -1,6 +1,5 @@
 import 'package:movie/core/network/api-constants.dart';
 import 'package:movie/core/network/api-service.dart';
-import 'package:movie/core/utils/funcitons/convert-data-object-to-dart.dart';
 import 'package:movie/features/home-details/data/models/movie-model.dart';
 
 abstract class HomeDetailsRemoteDataSource {
@@ -13,12 +12,14 @@ class HomeDetailsRemoteDataImpl extends HomeDetailsRemoteDataSource {
   @override
   Future<MovieModel> fetchMovieDetails({int id = 1}) async {
     final data = await apiServices.getData(
-        endPoint: '${ApiConstance.moviesUrl}/$id?${ApiConstance.apiKey}');
-    MovieModel movie = getObjectFromJson<MovieModel>(
-      data,
-      'results',
-      (json) => MovieModel.fromJson(json),
-    );
-    return movie;
+        endPoint:
+            '${ApiConstance.baseUrl}${ApiConstance.moviesUrl}/$id?api_key=${ApiConstance.apiKey}');
+    try {
+      MovieModel movie = MovieModel.fromJson(data);
+      return movie;
+    } catch (e) {
+      throw Exception(
+          'Failed to parse movie data'); 
+    }
   }
 }

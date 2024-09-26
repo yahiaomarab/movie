@@ -9,11 +9,9 @@ class ApiServices {
   Future<Map<String, dynamic>> getData({required String endPoint}) async {
     try {
       Response response = await dio.get(endPoint);
-      print('API Response: ${response.data}');
       return response.data;
     } catch (error) {
-      print('API Error: $error');
-      throw error;
+      rethrow;
     }
   }
 

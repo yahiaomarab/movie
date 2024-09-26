@@ -16,6 +16,7 @@ class HomeDetailsRepoImp extends HomeDetailsRepo {
           await homeDetailsRemoteDataSource.fetchMovieDetails(id: id);
       return right(movie);
     } catch (e) {
+      print('Error: $e'); // Log the error for debugging.
       if (e is DioException) {
         return left(ServerFailure.fromDiorError(e));
       }
