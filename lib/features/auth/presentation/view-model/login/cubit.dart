@@ -9,22 +9,29 @@ class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(InitialLoginState());
   static LoginCubit get(context) => BlocProvider.of(context);
 
-  loginUser({
-    required String email,
-    required String password,
-  }) {
-    emit(LoginLoadingState());
-    FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
-      emit(LoginSuccessState());
-      FirebaseConstants.uid = value.user!.uid;
-      CacheHelper.setUserToken(value.user!.uid);
-      print(CacheHelper.getUserToken());
-    }).catchError((error) {
-      emit(LoginErrorState(error));
-    });
-  }
+loginUser({
+  required String email,
+  required String password,
+}) {
+  emit(LoginLoadingState());
+  
+  FirebaseAuth.instance
+      .signInWithEmailAndPassword(email: email, password: password)
+      .then((value) {
+    emit(LoginSuccessState());
+    FirebaseConstants.uid = value.user!.uid;
+    CacheHelper.setUserToken(value.user!.uid);
+    print(CacheHelper.getUserToken());
+  }).catchError((error) {
+    if (error is FirebaseAuthException) {
+      // Use the FirebaseAuthException message if available
+      emit(LoginErrorState(error.message ?? 'An unknown error occurred.'));
+    } else {
+      // Handle other errors
+      emit(LoginErrorState(error.toString()));
+    }
+  });
+}
 
   IconData suffix = Icons.visibility_outlined;
   bool isPassword = true;

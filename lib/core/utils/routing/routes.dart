@@ -11,5 +11,5 @@ class Routes {
   static const profilePath = '/profilePath';
   static const trendingPath = '/trendingPath';
   static const recommendedPath = '/recommendedPath';
-  static const settingsPath ='/settingsPath';
+  static const splashPath ='';
 }

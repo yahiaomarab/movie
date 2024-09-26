@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:movie/core/network/firebase-constants.dart';
 import 'package:movie/features/auth/data/models/user-model.dart';
-import 'package:movie/features/settings/view-model/states.dart';
+import 'package:movie/features/profile/view-model/states.dart';
 
 class ProfileCubit extends Cubit<ProfileStates> {
   ProfileCubit() : super(InitialProfileState());

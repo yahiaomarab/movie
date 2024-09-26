@@ -7,8 +7,8 @@ import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/core/utils/widgets/text-field.dart';
-import 'package:movie/features/settings/view-model/cubit.dart';
-import 'package:movie/features/settings/view-model/states.dart';
+import 'package:movie/features/profile/view-model/cubit.dart';
+import 'package:movie/features/profile/view-model/states.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
@@ -47,20 +47,20 @@ class ProfileScreen extends StatelessWidget {
           }
 
           // Use null-aware operators to avoid null errors
-          nameController.text = userModel.userName ?? '';
-          emailController.text = userModel.email ?? '';
-          phoneController.text = userModel.phone ?? '';
+          nameController.text = userModel.userName;
+          emailController.text = userModel.email;
+          phoneController.text = userModel.phone;
 
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
               title: Text('Profile', style: AppTextStyle.textK22FontMedium),
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.settingsPath);
-                },
-                icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
-              ),
+              // leading: IconButton(
+              //   onPressed: () {
+              //     Navigator.pushNamed(context, Routes.settingsPath);
+              //   },
+              //   icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
+              // ),
             ),
             body: SingleChildScrollView(
               child: Container(

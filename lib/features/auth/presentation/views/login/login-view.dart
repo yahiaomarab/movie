@@ -23,14 +23,13 @@ class LoginScreen extends StatelessWidget
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  bool _isNavigating = false;
-  void completeLogin(BuildContext context) async {
-    if (_isNavigating) return; // Prevent multiple navigation
-    _isNavigating = true;
 
+  void completeLogin(BuildContext context) async {
     await CacheHelper.setUid(true);
     Navigator.pushReplacementNamed(
-        context, Routes.layoutPath); // Change to layoutPath
+        // ignore: use_build_context_synchronously
+        context,
+        Routes.layoutPath);
   }
 
   @override

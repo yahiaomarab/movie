@@ -28,15 +28,17 @@ import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dar
 import 'package:movie/features/on-boarding/domain/use-case/fetch-trending-images-use-case.dart';
 import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
-import 'package:movie/features/settings/presentation/view/profile-view.dart';
-import 'package:movie/features/settings/presentation/view/settings-view.dart';
-import 'package:movie/features/settings/view-model/cubit.dart';
+import 'package:movie/features/profile/presentation/view/profile-view.dart';
+import 'package:movie/features/profile/view-model/cubit.dart';
+import 'package:movie/features/splash/presentation/views/splash-view.dart';
 
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
     final argument = settings.arguments;
     switch (settings.name) {
+      case Routes.splashPath:
+        return MaterialPageRoute(builder: (_)=>const SplashScreen());
       case Routes.onBoardingPath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -134,10 +136,7 @@ class AppRouter {
             child:  ProfileScreen(),
           ),
         );
-      case Routes.settingsPath:
-        return MaterialPageRoute(
-          builder: (_) => const SettingsPage(),
-        );
+     
 
       default:
         return _errorRoute('No route defined for ${settings.name}');

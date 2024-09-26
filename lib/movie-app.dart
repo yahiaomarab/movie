@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/utils/routing/router.dart';
 import 'package:movie/core/utils/routing/routes.dart';
-import 'package:movie/features/splash/presentation/views/splash-view.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key, required this.appRouter});
@@ -30,7 +29,7 @@ class MovieApp extends StatelessWidget {
             appBarTheme: AppBarTheme(backgroundColor: HexColor('#121011')),
           ),
           themeMode: ThemeMode.dark,
-          initialRoute: Routes.loginPath,
+          initialRoute: Routes.splashPath,
           onGenerateRoute: appRouter.generateRoute,
           debugShowCheckedModeBanner: false,
           checkerboardOffscreenLayers: true,

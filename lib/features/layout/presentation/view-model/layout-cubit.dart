@@ -4,7 +4,7 @@ import 'package:movie/features/favourite/favourite-view.dart';
 import 'package:movie/features/home/presentation/views/home-view.dart';
 import 'package:movie/features/layout/presentation/view-model/layout-states.dart';
 import 'package:movie/features/series/series-view.dart';
-import 'package:movie/features/settings/presentation/view/settings-view.dart';
+import 'package:movie/features/profile/presentation/view/profile-view.dart';
 
 class LayoutCubit extends Cubit<LayoutStates>{
   LayoutCubit():super(LayoutInitState());
@@ -14,7 +14,7 @@ class LayoutCubit extends Cubit<LayoutStates>{
     const HomePage(),
     const SeriesPage(),
     const FavouritePage(),
-     const SettingsPage(),
+      ProfileScreen(),
   ];
   void changeBottomNavIndex(int index){
     currentIndex = index;
