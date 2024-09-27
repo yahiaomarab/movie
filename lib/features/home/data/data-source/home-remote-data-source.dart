@@ -18,17 +18,31 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
 
   HomeRemoteDataSourceImpl(this.apiServices);
 
+  Future<dynamic> fetchData(String endPoint) async {
+    try {
+      return await apiServices.getData(endPoint: endPoint);
+    } catch (e) {
+      throw Exception('Failed to fetch data: $e');
+    }
+  }
+
   @override
   Future<List<RecommendedEntity>> fetchRecommendedData({int page = 1}) async {
-    final endPoint =
-        '${ApiConstance.baseUrl}${ApiConstance.upComingMoviesUrl}?api_key=${ApiConstance.apiKey}&page=$page';
-    final data = await apiServices.getData(endPoint: endPoint);
+    final endPoint = '${ApiConstance.baseUrl}${ApiConstance.upComingMoviesUrl}?api_key=${ApiConstance.apiKey}&page=$page';
+    final data = await fetchData(endPoint);
     List<RecommendedEntity> recommended = getListOfData<RecommendedEntity>(
       data,
       'results',
-      (json) => RecommendedModel.fromJson(json) as RecommendedEntity,
+      (json) {
+        if (json is Map<String, dynamic>) { 
+          return RecommendedModel.fromJson(json) as RecommendedEntity;
+        }
+        throw Exception('Invalid JSON format for RecommendedModel');
+      },
     );
-    saveData(recommended, KRecommendedBox);
+    if (recommended.isNotEmpty) {
+      saveData(recommended, KRecommendedBox);
+    }
     return recommended;
   }
 
@@ -36,13 +50,20 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   Future<List<TrendingEntity>> fetchTrendingData() async {
     const endPoint =
         '${ApiConstance.baseUrl}${ApiConstance.popularMoviesUrl}?api_key=${ApiConstance.apiKey}';
-    final data = await apiServices.getData(endPoint: endPoint);
+    final data = await fetchData(endPoint);
     List<TrendingEntity> trends = getListOfData<TrendingEntity>(
       data,
       'results',
-      (json) => TrendingModel.fromJson(json) as TrendingEntity,
+      (json) {
+        if (json is Map<String, dynamic>) { 
+          return TrendingModel.fromJson(json) as TrendingEntity;
+        }
+        throw Exception('Invalid JSON format for TrendingModel');
+      },
     );
-    saveData(trends, KTrendingBox);
+    if (trends.isNotEmpty) {
+      saveData(trends, KTrendingBox);
+    }
     return trends;
   }
 }

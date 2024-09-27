@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
 import 'package:movie/core/utils/widgets/button.dart';
 import 'package:movie/features/home/domain/entity/trending/trending-entity.dart';
@@ -47,7 +48,7 @@ class _TrendingViewState extends State<TrendingView> {
     return BlocConsumer<TrendingCubit, TrendingStates>(
       listener: (context, state) {
         if (state is FetchTrendingMoviesSuccessState) {
-          trends = List.from(state.trends); // Reinitialize the list
+          trends = List.from(state.trends); 
         } else if (state is FetchTrendingMoviesFailureState) {
           print('Error fetching trending movies: ${state.failure}');
         }
@@ -170,7 +171,9 @@ class _TrendingViewState extends State<TrendingView> {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                 ),
-                                ontap: () {},
+                                ontap: () {
+                                  Navigator.pushNamed(context,Routes.homeDetailsViewPath,arguments:trends[index].ID);
+                                },
                               ),
                               Text(
                                 '2D.3D.4DX',

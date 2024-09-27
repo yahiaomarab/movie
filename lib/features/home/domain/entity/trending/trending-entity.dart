@@ -14,6 +14,8 @@ class TrendingEntity {
   final String price;
   @HiveField(4)
   final String status;
+  @HiveField(5)
+  final int ID;
 
   TrendingEntity({
     required this.image,
@@ -21,5 +23,6 @@ class TrendingEntity {
     required this.name,
     required this.price,
     required this.status,
+    required this.ID,
   });
 }

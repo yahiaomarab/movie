@@ -22,13 +22,14 @@ class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
       name: fields[2] as String,
       price: fields[3] as String,
       status: fields[4] as String,
+      ID: fields[5] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, TrendingEntity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.image)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
       ..writeByte(3)
       ..write(obj.price)
       ..writeByte(4)
-      ..write(obj.status);
+      ..write(obj.status)
+      ..writeByte(5)
+      ..write(obj.ID);
   }
 
   @override

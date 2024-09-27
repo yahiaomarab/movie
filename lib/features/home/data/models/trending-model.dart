@@ -4,7 +4,7 @@ class TrendingModel extends TrendingEntity {
   final bool? adult;
   final String? backdropPath;
   final List<int>? genreIds;
-  final int? id;
+   int? id;
   final String? originalLanguage;
   final String? originalTitle;
   final String? overview;
@@ -37,6 +37,7 @@ class TrendingModel extends TrendingEntity {
           status: 'Trending',
           price: '2D.3D.4DX',
           kind: 'HORHOR',
+          ID: id!,
         );
 
   factory TrendingModel.fromJson(Map<String, dynamic> json) {

@@ -28,6 +28,7 @@ class RecommendedCubit extends Cubit<RecommendedStates> {
     }, (data) {
       recommendeds.addAll(data);
       emit(FetchRecommendedMoviesSuccessState(recommendeds));
+      print(recommendeds);
       isFetchingMore = false; // Reset flag after success.
     });
   }
