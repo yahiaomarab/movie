@@ -32,8 +32,9 @@ class SuccessfullyRegisterPage extends StatelessWidget
               content: Text('Successfully registered'),
               backgroundColor: Colors.green,
             ),
+            
           );
-          context.pushNamed(Routes.loginPath);
+          Navigator.pushNamed(context,Routes.loginPath);
         }else if (state is RegisterUserErrorState){
            ScaffoldMessenger.of(context).showSnackBar(
              SnackBar(

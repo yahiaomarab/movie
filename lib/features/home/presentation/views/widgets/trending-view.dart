@@ -39,7 +39,7 @@ class _TrendingViewState extends State<TrendingView> {
 
   @override
   void dispose() {
-    _timer?.cancel(); 
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -48,7 +48,7 @@ class _TrendingViewState extends State<TrendingView> {
     return BlocConsumer<TrendingCubit, TrendingStates>(
       listener: (context, state) {
         if (state is FetchTrendingMoviesSuccessState) {
-          trends = List.from(state.trends); 
+          trends = List.from(state.trends);
         } else if (state is FetchTrendingMoviesFailureState) {
           print('Error fetching trending movies: ${state.failure}');
         }
@@ -172,12 +172,20 @@ class _TrendingViewState extends State<TrendingView> {
                                   end: Alignment.bottomCenter,
                                 ),
                                 ontap: () {
-                                  Navigator.pushNamed(context,Routes.homeDetailsViewPath,arguments:trends[index].ID);
+                                  if (trends[index].Id != null) {
+                                    Navigator.pushNamed(
+                                        context, Routes.homeDetailsViewPath,
+                                        arguments: trends[index].Id);
+                                  } else {
+                                    // Handle the case where Id is null, e.g., show a message
+                                    print('Movie Id is null');
+                                  }
                                 },
                               ),
                               Text(
                                 '2D.3D.4DX',
-                                style:AppTextStyle.textK12ForQuality,),
+                                style: AppTextStyle.textK12ForQuality,
+                              ),
                             ],
                           )
                         ],

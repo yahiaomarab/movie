@@ -22,7 +22,7 @@ class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
       name: fields[2] as String,
       price: fields[3] as String,
       status: fields[4] as String,
-      ID: fields[5] as int,
+      Id: fields[5] as int,
     );
   }
 
@@ -41,7 +41,7 @@ class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
       ..writeByte(4)
       ..write(obj.status)
       ..writeByte(5)
-      ..write(obj.ID);
+      ..write(obj.Id);
   }
 
   @override

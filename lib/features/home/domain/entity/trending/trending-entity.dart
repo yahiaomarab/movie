@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:hive/hive.dart';
 
 part 'trending-entity.g.dart';
@@ -15,14 +17,13 @@ class TrendingEntity {
   @HiveField(4)
   final String status;
   @HiveField(5)
-  final int ID;
-
+  final int Id;
   TrendingEntity({
     required this.image,
     required this.kind,
     required this.name,
     required this.price,
     required this.status,
-    required this.ID,
+    required this.Id,
   });
 }

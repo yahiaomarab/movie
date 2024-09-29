@@ -61,7 +61,7 @@ class AppRouter {
       case Routes.registerPath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => RegisterCubit(),
+            create: (context) => OtpCubit(),
             child:  RegisterScreen(),
           ),
         );

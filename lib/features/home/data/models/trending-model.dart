@@ -4,7 +4,7 @@ class TrendingModel extends TrendingEntity {
   final bool? adult;
   final String? backdropPath;
   final List<int>? genreIds;
-   int? id;
+  final int id;
   final String? originalLanguage;
   final String? originalTitle;
   final String? overview;
@@ -16,11 +16,11 @@ class TrendingModel extends TrendingEntity {
   final double? voteAverage;
   final int? voteCount;
 
-  TrendingModel({
+  TrendingModel( {
     this.adult,
     this.backdropPath,
     this.genreIds,
-    this.id,
+    required this.id,
     this.originalLanguage,
     this.originalTitle,
     this.overview,
@@ -37,7 +37,7 @@ class TrendingModel extends TrendingEntity {
           status: 'Trending',
           price: '2D.3D.4DX',
           kind: 'HORHOR',
-          ID: id!,
+          Id: id
         );
 
   factory TrendingModel.fromJson(Map<String, dynamic> json) {
@@ -45,7 +45,7 @@ class TrendingModel extends TrendingEntity {
       adult: json['adult'],
       backdropPath: json['backdrop_path'],
       genreIds: (json['genre_ids'] as List).cast<int>(),
-      id: json['id'],
+      id: json['id']??0,
       originalLanguage: json['original_language'],
       originalTitle: json['original_title'],
       overview: json['overview'],

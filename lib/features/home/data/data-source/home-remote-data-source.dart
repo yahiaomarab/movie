@@ -34,10 +34,10 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
       data,
       'results',
       (json) {
-        if (json is Map<String, dynamic>) { 
-          return RecommendedModel.fromJson(json) as RecommendedEntity;
-        }
-        throw Exception('Invalid JSON format for RecommendedModel');
+ 
+        return RecommendedModel.fromJson(json) as RecommendedEntity;
+              // ignore: dead_code
+              throw Exception('Invalid JSON format for RecommendedModel');
       },
     );
     if (recommended.isNotEmpty) {
@@ -55,10 +55,10 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
       data,
       'results',
       (json) {
-        if (json is Map<String, dynamic>) { 
-          return TrendingModel.fromJson(json) as TrendingEntity;
-        }
-        throw Exception('Invalid JSON format for TrendingModel');
+ 
+        return TrendingModel.fromJson(json) as TrendingEntity;
+              // ignore: dead_code
+              throw Exception('Invalid JSON format for TrendingModel');
       },
     );
     if (trends.isNotEmpty) {
