@@ -29,6 +29,7 @@ import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
 import 'package:movie/features/profile/presentation/view/profile-view.dart';
 import 'package:movie/features/profile/view-model/cubit.dart';
+import 'package:movie/features/search/presentation/search-view.dart';
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
 
 
@@ -92,7 +93,8 @@ class AppRouter {
             child: const HomePage(),
           ),
         );
-
+      case Routes.searchViewPath:
+        return MaterialPageRoute(builder: (_)=> SearchScreen());
       case Routes.trendingPath:
         return MaterialPageRoute(builder: (_) => const TrendingView());
 

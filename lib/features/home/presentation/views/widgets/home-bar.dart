@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 
 class HomeBar extends StatelessWidget {
   const HomeBar({super.key});
@@ -36,10 +37,15 @@ class HomeBar extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        CircleAvatar(
-          backgroundColor: AppColors.secondaryKColor,
-          radius: 25.r,
-          backgroundImage: const AssetImage('assets/images/search.png'),
+        InkWell(
+          onTap: (){
+            Navigator.pushNamed(context, Routes.searchViewPath);
+          },
+          child: CircleAvatar(
+            backgroundColor: AppColors.secondaryKColor,
+            radius: 25.r,
+            backgroundImage: const AssetImage('assets/images/search.png'),
+          ),
         ),
         SizedBox(
           width: 13.w,

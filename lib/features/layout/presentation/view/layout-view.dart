@@ -64,7 +64,7 @@ class LayoutScreen extends StatelessWidget {
                       isActive: cubit.currentIndex == 1,
                     ),
                     icon: Icons.circle,
-                    text: 'Series',
+                    text: ' TV   ',
                     iconColor: Colors.transparent,
                   ),
                   GButton(
