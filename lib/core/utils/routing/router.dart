@@ -29,16 +29,18 @@ import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
 import 'package:movie/features/on-boarding/presentation/views/on-boarding-view.dart';
 import 'package:movie/features/profile/presentation/view/profile-view.dart';
 import 'package:movie/features/profile/view-model/cubit.dart';
+import 'package:movie/features/search/data/repo/search-repo-impl.dart';
+import 'package:movie/features/search/domain/use-case/search-use-case.dart';
 import 'package:movie/features/search/presentation/search-view.dart';
+import 'package:movie/features/search/presentation/view-model/search-cubit.dart';
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
-
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
     final argument = settings.arguments;
     switch (settings.name) {
       case Routes.splashPath:
-        return MaterialPageRoute(builder: (_)=>const SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case Routes.onBoardingPath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -55,7 +57,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => LoginCubit(),
-            child:  LoginScreen(),
+            child: LoginScreen(),
           ),
         );
 
@@ -63,7 +65,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => OtpCubit(),
-            child:  RegisterScreen(),
+            child: RegisterScreen(),
           ),
         );
 
@@ -71,7 +73,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => OtpCubit(),
-            child:  OtpPage(),
+            child: OtpPage(),
           ),
         );
 
@@ -94,7 +96,12 @@ class AppRouter {
           ),
         );
       case Routes.searchViewPath:
-        return MaterialPageRoute(builder: (_)=> SearchScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => SearchCubit(SearchUseCase(locator.get<SearchRepoImpl>())),
+            child: SearchScreen(),
+          ),
+        );
       case Routes.trendingPath:
         return MaterialPageRoute(builder: (_) => const TrendingView());
 
@@ -105,7 +112,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => RegisterCubit(),
-            child:  SuccessfullyRegisterPage(),
+            child: SuccessfullyRegisterPage(),
           ),
         );
 
@@ -134,10 +141,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => ProfileCubit()..getUserData(),
-            child:  ProfileScreen(),
+            child: ProfileScreen(),
           ),
         );
-     
 
       default:
         return _errorRoute('No route defined for ${settings.name}');

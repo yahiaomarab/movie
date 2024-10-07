@@ -1,46 +1,37 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'trending-entity.dart';
+part of 'search-entity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
+class SearchEntityAdapter extends TypeAdapter<SearchEntity> {
   @override
-  final int typeId = 1;
+  final int typeId = 3;
 
   @override
-  TrendingEntity read(BinaryReader reader) {
+  SearchEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TrendingEntity(
-      image: fields[0] as String,
-      kind: fields[1] as String,
-      name: fields[2] as String,
-      price: fields[3] as String,
-      status: fields[4] as String,
-      ID: fields[5] as int,
+    return SearchEntity(
+      image: fields[1] as String,
+      name: fields[0] as String,
+      ID: fields[2] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, TrendingEntity obj) {
+  void write(BinaryWriter writer, SearchEntity obj) {
     writer
-      ..writeByte(6)
-      ..writeByte(0)
-      ..write(obj.image)
-      ..writeByte(1)
-      ..write(obj.kind)
-      ..writeByte(2)
-      ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.price)
-      ..writeByte(4)
-      ..write(obj.status)
-      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.image)
+      ..writeByte(2)
       ..write(obj.ID);
   }
 
@@ -50,7 +41,7 @@ class TrendingEntityAdapter extends TypeAdapter<TrendingEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TrendingEntityAdapter &&
+      other is SearchEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

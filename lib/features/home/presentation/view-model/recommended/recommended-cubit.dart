@@ -24,7 +24,7 @@ class RecommendedCubit extends Cubit<RecommendedStates> {
       if (page == 1) {
         emit(FetchRecommendedMoviesFailureState(failure.message));
       }
-      isFetchingMore = false; // Reset flag after failure.
+      isFetchingMore = false; 
     }, (data) {
       recommendeds.addAll(data);
       emit(FetchRecommendedMoviesSuccessState(recommendeds));

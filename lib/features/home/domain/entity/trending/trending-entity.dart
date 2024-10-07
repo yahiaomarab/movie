@@ -17,13 +17,13 @@ class TrendingEntity {
   @HiveField(4)
   final String status;
   @HiveField(5)
-  final int Id;
+  final int ID;
   TrendingEntity({
     required this.image,
     required this.kind,
     required this.name,
     required this.price,
     required this.status,
-    required this.Id,
+    required this.ID,
   });
 }

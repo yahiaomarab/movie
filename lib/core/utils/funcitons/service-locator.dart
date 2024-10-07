@@ -9,6 +9,9 @@ import 'package:movie/features/home/data/repos/home-repo.dart';
 import 'package:movie/features/on-boarding/data/data-source/local-on-boarding.dart';
 import 'package:movie/features/on-boarding/data/data-source/remote-on-boarding.dart';
 import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dart';
+import 'package:movie/features/search/data/data-source/search-local-data.dart';
+import 'package:movie/features/search/data/data-source/search-remote-data.dart';
+import 'package:movie/features/search/data/repo/search-repo-impl.dart';
 
 var locator = GetIt.instance;
 void setUpServiceLocator() {
@@ -22,4 +25,6 @@ void setUpServiceLocator() {
 
   locator.registerSingleton<HomeDetailsRepoImp>(
       HomeDetailsRepoImp(HomeDetailsRemoteDataImpl(ApiServices(dio: Dio()))));
+  locator.registerSingleton<SearchRepoImpl>(SearchRepoImpl(
+      SearchLocalDataImpl(), SearchRemoteDataImpl(ApiServices(dio: Dio()))));
 }

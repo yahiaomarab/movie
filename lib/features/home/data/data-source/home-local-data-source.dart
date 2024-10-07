@@ -11,7 +11,7 @@ abstract class HomeLocalDataSource {
 class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   @override
   List<RecommendedEntity> fetchRecommendedDataLocal({int page = 1}) {
-    int startIndex = (page - 1) * 10; // Assuming page size is 10
+    int startIndex = (page - 1) * 10; 
     int endIndex = page * 10;
     var box = Hive.box<RecommendedEntity>(KRecommendedBox);
     int length = box.values.length;

@@ -3,6 +3,7 @@ import 'package:movie/core/helper/cache-constants.dart';
 import 'package:movie/features/home/domain/entity/recommended-movies/recommended-entity.dart';
 import 'package:movie/features/home/domain/entity/trending/trending-entity.dart';
 import 'package:movie/features/on-boarding/domain/entities/onboarding-entity.dart';
+import 'package:movie/features/search/domain/entity/search-entity.dart';
 
 class HiveService {
   Future<void> initHive() async {
@@ -11,7 +12,7 @@ class HiveService {
     Hive.registerAdapter(OnBoardingEntityAdapter());
     Hive.registerAdapter(TrendingEntityAdapter());
     Hive.registerAdapter(RecommendedEntityAdapter());
-
+    Hive.registerAdapter(SearchEntityAdapter());
     await openBoxes();
   }
 
@@ -19,7 +20,8 @@ class HiveService {
     await Future.wait([
       Hive.openBox<OnBoardingEntity>(kOnBoardingBox),
       Hive.openBox<TrendingEntity>(KTrendingBox),
-      Hive.openBox<RecommendedEntity>(KRecommendedBox)
+      Hive.openBox<RecommendedEntity>(KRecommendedBox),
+      Hive.openBox<SearchEntity>(KSearchListBox)
     ]);
   }
 }

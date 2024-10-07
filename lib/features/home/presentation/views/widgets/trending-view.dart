@@ -172,10 +172,10 @@ class _TrendingViewState extends State<TrendingView> {
                                   end: Alignment.bottomCenter,
                                 ),
                                 ontap: () {
-                                  if (trends[index].Id != null) {
+                                  if (trends[index].ID != null) {
                                     Navigator.pushNamed(
                                         context, Routes.homeDetailsViewPath,
-                                        arguments: trends[index].Id);
+                                        arguments: trends[index].ID);
                                   } else {
                                     // Handle the case where Id is null, e.g., show a message
                                     print('Movie Id is null');
