@@ -22,41 +22,23 @@ class SearchRemoteDataImpl extends SearchRemoteData {
         '${ApiConstance.baseUrl}${ApiConstance.multisearchUrl}?api_key=${ApiConstance.apiKey}&query=$query';
 
     // Log the full API request URL
-<<<<<<< HEAD
 
     try {
       var result = await apiServices.getData(endPoint: url);
       // Log the response
-=======
-    print('API Request URL: $url');
-
-    try {
-      var result = await apiServices.getData(endPoint: url);
-      print('API Response: $result'); // Log the response
->>>>>>> 04d7fc6bdbfd994c3978ad096de538485b0f84e6
 
       List<SearchEntity> searchList = getListOfData<SearchEntity>(
-            result,
-            'results',
-            (json) {
-              return SearchModel.fromJson(json) as SearchEntity;
-            },
-<<<<<<< HEAD
-          );
+        result,
+        'results',
+        (json) {
+          return SearchModel.fromJson(json) as SearchEntity;
+        },
+      );
 
       return searchList;
     } catch (e) {
       // Log the error for debugging
       rethrow; // Re-throw the error to be handled by the repository
-=======
-          ) ??
-          [];
-
-      return searchList;
-    } catch (e) {
-      print('Error occurred: $e'); // Log the error for debugging
-      throw e; // Re-throw the error to be handled by the repository
->>>>>>> 04d7fc6bdbfd994c3978ad096de538485b0f84e6
     }
   }
 }
