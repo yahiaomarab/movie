@@ -34,6 +34,7 @@ class SearchScreen extends StatelessWidget {
                   hintText: 'Search Your Movie',
                   type: TextInputType.text,
                   onChanged: (val) {
+                    SearchCubit.get(context).onCheckSearch(val);
                     if (val.isNotEmpty) {
                       SearchCubit.get(context).fetchSearchData(query: val);
                     }
@@ -44,7 +45,7 @@ class SearchScreen extends StatelessWidget {
                     }
                   },
                 ),
-                
+
                 // Check for loading state
                 if (state is FetchSearchDataLoadingState)
                   Center(child: CircularProgressIndicator()),
@@ -61,7 +62,8 @@ class SearchScreen extends StatelessWidget {
                   ),
 
                 // Show search results or fallback background image
-                if (SearchCubit.get(context).isSearch && state is FetchSearchDataSuccessState)
+                if (SearchCubit.get(context).isSearch &&
+                    state is FetchSearchDataSuccessState)
                   Expanded(
                     child: GridView.count(
                       controller: scrollController,
@@ -70,7 +72,7 @@ class SearchScreen extends StatelessWidget {
                       crossAxisCount: 3,
                       mainAxisSpacing: 40,
                       crossAxisSpacing: 20,
-                      childAspectRatio: 1 / 3,
+                      childAspectRatio: 1 / 3.5,
                       children: List.generate(
                         SearchCubit.get(context).searchList.length,
                         (index) => MovieItem(

@@ -20,20 +20,29 @@ class SearchRemoteDataImpl extends SearchRemoteData {
   @override
   Future<List<SearchEntity>> fetchSearchData(
       {int page = 1, required String query}) async {
-    var result = await apiServices.getData(
-      endPoint:
-          '${ApiConstance.baseUrl}${ApiConstance.multisearchUrl}?api_key=${ApiConstance.apiKey}&query=$query',
-    );
-    List<SearchEntity> searchList = getListOfData<SearchEntity>(
-      result,
-      'results',
-      (json) {
-        return SearchModel.fromJson(json) as SearchEntity;
-      },
-    );
-    if (searchList.isNotEmpty) {
-      saveData(searchList, KSearchListBox);
+    String url =
+        '${ApiConstance.baseUrl}${ApiConstance.multisearchUrl}?api_key=${ApiConstance.apiKey}&query=$query';
+
+    // Log the full API request URL
+    print('API Request URL: $url');
+
+    try {
+      var result = await apiServices.getData(endPoint: url);
+      print('API Response: $result'); // Log the response
+
+      List<SearchEntity> searchList = getListOfData<SearchEntity>(
+            result,
+            'results',
+            (json) {
+              return SearchModel.fromJson(json) as SearchEntity;
+            },
+          ) ??
+          [];
+
+      return searchList;
+    } catch (e) {
+      print('Error occurred: $e'); // Log the error for debugging
+      throw e; // Re-throw the error to be handled by the repository
     }
-    return searchList;
   }
 }
