@@ -10,16 +10,20 @@ class SearchCubit extends Cubit<SearchStates> {
   bool isSearch = false;
   List<SearchEntity> searchList = [];
 
-  void onCheckSearch(val) {
-    if (val == '') {
+  void onCheckSearch(String val) {
+    if (val.isEmpty) {
       isSearch = false;
+      searchList.clear();  
+      emit(SearchStateEmpty()); // Emit a state that shows the background
+    } else {
+      // Optionally, you can also start a new search here
+      fetchSearchData(query: val); // This will fetch the results based on the new input
     }
-    emit(SearchStateEmpty());
   }
 
   fetchSearchData({int page = 1, required String query}) async {
-        searchList.clear();
     if (page == 1) {
+      searchList.clear();
       emit(FetchSearchDataLoadingState());
     } else {
       emit(FetchSearchDataPaginationLoadingState());
