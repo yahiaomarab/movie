@@ -5,6 +5,6 @@ import 'package:movie/core/network/failure.dart';
 abstract class UseCase<T,param>{
   Future<Either<Failure,T>>call([param]);
 }
-abstract class UseCaseWithString<T,param,paramString>{
-  Future<Either<Failure,T>>call([param,paramString]);
+abstract class UseCaseWithAntherParam<T,param,antherParam>{
+  Future<Either<Failure,T>>call([param,antherParam]);
 }

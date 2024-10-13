@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie/features/favourite/favourite-view.dart';
-import 'package:movie/features/home/presentation/views/home-view.dart';
+import 'package:movie/features/movies/favourite/favourite-view.dart';
+import 'package:movie/features/movies/home/presentation/views/home-view.dart';
 import 'package:movie/features/layout/presentation/view-model/layout-states.dart';
 import 'package:movie/features/tv/tv-view.dart';
 import 'package:movie/features/profile/presentation/view/profile-view.dart';

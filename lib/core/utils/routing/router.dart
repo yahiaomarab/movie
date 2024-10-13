@@ -9,20 +9,24 @@ import 'package:movie/features/auth/presentation/views/login/login-view.dart';
 import 'package:movie/features/auth/presentation/views/otp/otp-verification.dart';
 import 'package:movie/features/auth/presentation/views/register/register-view.dart';
 import 'package:movie/features/auth/presentation/views/register/successfully-register-page.dart';
-import 'package:movie/features/home-details/data/repo/home-details-repo.dart';
-import 'package:movie/features/home-details/domain/use-case/home-details-use-case.dart';
-import 'package:movie/features/home-details/presentation/view-model/cubit.dart';
-import 'package:movie/features/home-details/presentation/view/home-details-view.dart';
-import 'package:movie/features/home/data/repos/home-repo.dart';
-import 'package:movie/features/home/domain/use-case/recommended-use-case.dart';
-import 'package:movie/features/home/domain/use-case/trending-use-case.dart';
-import 'package:movie/features/home/presentation/view-model/recommended/recommended-cubit.dart';
-import 'package:movie/features/home/presentation/view-model/trending/trending-cubit.dart';
-import 'package:movie/features/home/presentation/views/home-view.dart';
-import 'package:movie/features/home/presentation/views/widgets/list-recommended.dart';
-import 'package:movie/features/home/presentation/views/widgets/trending-view.dart';
+import 'package:movie/features/movies/home-details/data/repo/home-details-repo.dart';
+import 'package:movie/features/movies/home-details/domain/use-case/home-details-use-case.dart';
+import 'package:movie/features/movies/home-details/presentation/view-model/cubit.dart';
+import 'package:movie/features/movies/home-details/presentation/view/home-details-view.dart';
+import 'package:movie/features/movies/home/data/repos/home-repo.dart';
+import 'package:movie/features/movies/home/domain/use-case/recommended-use-case.dart';
+import 'package:movie/features/movies/home/domain/use-case/trending-use-case.dart';
+import 'package:movie/features/movies/home/presentation/view-model/recommended/recommended-cubit.dart';
+import 'package:movie/features/movies/home/presentation/view-model/trending/trending-cubit.dart';
+import 'package:movie/features/movies/home/presentation/views/home-view.dart';
+import 'package:movie/features/movies/home/presentation/views/widgets/list-recommended.dart';
+import 'package:movie/features/movies/home/presentation/views/widgets/trending-view.dart';
 import 'package:movie/features/layout/presentation/view-model/layout-cubit.dart';
 import 'package:movie/features/layout/presentation/view/layout-view.dart';
+import 'package:movie/features/movies/similar-movie/data/repo/similar-movie-repo-impl.dart';
+import 'package:movie/features/movies/similar-movie/domain/use-case/similar-movie-use-case.dart';
+import 'package:movie/features/movies/similar-movie/presentation/view-model/cubit.dart';
+import 'package:movie/features/movies/similar-movie/presentation/view/similar-movie-view.dart';
 import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dart';
 import 'package:movie/features/on-boarding/domain/use-case/fetch-trending-images-use-case.dart';
 import 'package:movie/features/on-boarding/presentation/view-model/cubit.dart';
@@ -98,7 +102,8 @@ class AppRouter {
       case Routes.searchViewPath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => SearchCubit(SearchUseCase(locator.get<SearchRepoImpl>())),
+            create: (context) =>
+                SearchCubit(SearchUseCase(locator.get<SearchRepoImpl>())),
             child: SearchScreen(),
           ),
         );
@@ -123,7 +128,20 @@ class AppRouter {
             child: const LayoutScreen(),
           ),
         );
-
+      case Routes.similarPath:
+        if (argument == null || argument is! int) {
+          return _errorRoute('Invalid argument for HomeDetailsView');
+        }
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => SimilarMovieCubit(
+              SimilarMovieUseCase(
+                locator.get<SimilarMovieRepoImpl>(),
+              ),
+            ),
+            child: SimilarMovieView(id: argument),
+          ),
+        );
       case Routes.homeDetailsViewPath:
         if (argument == null || argument is! int) {
           return _errorRoute('Invalid argument for HomeDetailsView');

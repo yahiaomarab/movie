@@ -12,4 +12,5 @@ class Routes {
   static const trendingPath = '/trendingPath';
   static const recommendedPath = '/recommendedPath';
   static const splashPath ='';
+  static const similarPath ='/similarPath';
 }

@@ -13,6 +13,7 @@ class ApiConstance {
   static const String topRatedMoviesUrl = 'movie/top_rated';
   static const String upComingMoviesUrl = 'movie/upcoming';
   static String moviesUrl = 'movie';
+  static String similarMovie='/similar';
   
   static const String popularTvSeriesUrl = 'tv/popular';
   static const String topRatedTvSeriesUrl = 'tv/top_rated';
