@@ -34,7 +34,7 @@ FirebaseFirestore.instance
     .then((value) {
       if (value.exists) {
         userModel = UserModel.fromJson(value.data()!);
-        emit(GetUserDataSuccessState());
+        emit(GetUserDataSuccessState(userModel!));
       } else {
         emit(GetUserDataErrorState('User data not found'));
       }

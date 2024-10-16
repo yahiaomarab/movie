@@ -1,10 +1,15 @@
+import 'package:movie/features/auth/data/models/user-model.dart';
+
 abstract class ProfileStates {}
 
 class InitialProfileState extends ProfileStates {}
 
 class GetUserDataLoadingState extends ProfileStates {}
 
-class GetUserDataSuccessState extends ProfileStates {}
+class GetUserDataSuccessState extends ProfileStates {
+  final UserModel userModel;
+  GetUserDataSuccessState(this.userModel);
+}
 
 class GetUserDataErrorState extends ProfileStates {
   final String error;

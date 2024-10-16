@@ -11,7 +11,9 @@ import 'package:movie/features/profile/view-model/states.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+  final bool showBackButton; // New parameter to control back button visibility
+  ProfileScreen({super.key, this.showBackButton = false}); // Default to true
+
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -54,12 +56,14 @@ class ProfileScreen extends StatelessWidget {
             appBar: AppBar(
               centerTitle: true,
               title: Text('Profile', style: AppTextStyle.textK22FontMedium),
-              // leading: IconButton(
-              //   onPressed: () {
-              //     Navigator.pushNamed(context, Routes.settingsPath);
-              //   },
-              //   icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
-              // ),
+              leading: showBackButton // Show or hide back button based on parameter
+                  ? IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.sp),
+                    )
+                  : null, // Set leading to null if showBackButton is false
             ),
             body: SingleChildScrollView(
               child: Container(
@@ -129,7 +133,8 @@ class ProfileScreen extends StatelessWidget {
     return CustomTextField(
       label: labelText,
       controller: controller,
-       type:type, hintText: '',
+      type: type,
+      hintText: '',
     );
   }
 }

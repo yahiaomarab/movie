@@ -159,7 +159,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => ProfileCubit()..getUserData(),
-            child: ProfileScreen(),
+            child: ProfileScreen(showBackButton: true),
           ),
         );
 
