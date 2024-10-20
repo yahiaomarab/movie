@@ -6,7 +6,6 @@ import 'package:movie/features/search/domain/entity/search-entity.dart';
 
 abstract class SearchRemoteData {
   Future<List<SearchEntity>> fetchSearchData({
-    int page = 1,
     required String query,
   });
 }
@@ -17,7 +16,7 @@ class SearchRemoteDataImpl extends SearchRemoteData {
 
   @override
   Future<List<SearchEntity>> fetchSearchData(
-      {int page = 1, required String query}) async {
+      {required String query}) async {
     String url =
         '${ApiConstance.baseUrl}${ApiConstance.multisearchUrl}?api_key=${ApiConstance.apiKey}&query=$query';
 

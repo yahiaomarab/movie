@@ -6,7 +6,7 @@ import 'package:movie/core/utils/routing/routes.dart';
 
 class MovieItem extends StatelessWidget {
   final dynamic model;
-  MovieItem({required this.model});
+  const MovieItem({super.key, required this.model});
   @override
   Widget build(BuildContext context) {
     return InkWell(

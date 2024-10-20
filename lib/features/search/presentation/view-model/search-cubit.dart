@@ -21,15 +21,12 @@ class SearchCubit extends Cubit<SearchStates> {
     }
   }
 
-  fetchSearchData({int page = 1, required String query}) async {
-    if (page == 1) {
+  fetchSearchData({ required String query}) async {
       searchList.clear();
       emit(FetchSearchDataLoadingState());
-    } else {
-      emit(FetchSearchDataPaginationLoadingState());
-    }
+    
 
-    final response = await searchUseCase.call(page, query);
+    final response = await searchUseCase.call( query);
 
     response.fold(
       (failure) {

@@ -11,9 +11,9 @@ class SearchRepoImpl extends SearchRepo {
   SearchRepoImpl(this.searchRemoteData);
 
   @override
-  Future<Either<Failure, List<SearchEntity>>> fetchSearchResults({int page = 1, required String query}) async {
+  Future<Either<Failure, List<SearchEntity>>> fetchSearchResults({ required String query}) async {
     try {
-      List<SearchEntity> searchRemote = await searchRemoteData.fetchSearchData(page: page, query: query);
+      List<SearchEntity> searchRemote = await searchRemoteData.fetchSearchData(query: query);
       return right(searchRemote);
     } catch (e) {
       if (e is DioException) {
