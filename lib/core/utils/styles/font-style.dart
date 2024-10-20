@@ -8,7 +8,10 @@ class AppTextStyle {
       fontSize: 14.sp,
       fontWeight: FontWeight.normal,
       color: AppColors.hintKWhiteColor);
-
+    static TextStyle textK12WhiteHint = GoogleFonts.poppins(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.normal,
+      color: AppColors.hintKWhiteColor);
   static TextStyle textK16WhiteHint = GoogleFonts.poppins(
       fontSize: 16.sp,
       fontWeight: FontWeight.normal,
@@ -25,6 +28,11 @@ class AppTextStyle {
       color: AppColors.whiteKColor);
   static TextStyle textK16ForMovieName = GoogleFonts.inter(
     fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+    static TextStyle textK13ForMovieName = GoogleFonts.inter(
+    fontSize: 13.sp,
     fontWeight: FontWeight.w500,
     color: Colors.white,
   );

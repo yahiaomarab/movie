@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
 import 'package:movie/core/utils/funcitons/service-locator.dart';
+import 'package:movie/core/utils/routing/routes.dart';
 import 'package:movie/features/movies/home/data/repos/home-repo.dart';
 import 'package:movie/features/movies/home/domain/use-case/recommended-use-case.dart';
 import 'package:movie/features/movies/home/domain/use-case/trending-use-case.dart';
@@ -20,8 +21,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-          BlocProvider(create: (context) => TrendingCubit( TrendingUseCase(locator.get<HomeRepoImpl>()),)..fetchTrendingMovies()),
-          BlocProvider(create: (context) => RecommendedCubit(RecommendedUseCase(locator.get<HomeRepoImpl>()),)..fetchRecommendedMovies()),
+        BlocProvider(
+            create: (context) => TrendingCubit(
+                  TrendingUseCase(locator.get<HomeRepoImpl>()),
+                )..fetchTrendingMovies()),
+        BlocProvider(
+            create: (context) => RecommendedCubit(
+                  RecommendedUseCase(locator.get<HomeRepoImpl>()),
+                )..fetchRecommendedMovies()),
       ],
       child: Scaffold(
         body: Container(
@@ -32,7 +39,7 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              SizedBox(height: 300.h, child:  const TrendingView()),
+              SizedBox(height: 300.h, child: const TrendingView()),
               SizedBox(
                 height: 10.h,
               ),
@@ -47,7 +54,9 @@ class HomePage extends StatelessWidget {
                   ),
                   const Spacer(),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.seeAllPath);
+                      },
                       child: Text(
                         'See All >',
                         style: GoogleFonts.inter(
@@ -57,7 +66,7 @@ class HomePage extends StatelessWidget {
                       )),
                 ],
               ),
-               const Expanded(child: RecommendedMoviesList()),
+              const Expanded(child: RecommendedMoviesList()),
             ],
           ),
         ),

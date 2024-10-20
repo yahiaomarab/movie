@@ -23,6 +23,7 @@ import 'package:movie/features/movies/home/presentation/views/widgets/list-recom
 import 'package:movie/features/movies/home/presentation/views/widgets/trending-view.dart';
 import 'package:movie/features/layout/presentation/view-model/layout-cubit.dart';
 import 'package:movie/features/layout/presentation/view/layout-view.dart';
+import 'package:movie/features/movies/see-all/presentation/view/see-all-page.dart';
 import 'package:movie/features/movies/similar-movie/data/repo/similar-movie-repo-impl.dart';
 import 'package:movie/features/movies/similar-movie/domain/use-case/similar-movie-use-case.dart';
 import 'package:movie/features/movies/similar-movie/presentation/view-model/cubit.dart';
@@ -154,7 +155,10 @@ class AppRouter {
             child: HomeDetails(id: argument),
           ),
         );
-
+      case Routes.seeAllPath:
+      return MaterialPageRoute(builder: (_)=>
+      SeeAllPage()
+      );
       case Routes.profilePath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(

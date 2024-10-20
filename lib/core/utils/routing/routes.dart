@@ -13,4 +13,5 @@ class Routes {
   static const recommendedPath = '/recommendedPath';
   static const splashPath ='';
   static const similarPath ='/similarPath';
+  static const seeAllPath='/seeAllPath';
 }
