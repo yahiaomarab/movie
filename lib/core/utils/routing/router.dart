@@ -156,9 +156,12 @@ class AppRouter {
           ),
         );
       case Routes.seeAllPath:
-      return MaterialPageRoute(builder: (_)=>
-      SeeAllPage()
-      );
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => RecommendedCubit(
+                      RecommendedUseCase(locator.get<HomeRepoImpl>()),
+                    )..fetchRecommendedMovies(),
+                child: SeeAllPage()));
       case Routes.profilePath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
