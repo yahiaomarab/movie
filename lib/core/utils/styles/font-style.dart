@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:movie/core/utils/colors/colors.dart';
 
 class AppTextStyle {
@@ -38,6 +39,8 @@ class AppTextStyle {
   );
   static TextStyle textK12ForQuality = GoogleFonts.inter(
       fontSize: 12.sp, fontWeight: FontWeight.normal, color: Colors.white.withOpacity(0.5));
+        static TextStyle textK12ForSeason = GoogleFonts.inter(
+      fontSize: 12.sp, fontWeight: FontWeight.normal, color: HexColor('FD382B'));
       static TextStyle textK14ForDetailsMovie = GoogleFonts.inter(
       fontSize: 14.sp, fontWeight: FontWeight.normal, color: Colors.white.withOpacity(0.5));
 }
