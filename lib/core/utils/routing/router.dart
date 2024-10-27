@@ -39,6 +39,9 @@ import 'package:movie/features/search/domain/use-case/search-use-case.dart';
 import 'package:movie/features/search/presentation/search-view.dart';
 import 'package:movie/features/search/presentation/view-model/search-cubit.dart';
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
+import 'package:movie/features/tv/data/repos/tv-popular-repo.dart';
+import 'package:movie/features/tv/domain/use-case/tv-popular-use-case.dart';
+import 'package:movie/features/tv/presentation/view-model/cubit.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
@@ -98,6 +101,16 @@ class AppRouter {
               ),
             ],
             child: const HomePage(),
+          ),
+        );
+      case Routes.tvPopularPath:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => TvPopularCubit(
+              TvPopularUseCase(
+                locator.get<TvPopularRepoImpl>(),
+              ),
+            )..fetchTvPopularData(),
           ),
         );
       case Routes.searchViewPath:

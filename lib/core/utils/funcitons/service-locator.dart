@@ -14,6 +14,9 @@ import 'package:movie/features/on-boarding/data/data-source/remote-on-boarding.d
 import 'package:movie/features/on-boarding/data/repos/on-boarding-repository.dart';
 import 'package:movie/features/search/data/data-source/search-remote-data.dart';
 import 'package:movie/features/search/data/repo/search-repo-impl.dart';
+import 'package:movie/features/tv/data/data-source/local/tv-popular.dart';
+import 'package:movie/features/tv/data/data-source/remote/tv-popular.dart';
+import 'package:movie/features/tv/data/repos/tv-popular-repo.dart';
 
 var locator = GetIt.instance;
 void setUpServiceLocator() {
@@ -34,6 +37,17 @@ void setUpServiceLocator() {
     SimilarMovieRepoImpl(
       SimilarMovieLocalSourceImpl(),
       SimilarMovieRemoteSourceImpl(
+        ApiServices(
+          dio: Dio(),
+        ),
+      ),
+    ),
+  );
+
+    locator.registerSingleton<TvPopularRepoImpl>(
+    TvPopularRepoImpl(
+      TvPopularLocalDataSourceImp(),
+      TvPopularRemoteDataSourceImpl(
         ApiServices(
           dio: Dio(),
         ),

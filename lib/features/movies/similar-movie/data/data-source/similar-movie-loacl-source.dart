@@ -9,12 +9,15 @@ abstract class SimilarMovieLocalSource {
 class SimilarMovieLocalSourceImpl extends SimilarMovieLocalSource {
   @override
   List<SimilarMovieEntity> fetchSimilarMovie({int page = 1, required int id}) {
-    int startIndex = (page - 1) * 10;
-    int endIndex = page * 10;
+    int startIndex = (page - 1) * 10; 
+    int endIndex = startIndex + 10;
     var box = Hive.box<SimilarMovieEntity>(KSimilarListBox);
     int length = box.values.length;
-    if (startIndex >= length || endIndex > length) {
+    if (startIndex >= length) {
       return [];
+    }
+    if (endIndex > length) {
+      endIndex = length;
     }
     return box.values.toList().sublist(startIndex, endIndex);
   }

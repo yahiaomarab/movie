@@ -24,7 +24,7 @@ class SimilarMovieCubit extends Cubit<SimilarMovieStates> {
       isFetchingMore = false;
     }, (data) {
       emit(GetSimilarMoviesSuccessState(data));
-      isFetchingMore = false; // Reset flag after success.
+      isFetchingMore = false;
     });
   }
 }
