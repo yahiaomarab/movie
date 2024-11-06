@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:movie/core/network/failure.dart';
 import 'package:movie/core/use-cases/use-case-with-parametars.dart';
-import 'package:movie/features/tv/domain/repo/tv-popular-repo.dart';
+import 'package:movie/features/tv/home/domain/repo/tv-popular-repo.dart';
 
 class TvPopularUseCase extends UseCase {
   final TvPopularRepo tvPopularRepo;

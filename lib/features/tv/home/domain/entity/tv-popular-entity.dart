@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
-part 'tv-entity.g.dart';
+part 'tv-popular-entity.g.dart';
 @HiveType(typeId: 5)
-class TvEntity {
+class TvPopularEntity {
   @HiveField(0)
   final String name;
 
@@ -23,7 +23,7 @@ class TvEntity {
   @HiveField(6)
   final int id;
 
-  TvEntity({
+  TvPopularEntity({
     required this.description,
     required this.id,
     required this.image,

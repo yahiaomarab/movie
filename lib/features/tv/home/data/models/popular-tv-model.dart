@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
-import 'package:movie/features/tv/domain/entity/tv-entity.dart';
+import 'package:movie/features/tv/home/domain/entity/tv-popular-entity.dart';
 
-class PopularTVModel extends TvEntity {
+class PopularTVModel extends TvPopularEntity {
   bool? adult;
   String? backdropPath;
   List<int>? genreIds;

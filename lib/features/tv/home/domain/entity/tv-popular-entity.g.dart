@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tv-entity.dart';
+part of 'tv-popular-entity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TvEntityAdapter extends TypeAdapter<TvEntity> {
+class TvPopularEntityAdapter extends TypeAdapter<TvPopularEntity> {
   @override
   final int typeId = 5;
 
   @override
-  TvEntity read(BinaryReader reader) {
+  TvPopularEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TvEntity(
+    return TvPopularEntity(
       description: fields[2] as String,
       id: fields[6] as int,
       image: fields[1] as String,
@@ -28,7 +28,7 @@ class TvEntityAdapter extends TypeAdapter<TvEntity> {
   }
 
   @override
-  void write(BinaryWriter writer, TvEntity obj) {
+  void write(BinaryWriter writer, TvPopularEntity obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -53,7 +53,7 @@ class TvEntityAdapter extends TypeAdapter<TvEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TvEntityAdapter &&
+      other is TvPopularEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

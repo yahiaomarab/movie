@@ -1,11 +1,11 @@
-import 'package:movie/features/tv/domain/entity/tv-entity.dart';
+import 'package:movie/features/tv/home/domain/entity/tv-popular-entity.dart';
 
 abstract class TvPopularStates {}
 
 class InitialTvPopularStates extends TvPopularStates {}
 
 class FetchTvPopularDataSuccessState extends TvPopularStates {
-  final List<TvEntity> data;
+  final List<TvPopularEntity> data;
   FetchTvPopularDataSuccessState(this.data);
 }
 
