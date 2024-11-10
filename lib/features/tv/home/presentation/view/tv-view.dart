@@ -5,11 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movie/core/utils/colors/colors.dart';
 import 'package:movie/core/utils/funcitons/service-locator.dart';
 import 'package:movie/core/utils/styles/font-style.dart';
+import 'package:movie/features/tv/home/data/repos/tv-airing-repo.dart';
 import 'package:movie/features/tv/home/data/repos/tv-popular-repo.dart';
+import 'package:movie/features/tv/home/domain/use-case/tv-airing-use-case.dart';
 import 'package:movie/features/tv/home/domain/use-case/tv-popular-use-case.dart';
-import 'package:movie/features/tv/home/presentation/view-model/cubit.dart';
+import 'package:movie/features/tv/home/presentation/view-model/airing/cubit.dart';
+import 'package:movie/features/tv/home/presentation/view-model/popular/cubit.dart';
 import 'package:movie/features/tv/home/presentation/view/widgets/tv-popular.dart';
-import 'package:movie/features/tv/home/presentation/view/widgets/tv-trending.dart';
+import 'package:movie/features/tv/home/presentation/view/widgets/tv-airing.dart';
 
 class SeriesPage extends StatelessWidget {
   const SeriesPage({super.key});
@@ -23,11 +26,16 @@ class SeriesPage extends StatelessWidget {
             TvPopularUseCase(locator.get<TvPopularRepoImpl>()),
           )..fetchTvPopularData(),
         ),
+          BlocProvider(
+          create: (context) => TvAiringCubit(
+            TvAiringUseCase(locator.get<TvAiringRepoImpl>()),
+          )..fetchTvAiringData(),
+        ),
       ],
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const TVTrending(),
+            const TVAiring(),
             SizedBox(height: 50.h),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10.w),

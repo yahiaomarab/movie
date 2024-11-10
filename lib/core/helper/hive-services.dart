@@ -5,7 +5,8 @@ import 'package:movie/features/movies/home/domain/entity/trending/trending-entit
 import 'package:movie/features/movies/similar-movie/domain/entity/similar-movie-entity.dart';
 import 'package:movie/features/on-boarding/domain/entities/onboarding-entity.dart';
 import 'package:movie/features/search/domain/entity/search-entity.dart';
-import 'package:movie/features/tv/home/domain/entity/tv-popular-entity.dart';
+import 'package:movie/features/tv/home/domain/entity/airing/tv-airing-entity.dart';
+import 'package:movie/features/tv/home/domain/entity/popular/tv-popular-entity.dart';
 
 class HiveService {
   Future<void> initHive() async {
@@ -17,6 +18,7 @@ class HiveService {
     Hive.registerAdapter(SearchEntityAdapter());
     Hive.registerAdapter(SimilarMovieEntityAdapter());
     Hive.registerAdapter(TvPopularEntityAdapter());
+    Hive.registerAdapter(TvAiringEntityAdapter());
     await openBoxes();
   }
 
@@ -27,7 +29,8 @@ class HiveService {
       Hive.openBox<RecommendedEntity>(KRecommendedBox),
       Hive.openBox<SearchEntity>(KSearchListBox),
       Hive.openBox<SimilarMovieEntity>(KSimilarListBox),
-      Hive.openBox<TvPopularEntity>(KTvBox),
+      Hive.openBox<TvPopularEntity>(KTvPopularBox),
+      Hive.openBox<TvPopularEntity>(KTvAiringBox),
     ]);
   }
 }

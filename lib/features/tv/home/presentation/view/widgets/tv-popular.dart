@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie/core/widgets/movie-item.dart';
-import 'package:movie/features/tv/home/domain/entity/tv-popular-entity.dart';
-import 'package:movie/features/tv/home/presentation/view-model/cubit.dart';
-import 'package:movie/features/tv/home/presentation/view-model/states.dart';
+import 'package:movie/features/tv/home/domain/entity/popular/tv-popular-entity.dart';
+import 'package:movie/features/tv/home/presentation/view-model/popular/cubit.dart';
+import 'package:movie/features/tv/home/presentation/view-model/popular/states.dart';
 
 class TVPopular extends StatefulWidget {
   const TVPopular({super.key});

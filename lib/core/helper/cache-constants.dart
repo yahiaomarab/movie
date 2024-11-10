@@ -3,4 +3,5 @@ const String KTrendingBox = 'KTrendingBox';
 const String KRecommendedBox = 'KRecommendedBox';
 const String KSearchListBox = 'KSearchListBox';
 const String KSimilarListBox = 'KSimilarListBox';
-const String KTvBox = 'KTvBox';
+const String KTvPopularBox = 'KTvPopularBox';
+const String KTvAiringBox = 'KTvAiringBox';

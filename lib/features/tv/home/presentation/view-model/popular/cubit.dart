@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/features/tv/home/domain/use-case/tv-popular-use-case.dart';
-import 'package:movie/features/tv/home/presentation/view-model/states.dart';
+import 'package:movie/features/tv/home/presentation/view-model/popular/states.dart';
 
 class TvPopularCubit extends Cubit<TvPopularStates> {
   TvPopularCubit(this.tvPopularUseCase) : super(InitialTvPopularStates());

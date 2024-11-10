@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:movie/core/network/failure.dart';
 import 'package:movie/features/tv/home/data/data-source/local/tv-popular.dart';
 import 'package:movie/features/tv/home/data/data-source/remote/tv-popular.dart';
-import 'package:movie/features/tv/home/domain/entity/tv-popular-entity.dart';
+import 'package:movie/features/tv/home/domain/entity/popular/tv-popular-entity.dart';
 import 'package:movie/features/tv/home/domain/repo/tv-popular-repo.dart';
 
 class TvPopularRepoImpl extends TvPopularRepo {

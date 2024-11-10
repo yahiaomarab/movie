@@ -1,4 +1,4 @@
-import 'package:movie/features/tv/home/domain/entity/tv-popular-entity.dart';
+import 'package:movie/features/tv/home/domain/entity/popular/tv-popular-entity.dart';
 
 abstract class TvPopularStates {}
 

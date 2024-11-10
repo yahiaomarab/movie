@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:movie/core/helper/cache-constants.dart';
-import 'package:movie/features/tv/home/domain/entity/tv-popular-entity.dart';
+import 'package:movie/features/tv/home/domain/entity/popular/tv-popular-entity.dart';
 
 abstract class TvPopularLocalDataSource {
   List<TvPopularEntity> fetchTvPopularLocalData({int page = 1});
@@ -12,7 +12,7 @@ class TvPopularLocalDataSourceImp extends TvPopularLocalDataSource {
     int startIndex = (page - 1) * 10; 
     int endIndex = startIndex + 10;
 
-    var box = Hive.box<TvPopularEntity>(KTvBox);
+    var box = Hive.box<TvPopularEntity>(KTvPopularBox);
     int length = box.values.length;
 
     if (startIndex >= length) {

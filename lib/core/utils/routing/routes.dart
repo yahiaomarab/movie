@@ -15,6 +15,6 @@ class Routes {
   static const similarPath ='/similarPath';
   static const seeAllPath='/seeAllPath';
   static const tvPopularPath = '/tvPopularPath';
-  static const tvTrendingPath ='/tvTrendingPath';
+  static const tvAiringPath ='/tvAiringPath';
   static const seriesPath ='/seriesPath';
 }
