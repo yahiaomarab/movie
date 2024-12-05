@@ -18,7 +18,6 @@ class ApiConstance {
   static const String popularTvSeriesUrl = 'tv/popular';
   static const String topRatedTvSeriesUrl = 'tv/top_rated';
   static const String onAirTvSeriesUrl = 'tv/airing_today';
-  static String tvSeriesPopularUrl = 'tv/popular';
   static String tv = 'tv/';
 
   static const String multisearchUrl = 'search/multi';

@@ -41,13 +41,17 @@ import 'package:movie/features/search/presentation/view-model/search-cubit.dart'
 import 'package:movie/features/splash/presentation/views/splash-view.dart';
 import 'package:movie/features/tv/home/data/repos/tv-airing-repo.dart';
 import 'package:movie/features/tv/home/data/repos/tv-popular-repo.dart';
+import 'package:movie/features/tv/home/data/repos/tv-top-rated-repo.dart';
 import 'package:movie/features/tv/home/domain/use-case/tv-airing-use-case.dart';
 import 'package:movie/features/tv/home/domain/use-case/tv-popular-use-case.dart';
+import 'package:movie/features/tv/home/domain/use-case/tv-top-rated-use-case.dart';
 import 'package:movie/features/tv/home/presentation/view-model/airing/cubit.dart';
 import 'package:movie/features/tv/home/presentation/view-model/popular/cubit.dart';
+import 'package:movie/features/tv/home/presentation/view-model/top-rated/cubit.dart';
 import 'package:movie/features/tv/home/presentation/view/tv-view.dart';
 import 'package:movie/features/tv/home/presentation/view/widgets/tv-popular.dart';
 import 'package:movie/features/tv/home/presentation/view/widgets/tv-airing.dart';
+import 'package:movie/features/tv/home/presentation/view/widgets/tv-top-rated.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
@@ -112,21 +116,28 @@ class AppRouter {
       case Routes.seriesPath:
         return MaterialPageRoute(
             builder: (_) => MultiBlocProvider(providers: [
+               BlocProvider(
+                    create: (context) => TvAiringCubit(
+                      TvAiringUseCase(locator.get<TvAiringRepoImpl>()),
+                    )..fetchTvAiringData(),
+                  ),
                   BlocProvider(
                     create: (context) => TvPopularCubit(
                       TvPopularUseCase(locator.get<TvPopularRepoImpl>()),
                     )..fetchTvPopularData(),
                   ),
-                   BlocProvider(
-                    create: (context) => TvAiringCubit(
-                      TvAiringUseCase(locator.get<TvAiringRepoImpl>()),
-                    )..fetchTvAiringData(),
+                    BlocProvider(
+                    create: (context) => TvTopRatedCubit(
+                      TvTopRatedUseCase(locator.get<TvTopRatedRepoImpl>()),
+                    )..fetchTvTopRatedData(),
                   ),
                 ], child: const SeriesPage()));
       case Routes.tvPopularPath:
         return MaterialPageRoute(builder: (_) => const TVPopular());
       case Routes.tvAiringPath:
         return MaterialPageRoute(builder: (_) => const TVAiring());
+      case Routes.tvTopRatedPath:
+        return MaterialPageRoute(builder: (_) => const TvTopRated());  
       case Routes.searchViewPath:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(

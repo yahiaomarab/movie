@@ -21,7 +21,7 @@ class MovieItem extends StatelessWidget {
             children: [
               Image.network(
                 'https://image.tmdb.org/t/p/w500${model.image}',
-                height: 170.h,
+                height: 160.h,
                 width: 150.w,
                 errorBuilder: (context, error, stackTrace) =>
                     const Icon(Icons.error),

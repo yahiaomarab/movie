@@ -1,58 +1,61 @@
-import 'package:movie/features/tv/home/domain/entity/airing/tv-airing-entity.dart';
+// ignore_for_file: file_names
 
-class AiringTvModel extends TvAiringEntity {
+
+import 'package:movie/features/tv/home/domain/entity/top-rated/tv-top-rated-entity.dart';
+
+class TopRatedTVModel extends TvTopRatedEntity {
   bool? adult;
   String? backdropPath;
   List<int>? genreIds;
-  final int ID;
+  int? ID;
   List<String>? originCountry;
   String? originalLanguage;
   String? originalName;
   String? overview;
   double? popularity;
   String? posterPath;
-  String? FirstAirDate;
+  String? firstAirDate;
   String? title;
   double? voteAverage;
   int? voteCount;
 
-  AiringTvModel(
+  TopRatedTVModel(
       {this.adult,
       this.backdropPath,
       this.genreIds,
-      required this.ID,
+      this.ID,
       this.originCountry,
       this.originalLanguage,
       this.originalName,
       this.overview,
       this.popularity,
       this.posterPath,
-      this.FirstAirDate,
+      this.firstAirDate,
       this.title,
       this.voteAverage,
       this.voteCount})
       : super(
-            firstAirDate: FirstAirDate??'',
-            id: ID,
-            name: title??'',
-            image: posterPath??'',
-            rating: voteAverage??0,
-            ratingCount: voteCount??0,
-            language: originalLanguage??'');
+            id: ID ?? 0,
+            description: overview ?? '',
+            name: title ?? '',
+            language: originalLanguage ?? 'En',
+            rating: voteAverage ?? 0.0,
+            ratingCount: voteCount ?? 0,
+            image: posterPath ?? '');
 
-  factory AiringTvModel.fromJson(Map<String, dynamic> json) {
-    return AiringTvModel(
+  factory TopRatedTVModel.fromJson(Map<String, dynamic> json) {
+    return TopRatedTVModel(
       adult: json['adult'],
       backdropPath: json['backdrop_path'],
       genreIds: json['genre_ids'].cast<int>(),
-      ID: json['id']??0,
+      ID: json['id'],
       originCountry: json['origin_country'].cast<String>(),
       originalLanguage: json['original_language'],
       originalName: json['original_name'],
       overview: json['overview'],
       popularity: json['popularity'],
       posterPath: json['poster_path'],
-      FirstAirDate: json['first_air_date'],
+      firstAirDate: json['first_air_date'],
       title: json['name'],
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],

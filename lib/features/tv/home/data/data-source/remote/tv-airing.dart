@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:movie/core/helper/cache-constants.dart';
 import 'package:movie/core/network/api-constants.dart';
 import 'package:movie/core/network/api-service.dart';
@@ -13,15 +14,29 @@ abstract class TvAiringRemoteDataSource {
 class TvAiringRemoteDataSourceImpl extends TvAiringRemoteDataSource {
   final ApiServices apiServices;
   TvAiringRemoteDataSourceImpl(this.apiServices);
+  Future<dynamic> fetchData(String endPoint) async {
+    try {
+      return await apiServices.getData(endPoint: endPoint);
+    } catch (e) {
+      throw Exception('Failed to fetch data: $e');
+    }
+  }
 
   @override
   Future<List<TvAiringEntity>> fetchTvAiringData() async {
-    final response = await apiServices.getData(
-      endPoint:
-        '${ApiConstance.baseUrl}${ApiConstance.onAirTvSeriesUrl}?api_key=${ApiConstance.apiKey}'
-        );
-    List<TvAiringEntity> tvAiringList = getListOfData(
-        response, 'results', (json) => AiringTvModel.fromJson(json) as TvAiringEntity);
+    const endPoint =
+        '${ApiConstance.baseUrl}${ApiConstance.onAirTvSeriesUrl}?api_key=${ApiConstance.apiKey}';
+
+    final data = await fetchData(endPoint);
+    List<TvAiringEntity> tvAiringList = getListOfData<TvAiringEntity>(
+      data,
+      'results',
+      (json) {
+        return AiringTvModel.fromJson(json) as TvAiringEntity;
+        // ignore: dead_code
+        throw Exception('Invalid JSON format for TVAiringModel');
+      },
+    );
     if (tvAiringList.isNotEmpty) {
       saveData(tvAiringList, KTvAiringBox);
     }
